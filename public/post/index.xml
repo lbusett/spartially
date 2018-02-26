@@ -13,6 +13,29 @@
     
     
     <item>
+      <title>MODIStsp: a new &#34;R&#34; package for MODIS Land Products preprocessing</title>
+      <link>/post/modistsp-a-new-r-package-for-modis-land-products-preprocessing/</link>
+      <pubDate>Fri, 16 Sep 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/post/modistsp-a-new-r-package-for-modis-land-products-preprocessing/</guid>
+      <description>In this post, we are introducing MODIStsp a new &amp;ldquo;R&amp;rdquo; package allowing to automatize the creation of time series of rasters derived from Land Products data derived from MODIS satellite data (; www.sciencedirect.com/science/article/pii/S0098300416303107).
+Development of MODIStsp started from modifications of the ModisDownload &amp;ldquo;R&amp;rdquo; script by Thomas Hengl (spatial-analyst.net/wiki/index.php?title=Download_and_resampling_of_MODIS_images), and successive adaptations by Babak Naimi (r-gis.net/?q=ModisDownload). Their functionalities were gradually incremented with the aim of:
+ Developing a standalone application allowing to perform several preprocessing steps (e.</description>
+    </item>
+    
+    <item>
+      <title>Welcome to this Blog</title>
+      <link>/post/welcome-to-this-blog/</link>
+      <pubDate>Thu, 15 Sep 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/post/welcome-to-this-blog/</guid>
+      <description>Hi all,
+I&amp;rsquo;ll use this blog to share posts mostly related to tips and tricks about Spatial Processing and satellite image analysis in &amp;ldquo;R&amp;rdquo;, as well as to share interesting resources concerning &amp;ldquo;R&amp;rdquo; programming in general.
+HTH,
+Lorenzo</description>
+    </item>
+    
+    <item>
       <title>Academic: the website designer for Hugo</title>
       <link>/post/getting-started/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0200</pubDate>

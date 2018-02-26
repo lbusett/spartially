@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
   <meta name="generator" content="Hugo 0.36.1" />
-  <meta name="author" content="Lena Smith">
+  <meta name="author" content="Lorenzo Busetto">
 
   
   
@@ -56,9 +56,11 @@ Key features:
   
   
   
-  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7cMerriweather%7cRoboto&#43;Mono">
   
   <link rel="stylesheet" href="/styles.css">
+  
+  <link rel="stylesheet" href="/css/mycss.css">
   
 
   
@@ -76,8 +78,8 @@ Key features:
 
   <meta property="twitter:card" content="summary_large_image">
   
-  <meta property="twitter:site" content="@GeorgeCushen">
-  <meta property="twitter:creator" content="@GeorgeCushen">
+  <meta property="twitter:site" content="@lbusetto74">
+  <meta property="twitter:creator" content="@lbusetto74">
   
   <meta property="og:site_name" content="Academic">
   <meta property="og:url" content="/post/getting-started/">
@@ -134,9 +136,9 @@ Key features:
         
 
         <li class="nav-item">
-          <a href="/#about">
+          <a href="/#posts">
             
-            <span>Home</span>
+            <span>Posts</span>
             
           </a>
         </li>
@@ -172,9 +174,9 @@ Key features:
         
 
         <li class="nav-item">
-          <a href="/#posts">
+          <a href="/#about">
             
-            <span>Posts</span>
+            <span>Home</span>
             
           </a>
         </li>
@@ -274,7 +276,7 @@ Key features:
     </time>
   </span>
   <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Lena Smith">
+    <meta itemprop="name" content="Lorenzo Busetto">
   </span>
 
   
@@ -285,6 +287,9 @@ Key features:
   
 
   
+  
+  <span class="middot-divider"></span>
+  <a href="/post/getting-started/#disqus_thread"></a>
   
 
   
@@ -535,8 +540,49 @@ git submodule update --init --recursive
     
 
     
+    <div class="article-widget">
+      <div class="post-nav">
+  
+  <div class="post-nav-item">
+    <div class="meta-nav">Next</div>
+    <a href="/post/welcome-to-this-blog/" rel="next">Welcome to this Blog</a>
+  </div>
+  
+  
+  <div class="post-nav-item">
+    <div class="meta-nav">Previous</div>
+    <a href="/post/2015-07-23-r-rmarkdown/" rel="prev">Hello R Markdown</a>
+  </div>
+  
+</div>
+
+    </div>
+    
 
     
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "Comments" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
 
 
   </div>
@@ -592,6 +638,8 @@ git submodule update --init --recursive
 
     
     
+    <script id="dsq-count-scr" src="//Comments.disqus.com/count.js" async></script>
+    
 
     
 
@@ -614,12 +662,21 @@ git submodule update --init --recursive
       
 
       
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
 
       
 
       <script>hljs.initHighlightingOnLoad();</script>
     
 
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
     
     
 

@@ -3,7 +3,7 @@
 
 # The URL of your website.
 # End your URL with a `/` trailing slash, e.g. `https://example.com/`.
-baseurl = "/"
+baseurl = "https://spartially.netlify.com/"
 
 # Title of your site
 title = "Academic"
@@ -20,7 +20,7 @@ preserveTaxonomyNames = true
 paginate = 10
 
 # Enable comments by entering your Disqus shortname
-disqusShortname = ""
+disqusShortname = "Comments"
 
 # Enable analytics by entering your Google Analytics tracking ID
 googleAnalytics = ""
@@ -47,27 +47,27 @@ defaultContentLanguageInSubdir = false
 
   # Font style.
   #   Choose from `default`, `classic`, or `playfair`.
-  font = "default"
+  font = "classic"
 
   # Your details.
-  name = "Lena Smith"
-  role = "Professor of Artificial Intelligence"
+  name = "Lorenzo Busetto"
+  role = "Researcher"
 
   # Organizations/Affiliations.
   #   Separate multiple entries with a comma, using the form: `[ {name="Org1", url=""}, {name="Org2", url=""} ]`.
-  organizations = [ { name = "Stanford University", url = "" } ]
+  organizations = [ { name = "Institute on Remote Sensing of Environment (CNR-IREA)", url = "" } ]
 
-  gravatar = false  # Get your avatar from Gravatar.com? (true/false)
+  gravatar = true  # Get your avatar from Gravatar.com? (true/false)
   avatar = "portrait.jpg"  # Specify an avatar image (in `static/img/` folder) or delete value to disable avatar.
-  email = "test@example.org"
-  address = "Building 1 Room 1, Stanford University, California, 90210, USA"
-  office_hours = "Monday 10:00 to 13:00 or email for appointment"
-  phone = "888 888 88 88"
-  skype = "echo123"
-  telegram = ""
+  email = "lbusett@gmail.com"
+  #address = "Building 1 Room 1, Stanford University, California, 90210, USA"
+  #office_hours = "Monday 10:00 to 13:00 or email for appointment"
+  #phone = "888 888 88 88"
+  skype = "lorenzo.busetto"
+  #telegram = ""
 
   # Enable Keybase in Contact widget by entering your keybase.io username.
-  keybase = ""
+  #keybase = ""
 
   # Discussion link (e.g. link to a forum, mailing list, or chat).
   #   Uncomment line below to use.
@@ -92,17 +92,17 @@ defaultContentLanguageInSubdir = false
   #   1: Google Maps
   #   2: OpenStreetMap (Mapnik)
   #   3: OpenStreetMap (Mapbox)
-  map = 0
-  map_api_key = ""
-  latitude = "37.4275"
-  longitude = "-122.1697"
-  zoom = 15
+  #map = 0
+  #map_api_key = ""
+  #latitude = "37.4275"
+  #longitude = "-122.1697"
+  #zoom = 15
 
   # Date and time format (refer to Go's date format: http://fuckinggodateformat.com )
   #   Examples: "Mon, Jan 2, 2006" or "2006-01-02"
   date_format = "Jan 2, 2006"
   #   Examples: "3:04 pm" or "15:04"
-  time_format = "3:04 PM"
+  time_format = "15:04 PM"
 
   # Show estimated reading time for posts?
   reading_time = true
@@ -111,11 +111,11 @@ defaultContentLanguageInSubdir = false
   comment_count = true
 
   # Display next/previous section pager?
-  section_pager = false
+  section_pager = true
 
   # Enable global LaTeX math rendering?
   #   If false, you can enable it locally on a per page basis.
-  math = false
+  math = true
 
   # Highlight.js options
   #   highlight
@@ -145,7 +145,7 @@ defaultContentLanguageInSubdir = false
   #   For more info on the highlighting options, see:
   #   https://sourcethemes.com/academic/post/writing-markdown-latex/#highlighting-options
   highlight = true
-  highlight_languages = []
+  highlight_languages = ["r"]
   # highlight_style = "github"
 
   # Enable native social sharing buttons?
@@ -153,7 +153,7 @@ defaultContentLanguageInSubdir = false
 
   # Link custom CSS and JS assets
   #   (relative to /static/css and /static/js respectively)
-  custom_css = []
+  custom_css = ["mycss.css"]
   custom_js  = []
 
   # Publication types.
@@ -214,25 +214,25 @@ defaultContentLanguageInSubdir = false
   #
   #   Full list: https://jpswalsh.github.io/academicons/
 
-  [[params.social]]
-    icon = "envelope"
-    icon_pack = "fa"
-    link = "mailto:test@example.org"
+ # [[params.social]]
+ #  icon = "envelope"
+ #  icon_pack = "fa"
+ #  link = "mailto:test@example.org"
 
   [[params.social]]
     icon = "twitter"
     icon_pack = "fa"
-    link = "//twitter.com/GeorgeCushen"
+    link = "//twitter.com/lbusetto74"
 
   [[params.social]]
     icon = "google-scholar"
     icon_pack = "ai"
-    link = "https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ"
+    link = "https://scholar.google.co.uk/citations?user=Z9vUGJkAAAAJ"
 
   [[params.social]]
     icon = "github"
     icon_pack = "fa"
-    link = "//github.com/gcushen"
+    link = "//github.com/lbusett"
 
 
 # Navigation Links
@@ -243,20 +243,22 @@ defaultContentLanguageInSubdir = false
   # Align the main menu to the right of the page? (true/false)
   align_right = true
 
+  [[menu.main]]
+  name = "Posts"
+  url = "#posts"
+  weight = 1
+
 [[menu.main]]
   name = "Home"
   url = "#about"
-  weight = 1
+  weight = 3
 
 [[menu.main]]
   name = "Publications"
   url = "#publications_selected"
   weight = 2
 
-[[menu.main]]
-  name = "Posts"
-  url = "#posts"
-  weight = 3
+
 
 [[menu.main]]
   name = "Projects"
