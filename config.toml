@@ -6,7 +6,7 @@
 baseurl = "https://spartially.netlify.com/"
 
 # Title of your site
-title = "Academic"
+title = "spaRtially"
 
 # Your copyright notice - appears in site footer.
 # To display a copyright symbol, type `&copy;`.
@@ -43,7 +43,7 @@ defaultContentLanguageInSubdir = false
 [params]
   # Color theme.
   #   Choose from `default`, `ocean`, `forest`, `coffee`, `dark`, or `1950s`.
-  color_theme = "default"
+  color_theme = "ocean"
 
   # Font style.
   #   Choose from `default`, `classic`, or `playfair`.
@@ -244,12 +244,12 @@ defaultContentLanguageInSubdir = false
   align_right = true
 
   [[menu.main]]
-  name = "Posts"
+  name = "spaRtially Blog"
   url = "#posts"
   weight = 1
 
 [[menu.main]]
-  name = "Home"
+  name = "About Me"
   url = "#about"
   weight = 3
 
@@ -258,17 +258,10 @@ defaultContentLanguageInSubdir = false
   url = "#publications_selected"
   weight = 2
 
-
-
 [[menu.main]]
-  name = "Projects"
+  name = "My R Packages"
   url = "#projects"
   weight = 4
-
-[[menu.main]]
-  name = "Teaching"
-  url = "#teaching"
-  weight = 5
 
 [[menu.main]]
   name = "Contact"
