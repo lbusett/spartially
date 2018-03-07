@@ -27,7 +27,7 @@
 
   
   
-  <meta name="theme-color" content="#3f51b5">
+  <meta name="theme-color" content="#EF525B">
   
   
   
@@ -61,8 +61,8 @@
   
 
   
-  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="spaRtially">
-  <link rel="feed" href="/index.xml" type="application/rss+xml" title="spaRtially">
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Lorenzo Busetto Website &amp; Blog">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Lorenzo Busetto Website &amp; Blog">
   
 
   <link rel="manifest" href="/site.webmanifest">
@@ -76,18 +76,18 @@
   <meta property="twitter:site" content="@lbusetto74">
   <meta property="twitter:creator" content="@lbusetto74">
   
-  <meta property="og:site_name" content="spaRtially">
+  <meta property="og:site_name" content="Lorenzo Busetto Website &amp; Blog">
   <meta property="og:url" content="/categories/r/">
-  <meta property="og:title" content="R | spaRtially">
+  <meta property="og:title" content="R | Lorenzo Busetto Website &amp; Blog">
   <meta property="og:description" content="Researcher">
   <meta property="og:locale" content="en-us">
   
-  <meta property="og:updated_time" content="2016-11-07T00:00:00&#43;00:00">
+  <meta property="og:updated_time" content="2017-08-16T00:00:00&#43;00:00">
   
 
   
 
-  <title>R | spaRtially</title>
+  <title>R | Lorenzo Busetto Website &amp; Blog</title>
 
 </head>
 <body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
@@ -106,7 +106,7 @@
         <span class="icon-bar"></span>
       </button>
       
-      <a class="navbar-brand" href="/">spaRtially</a>
+      <a class="navbar-brand" href="/">Lorenzo Busetto Website &amp; Blog</a>
     </div>
 
     
@@ -126,9 +126,26 @@
         
 
         <li class="nav-item">
-          <a href="/#posts">
+          <a href="/#about">
             
-            <span>spaRtially Blog</span>
+            <span>About Me</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a href="/post">
+            
+            <span>My Blog</span>
             
           </a>
         </li>
@@ -147,26 +164,7 @@
         <li class="nav-item">
           <a href="/#publications_selected">
             
-            <span>Publications</span>
-            
-          </a>
-        </li>
-
-        
-        
-
-        
-        
-        
-        
-        
-          
-        
-
-        <li class="nav-item">
-          <a href="/#about">
-            
-            <span>About Me</span>
+            <span>My Publications</span>
             
           </a>
         </li>
@@ -204,7 +202,7 @@
         <li class="nav-item">
           <a href="/#contact">
             
-            <span>Contact</span>
+            <span>My Contacts</span>
             
           </a>
         </li>
@@ -231,6 +229,63 @@
   
 
   
+  
+  <div>
+    <h2><a href="/post/modistsp-1-3-3-is-out-speeding-things-up-and-squashing-some-bugs/">MODIStsp 1.3.3 is out - Speeding things up and squashing some bugs !</a></h2>
+    <div class="article-style">
+      
+      A new version of MODIStsp (1.3.3) is on CRAN as of today ! Below, you can find a short description of the main improvements.
+Processing speed improvements Processing of MODIS layers after download (i.e., scale and offset calibration, computation of Spectral Indexes and Quality Indicators) is now much faster.
+As you can see in the figure, processing time was almost halved on my (not so fast) laptop. This was achieved by modifying all computation functions so to use raster::calc() and raster::overlay() (more on this in a later post).
+      
+    </div>
+  </div>
+  
+  <div>
+    <h2><a href="/post/building-a-website-with-pkgdown-a-short-guide/">Building a website with `pkgdown`: a short guide</a></h2>
+    <div class="article-style">
+      
+      As promised in my last post, here is a short guide with some tips and tricks for building a documentation website for an R package using pkgdown.
+In the end, this guide ended up way longer than I was expecting, but I hope you&rsquo;ll find it useful, although it often replicates information already available in pkgdown documentation !
+Prerequisites To build a website using pkgdown, all you need to have is an R package hosted on Git Hub, with a file structure &ldquo;tweaked&rdquo; with some functionality provided by devtools.
+      
+    </div>
+  </div>
+  
+  <div>
+    <h2><a href="/post/the-new-modistsp-website-based-on-pkgdown-is-online/">The new MODIStsp website (based on pkgdown) is online !</a></h2>
+    <div class="article-style">
+      
+      The MODIStsp website, which lay abandoned since several months on github pages, recently underwent a major overhaul thanks to pkgdown. The new site is now available at <a href="http://lbusett.github.io/MODIStsp/" target="_blank">http://lbusett.github.io/MODIStsp/</a>
+We hope that the revised website will allow to navigate MODIStsp-related material much more easily than either github or the standard CRAN documentation, and will therefore help users in better and more easily exploiting MODIStsp functionality.
+The restyling was possible thanks to the very nice &ldquo;pkgdown&rdquo; R package (<a href="http://hadley" target="_blank">http://hadley</a>.
+      
+    </div>
+  </div>
+  
+  <div>
+    <h2><a href="/post/modistsp-v-1-3-2-is-on-cran/">MODIStsp (v 1.3.2) is on CRAN !</a></h2>
+    <div class="article-style">
+      
+      We are glad to report that MODIStsp is now also available on CRAN ! From now on, you can therefore install it by simply using:
+install.packages(&quot;MODIStsp&quot;)
+In v 1.3.2 we also added the functionality to automatically apply scale and offset coefficients on MODIS original values according with the specifications of single MODIS products. Setting the new &ldquo;Scale output values&rdquo; option to &ldquo;Yes&rdquo;, scale factors and offsets are applied (if existing).
+      
+    </div>
+  </div>
+  
+  <div>
+    <h2><a href="/post/modistsp-v-1-3-1-released/">MODIStsp v.1.3.1 released !</a></h2>
+    <div class="article-style">
+      
+      MODIStsp is a R package allowing automatic download and preprocessing of MODIS Land Products time series, available at this <a href="https://github.com/lbusett/MODIStsp" target="_blank">https://github.com/lbusett/MODIStsp</a> github page (See also here for additional information)
+v1.3.1 adds functionality for processing MODIS snow cover products, accelerated download, processing specified portions of years, plus various bug fixing and improvements.
+MODIStsp: the main processing GUI
+See here for a detailed description of introduced changes
+We hope you will find the new version useful and that we didn&rsquo;t introduce too many bugs !
+      
+    </div>
+  </div>
   
   <div>
     <h2><a href="/post/modistsp-v1-3-0-released-adds-support-for-collection-6-datasets/">MODIStsp v1.3.0 released - adds support for Collection 6 datasets</a></h2>

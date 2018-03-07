@@ -1,14 +1,495 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>spaRtially on spaRtially</title>
+    <title>Lorenzo Busetto Website &amp; Blog on Lorenzo Busetto Website &amp; Blog</title>
     <link>/</link>
-    <description>Recent content in spaRtially on spaRtially</description>
+    <description>Recent content in Lorenzo Busetto Website &amp; Blog on Lorenzo Busetto Website &amp; Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Sun, 15 Oct 2017 00:00:00 +0200</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>MODIStsp 1.3.3 is out - Speeding things up and squashing some bugs !</title>
+      <link>/post/modistsp-1-3-3-is-out-speeding-things-up-and-squashing-some-bugs/</link>
+      <pubDate>Wed, 16 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/modistsp-1-3-3-is-out-speeding-things-up-and-squashing-some-bugs/</guid>
+      <description>
+
+&lt;p&gt;A new version of &lt;a href=&#34;http://lbusett.github.io/MODIStsp/&#34; target=&#34;_blank&#34;&gt;MODIStsp&lt;/a&gt; (1.3.3) is on &lt;a href=&#34;https://cran.r-project.org/web/packages/MODIStsp/index.html&#34; target=&#34;_blank&#34;&gt;CRAN&lt;/a&gt; as of today !
+Below, you can find a short description of the main improvements.&lt;/p&gt;
+
+&lt;h2 id=&#34;processing-speed-improvements&#34;&gt;Processing speed improvements&lt;/h2&gt;
+
+&lt;p&gt;Processing of MODIS layers after download (i.e., scale and offset calibration,
+computation of Spectral Indexes and Quality Indicators) &lt;strong&gt;is now much faster&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/boxplots.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As you can see in the figure, &lt;strong&gt;processing time was almost halved&lt;/strong&gt; on my (not so fast)
+laptop. This was achieved by &lt;strong&gt;modifying all computation functions so to use
+&lt;code&gt;raster::calc()&lt;/code&gt; and &lt;code&gt;raster::overlay()&lt;/code&gt;&lt;/strong&gt; (more on this in a later post).&lt;/p&gt;
+
+&lt;p&gt;Although speed is also limited by download speed and compression options, this
+will allow to &lt;strong&gt;save quite some time when working on large areas and with many
+MODIS layers&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;test-mode&#34;&gt;Test mode&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;MODIStsp 1.3.3&lt;/code&gt; also introduces a &lt;strong&gt;test mode&lt;/strong&gt;. Although it was mainly developed
+to facilitate &lt;a href=&#34;https://en.wikipedia.org/wiki/Unit_testing&#34; target=&#34;_blank&#34;&gt;unit testing&lt;/a&gt;, it is
+also available to the user. Running:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;MODIStsp(test = X)  # with X equal to a number between 0 and 6
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;will run &lt;code&gt;MODIStsp&lt;/code&gt; expoiting different sets of processing parameters (available
+as JSON files in the Test_files subfolder of &lt;code&gt;MODIStsp&lt;/code&gt; installation). We hope this
+will help us in more easily pinpoint and solve eventual problems signalled by users.&lt;/p&gt;
+
+&lt;h3 id=&#34;bug-fixes&#34;&gt;Bug fixes&lt;/h3&gt;
+
+&lt;p&gt;Several bugs discovered after v1.3.2 release were fixed. We thank &lt;code&gt;MODIStsp&lt;/code&gt; users
+&lt;a href=&#34;https://github.com/lbusett/MODIStsp/issues?q=is%3Aissue+is%3Aclosed&#34; target=&#34;_blank&#34;&gt;for their feedback&lt;/a&gt;
+and help in improving the package ! You can find a list of the main fixes in our
+&lt;a href=&#34;http://lbusett.github.io/MODIStsp/news/index.html&#34; target=&#34;_blank&#34;&gt;NEWS&lt;/a&gt; page.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Building a website with `pkgdown`: a short guide</title>
+      <link>/post/building-a-website-with-pkgdown-a-short-guide/</link>
+      <pubDate>Tue, 01 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/building-a-website-with-pkgdown-a-short-guide/</guid>
+      <description>
+
+&lt;p&gt;As promised in my &lt;a href=&#34;/post/the-new-modistsp-website-based-on-pkgdown-is-online&#34;&gt;last post&lt;/a&gt;,
+here is a short guide with some &lt;strong&gt;tips and tricks for building a documentation website&lt;/strong&gt;
+for an &lt;code&gt;R&lt;/code&gt; package using &lt;code&gt;pkgdown&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;In the end, this guide ended up way longer than I was expecting, but I hope you&amp;rsquo;ll
+find it useful, although it often replicates information already available in &lt;code&gt;pkgdown&lt;/code&gt; documentation !&lt;/p&gt;
+
+&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+
+&lt;p&gt;To build a website using &lt;code&gt;pkgdown&lt;/code&gt;, all you need to have is an &lt;strong&gt;R&lt;/strong&gt; package
+&lt;strong&gt;hosted on Git Hub&lt;/strong&gt;, with a file structure &amp;ldquo;tweaked&amp;rdquo; with some functionality
+provided by &lt;strong&gt;devtools&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Assuming you are using RStudio, and that you didn&amp;rsquo;t already do this, open the
+project corresponding to your package and (as a minimum) run:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;require(devtools)
+use_readme_rmd()
+use_news_md()
+use_vignette(&amp;quot;test&amp;quot;)  #substitute with the name of your package
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Since to use &lt;code&gt;pkgdown&lt;/code&gt; your package must be on Git Hub, you may also want:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;use_github_links()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;, which will populate automatically some fields in the &lt;strong&gt;DESCRIPTION&lt;/strong&gt; file successively
+used to build the home page of your website.&lt;/p&gt;
+
+&lt;p&gt;Other possibly useful commands (depending on the status of your package) may be:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;use_travis()
+use_cran_badge()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(see &lt;code&gt;devtools&lt;/code&gt; documentation for further info)&lt;/p&gt;
+
+&lt;p&gt;At this point, within your package file structure you should have a &lt;strong&gt;README.Rmd&lt;/strong&gt;
+file (which is used also to create the &amp;ldquo;README.md&amp;rdquo; file for Git Hub), and a
+&lt;strong&gt;NEWS.md&lt;/strong&gt; file. You should also have a _**man **_subfolder containing the
+&lt;em&gt;.Rd&lt;/em&gt; files documenting your functions (usually auto-generated from roxygen
+comments using &lt;code&gt;devtools::document()&lt;/code&gt;). Finally, you should have a &lt;strong&gt;my_package.Rmd&lt;/strong&gt;
+file in the _vignettes _subfolder (which is used for example by &lt;code&gt;devtools::build_vignette()&lt;/code&gt;
+to automatically create a vignette for the package).&lt;/p&gt;
+
+&lt;h2 id=&#34;getting-started-creating-a-bare-bones-website&#34;&gt;Getting Started: creating a bare-bones website&lt;/h2&gt;
+
+&lt;p&gt;To create a standard &lt;code&gt;pkgdown&lt;/code&gt; site, just run:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;devtools::install_githb(&amp;quot;hadley/pkgdown&amp;quot;)
+library(pkgdown)
+build_site()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;build_site()&lt;/code&gt; will do several things:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;create a &amp;ldquo;docs&amp;rdquo; subfolder&lt;/strong&gt; in your file structure, where it will place all
+the material needed for rendering the website;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;knit README.Rmd&lt;/strong&gt; to &amp;ldquo;docs/index.html&amp;rdquo;. This will be the home page of your
+website;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;knit NEWS.md&lt;/strong&gt; to &amp;ldquo;docs/news/index.html&amp;rdquo; (in this way, any time you update
+NEWS.md, the news section of the website can be automatically updated;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;knit all your &amp;ldquo;Rd&amp;rdquo; files&lt;/strong&gt; to &amp;ldquo;docs/reference/&amp;rdquo; as html files inheriting
+the name of the function (e.g., &amp;ldquo;docs/reference/myfun_1.html&amp;rdquo; &amp;ldquo;docs/reference/myfun_2.html&amp;rdquo;,
+etc.). A &amp;ldquo;docs/reference/index.html&amp;rdquo; page is also created: this is a simple
+html page linking to the html documentation pages for the different functions. &lt;em&gt;By default, all functions will be included and listed in alphabetical order&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;knit any Rmd files in your &amp;ldquo;vignettes&amp;rdquo; subfolder&lt;/strong&gt; to &amp;ldquo;docs/articles&amp;rdquo; as
+single html files;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Scrape your package for various other info&lt;/strong&gt; (e.g., Authors, Git Hub address,
+License, Citation, badges, etc.) to create additional material on the right-hand
+side bar of the home page;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Put everything together&lt;/strong&gt; by some magic to build a working website, and open
+a preview in RStudio Viewer or your browser.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The resulting website will look more or less like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/website_basic_pkgdown.png&#34; alt=&#34;&#34; /&gt;&lt;strong&gt;&amp;ldquo;Standard&amp;rdquo; website built by pkgdown::build_site()&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;, with your main vignette linked in &lt;strong&gt;Getting Started&lt;/strong&gt;, and all the other Rmds
+found in &lt;em&gt;vignettes&lt;/em&gt; (if any) linked-to in the &lt;strong&gt;Articles&lt;/strong&gt; drop down menu.&lt;/p&gt;
+
+&lt;p&gt;Considering that &lt;strong&gt;all is needed is to run&lt;/strong&gt; &lt;strong&gt;&lt;code&gt;build_site()&lt;/code&gt;&lt;/strong&gt; (in particular if
+the package is already using &lt;code&gt;devtools&lt;/code&gt; tweaks), I&amp;rsquo;d say that this is already a nice
+result ! However, spending some time in better configuring the structure of the
+site and tweaking some small things allows to achieve a much nicer result, as
+explained below.&lt;/p&gt;
+
+&lt;h2 id=&#34;customizing-appearence-and-structure-of-the-website-the-pkgdown-yaml-file&#34;&gt;Customizing appearence and structure of the website: the &lt;em&gt;pkgdown.yaml&lt;/em&gt; file&lt;/h2&gt;
+
+&lt;p&gt;Your pkgdown website can be further customized by &lt;strong&gt;creating and customizing a
+text file named _&lt;em&gt;pkgdown.yaml&lt;/em&gt; in the root folder of your project&lt;/strong&gt;. The file
+needs to have three main sections, which I will describe here using the current
+&lt;em&gt;.yaml&lt;/em&gt; file used in the MODIStsp Website as an example (the complete file can
+be found &lt;a href=&#34;https://github.com/lbusett/MODIStsp/blob/devel/_pkgdown.yaml&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
+
+&lt;h3 id=&#34;the-preamble-section&#34;&gt;&lt;em&gt;The Preamble Section&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;This is quite straightforward: first of all, give a title to your website and
+provide its URL. Then, &lt;strong&gt;select a template to customize its appearance&lt;/strong&gt; from the
+ones available at &lt;a href=&#34;https://bootswatch.com/&#34; target=&#34;_blank&#34;&gt;bootswatch&lt;/a&gt;. Finally, add the
+GoogleAnalytics tracking code if you wish.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;title: MODIStsp  
+url: http://lbusett.github.io/MODIStsp  
+template:  
+  params:  
+    bootswatch: flatly  
+    ganalytics: UA-12345678-0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;the-reference-section&#34;&gt;&lt;em&gt;The Reference Section&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;Here, you can configure the page of the website **containing the index to the
+documentation of your functions **(&lt;em&gt;docs/reference/index.html&lt;/em&gt;). Instead than
+having a simple list in alphabetical order, you can &lt;strong&gt;define different groups
+and decide which functions to put in each group&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Each group is defined by a &lt;strong&gt;title&lt;/strong&gt;, a &lt;strong&gt;description&lt;/strong&gt; (use ~ for no description),
+and a &lt;strong&gt;contents section&lt;/strong&gt; containing an indented list of functions to be included
+in that group. Syntax and indentation rules &lt;strong&gt;must be strictly followed but are very
+simple.&lt;/strong&gt; Looking at the example below should suffice for understanding it. In this
+case I decided to use only two groups: one for exported functions, and one for
+everything else, but you can set-up as many groups as you need.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;reference:  
+  - title: Exported Functions  
+    desc: Functions exported by MODIStsp  
+    contents:  
+      - &#39;`MODIStsp`&#39;  
+      - &#39;`MODIStsp_extract`&#39;  
+      - &#39;`MODIStsp_addindex`&#39;  
+      - &#39;`install_MODIStsp_launcher`&#39;  
+  - title: Internals  
+    desc: Internal functions and helpers  
+    contents:  
+      - &#39;`MODIStsp_GUI`&#39;  
+      - &#39;`MODIStsp_process`&#39;  
+      - &#39;`MODIStsp_process_indexes`&#39;  
+      - &#39;`MODIStsp_process_QA_bits`&#39;  
+      - &#39;`MODIStsp_read_xml`&#39;  
+      - &#39;`lpdaac_getmod_dirs`&#39;  
+      - &#39;`lpdaac_getmod_dates`&#39;  
+      - &#39;`lpdaac_getmod_names`&#39;  
+      - &#39;`MODIStsp_check_files`&#39;  
+      - &#39;`MODIStsp_vrt_create`&#39;  
+      - &#39;`bbox_from_file`&#39;  
+      - &#39;`reproj_bbox`&#39;  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;the-navbar-section&#34;&gt;&lt;em&gt;The Navbar Section&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;The last section of _&lt;em&gt;pkgdown.yaml&lt;/em&gt; is named &lt;strong&gt;navbar&lt;/strong&gt;, and is where most the
+customization occurs.&lt;/p&gt;
+
+&lt;p&gt;In the first line, you can choose if using a &lt;strong&gt;standard or inverse color scheme&lt;/strong&gt;
+for your boootstrap template. The only way to understand what this does is to try
+both and see which one you do prefer.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; navbar:  
+   type: inverse  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next, you can define what content will be accessible through &lt;strong&gt;buttons or menus
+on the left side&lt;/strong&gt; of the top-menu of the website.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Buttons&lt;/strong&gt; linking to a single page are described by:
+
+&lt;ol&gt;
+&lt;li&gt;a &lt;strong&gt;title text or an icon name&lt;/strong&gt; (chosen from &lt;a href=&#34;http://fontawesome.io/icons/&#34; target=&#34;_blank&#34;&gt;http://fontawesome.io/icons/&lt;/a&gt;)
+that will be shown on the button;&lt;/li&gt;
+&lt;li&gt;a &lt;strong&gt;hyperlink&lt;/strong&gt; to the page that will be accessed through the button (Note
+that the hyperlinks are built relative to the root of the &amp;ldquo;docs&amp;rdquo; folder created
+by &lt;code&gt;pkgdown&lt;/code&gt; - no need to specify full paths !).&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dropdown menus&lt;/strong&gt; giving access to multiple pages are described by:
+
+&lt;ol&gt;
+&lt;li&gt;a &lt;strong&gt;title text or an icon name&lt;/strong&gt;;&lt;/li&gt;
+&lt;li&gt;a &amp;ldquo;menu:&amp;rdquo; line;&lt;/li&gt;
+&lt;li&gt;an indented &lt;strong&gt;list of the text entries&lt;/strong&gt; that will appear in the menu,
+&lt;em&gt;with the associated hyperlinks&lt;/em&gt;.&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the example below, you can see &lt;strong&gt;how the content should be indented and
+organized:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;left:
+  - icon: fa-home
+    href: index.html
+  - text: &amp;quot;How To&amp;quot;
+    menu: 
+    - text: Installation
+      href: articles/installation.html
+    - text: Interactive Execution - the MODIStsp GUI
+      href: articles/interactive_execution.html
+    - text: Non-Interactive Execution from within R
+      href: articles/noninteractive_execution.html
+    - text: Standalone Execution and Scheduled Processing
+      href: articles/standalone_execution.html
+    - text: Outputs Format and Naming Conventions
+      href: articles/output.html
+    - text: Accessing and Analyzing Processed Data from R
+      href: articles/analyze.html
+    - text: &amp;quot;Examples of Use&amp;quot;
+      href: articles/examples.html
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the case of MODIStsp website, I decided to not provide a link to the &amp;ldquo;full&amp;rdquo;
+vignette (which was linked from &amp;ldquo;Getting Started&amp;rdquo; in the &amp;ldquo;bare-bones&amp;rdquo; website).
+Instead, I &lt;strong&gt;divided the contents of that vignette in six shorter articles accessible
+from the &amp;ldquo;How To&amp;rdquo; dropdown menu&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;To do that, I just had to &lt;strong&gt;create six separate Rmd files within the vignettes folder&lt;/strong&gt;.
+All Rmds within that folder are automatically knitted by pkgdown when launching
+either &lt;strong&gt;&lt;code&gt;build_site()&lt;/code&gt;&lt;/strong&gt; or &lt;strong&gt;&lt;code&gt;build_articles()&lt;/code&gt;&lt;/strong&gt;, and are therefore available
+for linking from the menu.&lt;/p&gt;
+
+&lt;p&gt;Finally, in the last section of _&lt;em&gt;pkgdown.yaml&lt;/em&gt; you can specify what content should
+be accessible from the &lt;strong&gt;right-hand side of the top menu&lt;/strong&gt;. Syntax and indentation
+are identical to what described above.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;right: 
+  - text: &amp;quot;faq&amp;quot;
+    icon: fa-question-circle-o
+    href: articles/faq.html
+  - icon: fa-newspaper-o
+    text: &amp;quot;news&amp;quot;
+    href: news/index.html
+  - icon: fa-file-code-o 
+    text: &amp;quot;functions&amp;quot;
+    href: reference/index.html
+  - icon: fa-github fa-lg
+    text: &amp;quot;github&amp;quot;
+    href: https://github.com/lbusett/MODIStsp/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In MODIStsp website, we are using the right side of the top menu bar to provide
+access to:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;a static page&lt;/strong&gt; containing a FAQ;&lt;/li&gt;
+&lt;li&gt;the &lt;strong&gt;auto-generated news page&lt;/strong&gt; (by linking to news/index.html);&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;the function documentation index page&lt;/strong&gt; (by linking to reference/index.html);&lt;/li&gt;
+&lt;li&gt;an icon linking to the MODIStsp repository on Git Hub.
+&lt;em&gt;(From the example, you can see that it is possible to associate the &amp;ldquo;buttons&amp;rdquo;
+with both an icon and a short title text. In that case, the icon and the text will
+be shown one after the other.)&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Once your .yaml file is complete, just** run &lt;code&gt;build_site()&lt;/code&gt; again **and check the
+results. Then iterate ad-libitum until you are satisfied by the resulting structure.&lt;/p&gt;
+
+&lt;h2 id=&#34;fine-tuning&#34;&gt;Fine tuning&lt;/h2&gt;
+
+&lt;p&gt;When you are satisfied with the structure of the website, you can start &lt;strong&gt;tweaking
+its contents&lt;/strong&gt; to achieve a better-looking final result. Here I&amp;rsquo;m just** sharing
+some tips and tricks** I learnt while building our website:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If (like me) you wish to have &lt;strong&gt;a different &amp;ldquo;home page&amp;rdquo; in the website and in
+the main Git Hub page&lt;/strong&gt;, you can create a new &lt;em&gt;index.Rmd&lt;/em&gt; file in the root of the
+package. If &lt;em&gt;index.Rmd&lt;/em&gt; is found, it is used instead than _README.Rmd _to populate
+the home page;&lt;/li&gt;
+&lt;li&gt;Text in the &amp;ldquo;standard&amp;rdquo; output is &lt;strong&gt;a bit too &amp;ldquo;compressed&amp;rdquo;&lt;/strong&gt; for my taste. You
+can &lt;strong&gt;increase the spacing between the main sections&lt;/strong&gt; of an article by simply
+adding a &lt;br&gt; at the end of each main section;&lt;/li&gt;
+&lt;li&gt;Similarly, you can &lt;strong&gt;add line separators between section&lt;/strong&gt;s by simply adding
+a line of underscores under each section;&lt;/li&gt;
+&lt;li&gt;To reduce the &amp;ldquo;wall of text&amp;rdquo; effect, you can &lt;strong&gt;put any of the
+&lt;a href=&#34;http://fontawesome.io/icons/&#34; target=&#34;_blank&#34;&gt;http://fontawesome.io/icons/&lt;/a&gt; icons in an article&lt;/strong&gt; by inserting its &amp;ldquo;full html
+specification&amp;rdquo; in the text of the corresponding Rmd. (For example,&amp;ldquo;I want a github
+icon here: &lt;i&gt; class=&amp;ldquo;fa fa-github aria-hidden=&amp;ldquo;true&amp;rdquo;&amp;gt;&lt;/i&gt;&amp;rdquo; would render in the
+website with a &amp;ldquo;Git Hub octopus&amp;rdquo; icon at the end);&lt;/li&gt;
+&lt;li&gt;Of course, you can &lt;strong&gt;add any image/R plot by&lt;/strong&gt; linking/creating it in the &lt;em&gt;Rmds&lt;/em&gt;
+of the different articles or of the home page;&lt;/li&gt;
+&lt;li&gt;If you build the site using** **&lt;strong&gt;build_site(run_dont_run = TRUE)&lt;/strong&gt;, the examples
+with the &amp;ldquo;dont_run&amp;rdquo; specification in the roxygen comment will be run, and their
+results appear in the documentation page of each function. I find this really
+&lt;strong&gt;useful to illustrate the typical behaviour of functions;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;To &lt;strong&gt;provide modifiers to the standard pkgdown.css and pkgdown.js files&lt;/strong&gt;,
+create a new folder named &amp;ldquo;&lt;em&gt;pkgdown&lt;/em&gt;&amp;rdquo; in your project root. As described in &lt;code&gt;pkgdown&lt;/code&gt;
+documentation, &amp;ldquo;&lt;em&gt;the content of files &amp;ldquo;extra.css and &amp;ldquo;extra.js&amp;rdquo; placed in this
+folder will be copied to docs/ and inserted into the &lt;HEAD&gt; after the default
+&lt;code&gt;pkgdown&lt;/code&gt; CSS and JSS&lt;/em&gt;&amp;rdquo;. I for example added the following lines in &lt;em&gt;extra.css&lt;/em&gt;
+to have &lt;strong&gt;some additional syntax highlighting&lt;/strong&gt; in the code snippets:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;  {
+  .fl      {color: blue;}
+  .fu      {color: blue;} /* function */
+  .ch,.st  {color: orange;} /* string */
+  .kw      {color: black;} /* keyword */
+  .co      {color: green;} /* comment */
+  
+  .message { color: gray;   font-weight: bolder;}
+  .error   { color: red;  font-weight: bolder;}
+  .warning { color: purple; font-weight: bolder;
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;, but if you are more fluent than me in _css _and _js _you can probably tweak
+appearance a lot more.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;you &lt;strong&gt;don&amp;rsquo;t need to run the whole build_site() every time&lt;/strong&gt; you wish to adjust
+something and check the results. You can use &lt;strong&gt;build_reference()&lt;/strong&gt;, &lt;strong&gt;build_news()&lt;/strong&gt;,
+&lt;strong&gt;build_articles()&lt;/strong&gt; and &lt;strong&gt;build_home()&lt;/strong&gt; to update just some sections.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Below, you can see how the &lt;em&gt;.yaml&lt;/em&gt; file described before and the other small &amp;ldquo;tweaks&amp;rdquo; &lt;strong&gt;improved the appearance&lt;/strong&gt; of MODIStsp homepage :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/MODIStsp_Website_end.png&#34; alt=&#34;&#34; /&gt;&lt;strong&gt;Final Home Page of the MODIStsp website&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;deploying-the-website-to-git-hub-and-the-web&#34;&gt;Deploying the website to Git Hub and the web&lt;/h2&gt;
+
+&lt;p&gt;Finally, it&amp;rsquo;s time to &lt;strong&gt;deploy the website&lt;/strong&gt;. To do that:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Commit and push&lt;/strong&gt; your changes to the remote;&lt;/li&gt;
+&lt;li&gt;Login on Git Hub, &lt;strong&gt;navigate to your repo and select &amp;ldquo;Settings&amp;rdquo;&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Scroll down to find the &lt;strong&gt;&amp;ldquo;Git Hub pages&amp;rdquo; subsection&lt;/strong&gt; and, under &amp;ldquo;Source&amp;rdquo;, select &amp;ldquo;**master branch/docs folder&amp;rdquo; **(from this, you can see that &lt;em&gt;it is fundamental that your website material is pushed to the master branch&lt;/em&gt;)&lt;/li&gt;
+&lt;li&gt;click on the link of your website and&amp;hellip; &lt;strong&gt;congratulations: you just published your new pkgdown website !&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;em&gt;(PS: if you find any errors in this guide, or you think additional clarification is needed, please leave a comment to this post !)&lt;/em&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>The new MODIStsp website (based on pkgdown) is online !</title>
+      <link>/post/the-new-modistsp-website-based-on-pkgdown-is-online/</link>
+      <pubDate>Tue, 25 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/the-new-modistsp-website-based-on-pkgdown-is-online/</guid>
+      <description>&lt;p&gt;The &lt;strong&gt;MODIStsp&lt;/strong&gt; website, which lay abandoned since several months on github
+pages, recently underwent a major overhaul thanks to &lt;strong&gt;&lt;a href=&#34;http://hadley.github.io/pkgdown&#34; target=&#34;_blank&#34;&gt;pkgdown&lt;/a&gt;&lt;/strong&gt;.
+The new site is now available at &lt;a href=&#34;http://lbusett.github.io/MODIStsp/&#34; target=&#34;_blank&#34;&gt;http://lbusett.github.io/MODIStsp/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/MODIStsp_Website.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We hope that the revised website will allow to navigate MODIStsp-related material
+much more easily than either github or the standard CRAN documentation, and will
+therefore help users in better and more easily exploiting MODIStsp functionality.&lt;/p&gt;
+
+&lt;p&gt;The restyling was possible thanks to the very nice &amp;ldquo;&lt;strong&gt;pkgdown&lt;/strong&gt;&amp;rdquo; R package
+(&lt;a href=&#34;http://hadley.github.io/pkgdown&#34; target=&#34;_blank&#34;&gt;http://hadley.github.io/pkgdown&lt;/a&gt;), which allows to easily create a static documentation website.&lt;/p&gt;
+
+&lt;p&gt;Though pkgdown does already quite a good job in creating a bare-bones website
+exploiting &lt;strong&gt;just the material available in a standard devtools-based R package file
+structure&lt;/strong&gt;, I was surprised at &lt;strong&gt;how simply the standard website could be tweaked&lt;/strong&gt;
+to obtain a very nice (IMO) final result without needing any particular background
+on html, css, etc. !&lt;/p&gt;
+
+&lt;p&gt;(On that, I plan to soon post a short guide containing a few &lt;strong&gt;tips and tricks&lt;/strong&gt;
+I learnt in the last days for setting up and configuring a pkgdown website, so stay
+tuned !)&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>MODIStsp (v 1.3.2) is on CRAN !</title>
+      <link>/post/modistsp-v-1-3-2-is-on-cran/</link>
+      <pubDate>Tue, 18 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/modistsp-v-1-3-2-is-on-cran/</guid>
+      <description>&lt;p&gt;We are glad to report that &lt;strong&gt;MODIStsp is now also available on&lt;/strong&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/MODIStsp/index.html&#34; target=&#34;_blank&#34;&gt;CRAN&lt;/a&gt; ! From now on,
+you can therefore install it by simply using:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;install.packages(&amp;quot;MODIStsp&amp;quot;)&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;In v 1.3.2 we also added the functionality to automatically &lt;strong&gt;apply scale and offset&lt;/strong&gt;
+coefficients on MODIS original values according with the specifications of single
+MODIS products. Setting the new &lt;em&gt;&amp;ldquo;Scale output values&amp;rdquo;&lt;/em&gt; option to &amp;ldquo;Yes&amp;rdquo;, scale factors
+and offsets are applied (if existing).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/Figure_2_new_132.png&#34; alt=&#34;&#34; /&gt;&lt;strong&gt;The MODIStsp GUI&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;In this case, for example, Land Surface Temperature values in the output rasters
+will be in °K, and spectral indices will be floating point values (e.g., NDVI will
+be between -1 and 1 instead than between -10000 and 10000).&lt;/p&gt;
+
+&lt;p&gt;We also &lt;em&gt;corrected a few bugs&lt;/em&gt;, affecting in particular &lt;em&gt;ftp&lt;/em&gt; download, and
+&lt;strong&gt;modified the names of some output layers&lt;/strong&gt; to reduce the length and homogenize
+output file names, and correct a few errors.&lt;/p&gt;
+
+&lt;p&gt;The changelog for v1.3.2 can be found &lt;a href=&#34;https://github.com/lbusett/MODIStsp/releases/tag/v1.3.2&#34; target=&#34;_blank&#34;&gt;HERE&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;We hope you will find the new version useful and that we didn&amp;rsquo;t introduce too
+many bugs ! &lt;strong&gt;Please report any problems in our
+&lt;a href=&#34;https://github.com/lbusett/MODIStsp/issues&#34; target=&#34;_blank&#34;&gt;issues&lt;/a&gt; GitHub page.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;em&gt;development&lt;/em&gt; version of &lt;code&gt;MODIStsp&lt;/code&gt;, containing the latest updates and bug
+fixes, will still be available on GitHub. It can be installed using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(devtools)
+install_github(&amp;quot;lbusett/MODIStsp&amp;quot;, ref = &amp;quot;master&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;MODIStsp&lt;/code&gt;  is a R package allowing automatic download and preprocessing of MODIS  Land Products time series - you can find additional information &lt;a href=&#34;/post/modistsp-a-new-r-package-for-modis-land-products-preprocessing&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>MODIStsp v.1.3.1 released !</title>
+      <link>/post/modistsp-v-1-3-1-released/</link>
+      <pubDate>Mon, 13 Feb 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/modistsp-v-1-3-1-released/</guid>
+      <description>&lt;p&gt;&lt;code&gt;MODIStsp&lt;/code&gt; is a &lt;code&gt;R&lt;/code&gt; package allowing &lt;strong&gt;automatic download and preprocessing of MODIS Land Products time series&lt;/strong&gt;, available at this &lt;a href=&#34;https://github.com/lbusett/MODIStsp&#34; target=&#34;_blank&#34;&gt;https://github.com/lbusett/MODIStsp&lt;/a&gt; github page (See also &lt;a href=&#34;/post/modistsp-a-new-r-package-for-modis-land-products-preprocessing&#34;&gt;here&lt;/a&gt; for additional information)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;v1.3.1&lt;/strong&gt; adds functionality for processing &lt;strong&gt;MODIS snow cover products&lt;/strong&gt;, &lt;strong&gt;accelerated download&lt;/strong&gt;, processing &lt;strong&gt;specified portions of years&lt;/strong&gt;, plus various bug fixing and improvements.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/Figure_2_new.png&#34; alt=&#34;MODIStsp: the main processing GUI&#34; /&gt;&lt;strong&gt;MODIStsp: the main processing GUI&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;See &lt;a href=&#34;https://github.com/lbusett/MODIStsp/releases/tag/v1.3.1&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for a detailed description of introduced changes&lt;/p&gt;
+
+&lt;p&gt;We hope you will find the new version useful and that we didn&amp;rsquo;t introduce too many bugs ! &lt;strong&gt;Please report any problems in our &lt;a href=&#34;https://github.com/lbusett/MODIStsp/issues&#34; target=&#34;_blank&#34;&gt;issues&lt;/a&gt; GitHub page !&lt;/strong&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Example Talk</title>
@@ -198,16 +679,7 @@ interesting resources concerning &amp;ldquo;R&amp;rdquo; programming in general.
       <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>/project/modistsp/</guid>
-      <description>&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.&lt;/p&gt;
-
-&lt;p&gt;Nullam vel molestie justo. Curabitur vitae efficitur leo. In hac habitasse platea dictumst. Sed pulvinar mauris dui, eget varius purus congue ac. Nulla euismod, lorem vel elementum dapibus, nunc justo porta mi, sed tempus est est vel tellus. Nam et enim eleifend, laoreet sem sit amet, elementum sem. Morbi ut leo congue, maximus velit ut, finibus arcu. In et libero cursus, rutrum risus non, molestie leo. Nullam congue quam et volutpat malesuada. Sed risus tortor, pulvinar et dictum nec, sodales non mi. Phasellus lacinia commodo laoreet. Nam mollis, erat in feugiat consectetur, purus eros egestas tellus, in auctor urna odio at nibh. Mauris imperdiet nisi ac magna convallis, at rhoncus ligula cursus.&lt;/p&gt;
-
-&lt;p&gt;Cras aliquam rhoncus ipsum, in hendrerit nunc mattis vitae. Duis vitae efficitur metus, ac tempus leo. Cras nec fringilla lacus. Quisque sit amet risus at ipsum pharetra commodo. Sed aliquam mauris at consequat eleifend. Praesent porta, augue sed viverra bibendum, neque ante euismod ante, in vehicula justo lorem ac eros. Suspendisse augue libero, venenatis eget tincidunt ut, malesuada at lorem. Donec vitae bibendum arcu. Aenean maximus nulla non pretium iaculis. Quisque imperdiet, nulla in pulvinar aliquet, velit quam ultrices quam, sit amet fringilla leo sem vel nunc. Mauris in lacinia lacus.&lt;/p&gt;
-
-&lt;p&gt;Suspendisse a tincidunt lacus. Curabitur at urna sagittis, dictum ante sit amet, euismod magna. Sed rutrum massa id tortor commodo, vitae elementum turpis tempus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean purus turpis, venenatis a ullamcorper nec, tincidunt et massa. Integer posuere quam rutrum arcu vehicula imperdiet. Mauris ullamcorper quam vitae purus congue, quis euismod magna eleifend. Vestibulum semper vel augue eget tincidunt. Fusce eget justo sodales, dapibus odio eu, ultrices lorem. Duis condimentum lorem id eros commodo, in facilisis mauris scelerisque. Morbi sed auctor leo. Nullam volutpat a lacus quis pharetra. Nulla congue rutrum magna a ornare.&lt;/p&gt;
-
-&lt;p&gt;Aliquam in turpis accumsan, malesuada nibh ut, hendrerit justo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sed erat nec justo posuere suscipit. Donec ut efficitur arcu, in malesuada neque. Nunc dignissim nisl massa, id vulputate nunc pretium nec. Quisque eget urna in risus suscipit ultricies. Pellentesque odio odio, tincidunt in eleifend sed, posuere a diam. Nam gravida nisl convallis semper elementum. Morbi vitae felis faucibus, vulputate orci placerat, aliquet nisi. Aliquam erat volutpat. Maecenas sagittis pulvinar purus, sed porta quam laoreet at.&lt;/p&gt;
-</description>
+      <description></description>
     </item>
     
     <item>

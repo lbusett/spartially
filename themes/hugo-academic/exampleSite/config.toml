@@ -222,7 +222,7 @@ defaultContentLanguageInSubdir = false
   [[params.social]]
     icon = "twitter"
     icon_pack = "fa"
-    link = "//twitter.com/GeorgeCushen"
+    link = "//twitter.com/lbusetto74"
 
   [[params.social]]
     icon = "google-scholar"
@@ -232,6 +232,11 @@ defaultContentLanguageInSubdir = false
   [[params.social]]
     icon = "github"
     icon_pack = "fa"
+    link = "//github.com/lbusett"
+
+  [[params.social]]
+    icon = "researchgate"
+    icon_pack = "ai"
     link = "//github.com/gcushen"
 
 
@@ -263,10 +268,10 @@ defaultContentLanguageInSubdir = false
   url = "#projects"
   weight = 4
 
-[[menu.main]]
-  name = "Teaching"
-  url = "#teaching"
-  weight = 5
+#[[menu.main]]
+#  name = "Teaching"
+#  url = "#teaching"
+#  weight = 5
 
 [[menu.main]]
   name = "Contact"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Postsafaefasfeas on spaRtially</title>
+    <title>Posts on Lorenzo Busetto Website &amp; Blog</title>
     <link>/post/</link>
-    <description>Recent content in Postsafaefasfeas on spaRtially</description>
+    <description>Recent content in Posts on Lorenzo Busetto Website &amp; Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
@@ -11,6 +11,63 @@
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MODIStsp 1.3.3 is out - Speeding things up and squashing some bugs !</title>
+      <link>/post/modistsp-1-3-3-is-out-speeding-things-up-and-squashing-some-bugs/</link>
+      <pubDate>Wed, 16 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/modistsp-1-3-3-is-out-speeding-things-up-and-squashing-some-bugs/</guid>
+      <description>A new version of MODIStsp (1.3.3) is on CRAN as of today ! Below, you can find a short description of the main improvements.
+Processing speed improvements Processing of MODIS layers after download (i.e., scale and offset calibration, computation of Spectral Indexes and Quality Indicators) is now much faster.
+As you can see in the figure, processing time was almost halved on my (not so fast) laptop. This was achieved by modifying all computation functions so to use raster::calc() and raster::overlay() (more on this in a later post).</description>
+    </item>
+    
+    <item>
+      <title>Building a website with `pkgdown`: a short guide</title>
+      <link>/post/building-a-website-with-pkgdown-a-short-guide/</link>
+      <pubDate>Tue, 01 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/building-a-website-with-pkgdown-a-short-guide/</guid>
+      <description>As promised in my last post, here is a short guide with some tips and tricks for building a documentation website for an R package using pkgdown.
+In the end, this guide ended up way longer than I was expecting, but I hope you&amp;rsquo;ll find it useful, although it often replicates information already available in pkgdown documentation !
+Prerequisites To build a website using pkgdown, all you need to have is an R package hosted on Git Hub, with a file structure &amp;ldquo;tweaked&amp;rdquo; with some functionality provided by devtools.</description>
+    </item>
+    
+    <item>
+      <title>The new MODIStsp website (based on pkgdown) is online !</title>
+      <link>/post/the-new-modistsp-website-based-on-pkgdown-is-online/</link>
+      <pubDate>Tue, 25 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/the-new-modistsp-website-based-on-pkgdown-is-online/</guid>
+      <description>The MODIStsp website, which lay abandoned since several months on github pages, recently underwent a major overhaul thanks to pkgdown. The new site is now available at http://lbusett.github.io/MODIStsp/
+We hope that the revised website will allow to navigate MODIStsp-related material much more easily than either github or the standard CRAN documentation, and will therefore help users in better and more easily exploiting MODIStsp functionality.
+The restyling was possible thanks to the very nice &amp;ldquo;pkgdown&amp;rdquo; R package (http://hadley.</description>
+    </item>
+    
+    <item>
+      <title>MODIStsp (v 1.3.2) is on CRAN !</title>
+      <link>/post/modistsp-v-1-3-2-is-on-cran/</link>
+      <pubDate>Tue, 18 Apr 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/modistsp-v-1-3-2-is-on-cran/</guid>
+      <description>We are glad to report that MODIStsp is now also available on CRAN ! From now on, you can therefore install it by simply using:
+install.packages(&amp;quot;MODIStsp&amp;quot;)
+In v 1.3.2 we also added the functionality to automatically apply scale and offset coefficients on MODIS original values according with the specifications of single MODIS products. Setting the new &amp;ldquo;Scale output values&amp;rdquo; option to &amp;ldquo;Yes&amp;rdquo;, scale factors and offsets are applied (if existing).</description>
+    </item>
+    
+    <item>
+      <title>MODIStsp v.1.3.1 released !</title>
+      <link>/post/modistsp-v-1-3-1-released/</link>
+      <pubDate>Mon, 13 Feb 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/modistsp-v-1-3-1-released/</guid>
+      <description>MODIStsp is a R package allowing automatic download and preprocessing of MODIS Land Products time series, available at this https://github.com/lbusett/MODIStsp github page (See also here for additional information)
+v1.3.1 adds functionality for processing MODIS snow cover products, accelerated download, processing specified portions of years, plus various bug fixing and improvements.
+MODIStsp: the main processing GUI
+See here for a detailed description of introduced changes
+We hope you will find the new version useful and that we didn&amp;rsquo;t introduce too many bugs !</description>
+    </item>
     
     <item>
       <title>MODIStsp v1.3.0 released - adds support for Collection 6 datasets</title>

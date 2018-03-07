@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Homes on spaRtially</title>
+    <title>Homes on Lorenzo Busetto Website &amp; Blog</title>
     <link>/home/</link>
-    <description>Recent content in Homes on spaRtially</description>
+    <description>Recent content in Homes on Lorenzo Busetto Website &amp; Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
@@ -22,22 +22,13 @@
     </item>
     
     <item>
-      <title>Recent Posts</title>
-      <link>/home/posts/</link>
-      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>/home/posts/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title></title>
       <link>/home/about/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>/home/about/</guid>
-      <description>Biography Lena Smith is a professor of artificial intelligence at the Stanford AI Lab. Her research interests include distributed robotics, mobile computing and programmable matter. She leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet.</description>
+      <description>Biography I am an environmental scientist specialising in remote sensing data analysis, in particular the analysis of time series of coarse resolution satellite images for vegetation monitoring. My main research interests concern the use of remotely sensed images for the analysis of vegetation characteristics at different spatial scales.
+I graduated Environmental Sciences at the University of Milano-Bicocca in 2001. My graduation thesis work focused on the classification of aerial hyperspectral data for the identification of asbestos-concrete roofs.</description>
     </item>
     
     <item>
@@ -68,6 +59,15 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristiq
     </item>
     
     <item>
+      <title>Recent Posts</title>
+      <link>/home/posts/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/home/posts/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Projects</title>
       <link>/home/projects/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
@@ -77,14 +77,12 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristiq
     </item>
     
     <item>
-      <title>Teaching</title>
-      <link>/home/teaching/</link>
+      <title>Other Info</title>
+      <link>/home/other_stuff/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>/home/teaching/</guid>
-      <description>This is an example of using the custom widget to create your own homepage section.
-I am a teaching instructor for the following courses at University X:
- CS101: An intro to computer science CS102: An intro to computer science CS103: An intro to computer science CS104: An intro to computer science CS105: An intro to computer science CS106: An intro to computer science CS107: An intro to computer science  </description>
+      <guid>/home/other_stuff/</guid>
+      <description>#This is an example of using the custom widget to create your own homepage section.</description>
     </item>
     
     <item>

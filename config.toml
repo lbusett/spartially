@@ -3,10 +3,10 @@
 
 # The URL of your website.
 # End your URL with a `/` trailing slash, e.g. `https://example.com/`.
-baseurl = "https://spartially.netlify.com/"
+baseurl = "https://lbusett.netlify.com/"
 
 # Title of your site
-title = "spaRtially"
+title = "Lorenzo Busetto Website & Blog"
 
 # Your copyright notice - appears in site footer.
 # To display a copyright symbol, type `&copy;`.
@@ -43,7 +43,7 @@ defaultContentLanguageInSubdir = false
 [params]
   # Color theme.
   #   Choose from `default`, `ocean`, `forest`, `coffee`, `dark`, or `1950s`.
-  color_theme = "ocean"
+  color_theme = "1950s"
 
   # Font style.
   #   Choose from `default`, `classic`, or `playfair`.
@@ -174,9 +174,9 @@ defaultContentLanguageInSubdir = false
   ]
 
   # Configuration of talk pages.
-  [params.talks]
+  #[params.talks]
     # Show talk time?
-    time = true
+  #  time = true
 
   # Configuration of publication pages.
   [params.publications]
@@ -194,7 +194,7 @@ defaultContentLanguageInSubdir = false
     #   1 = Detailed
     #   2 = APA
     #   3 = MLA
-    publication_format = 3
+    publication_format = 2
 
   # Social/Academic Networking
   #
@@ -234,6 +234,11 @@ defaultContentLanguageInSubdir = false
     icon_pack = "fa"
     link = "//github.com/lbusett"
 
+  [[params.social]]
+    icon = "researchgate"
+    icon_pack = "ai"
+    link = "https://www.researchgate.net/profile/Lorenzo_Busetto"
+
 
 # Navigation Links
 #   To link a homepage widget, specify the URL as a hash `#` followed by the filename of the
@@ -243,18 +248,18 @@ defaultContentLanguageInSubdir = false
   # Align the main menu to the right of the page? (true/false)
   align_right = true
 
-  [[menu.main]]
-  name = "spaRtially Blog"
-  url = "#posts"
-  weight = 1
+[[menu.main]]
+  name = "My Blog"
+  url = "post"
+  weight = 2
 
 [[menu.main]]
   name = "About Me"
   url = "#about"
-  weight = 3
+  weight = 1
 
 [[menu.main]]
-  name = "Publications"
+  name = "My Publications"
   url = "#publications_selected"
   weight = 2
 
@@ -264,7 +269,7 @@ defaultContentLanguageInSubdir = false
   weight = 4
 
 [[menu.main]]
-  name = "Contact"
+  name = "My Contacts"
   url = "#contact"
   weight = 6
 

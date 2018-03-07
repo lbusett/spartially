@@ -5,6 +5,51 @@
     
     <url>
     
+      <loc>/post/modistsp-1-3-3-is-out-speeding-things-up-and-squashing-some-bugs/</loc>
+      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/post/building-a-website-with-pkgdown-a-short-guide/</loc>
+      <lastmod>2017-08-01T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/post/the-new-modistsp-website-based-on-pkgdown-is-online/</loc>
+      <lastmod>2017-07-25T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/post/modistsp-v-1-3-2-is-on-cran/</loc>
+      <lastmod>2017-04-18T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/post/modistsp-v-1-3-1-released/</loc>
+      <lastmod>2017-02-13T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/tags/academic/</loc>
       <lastmod>2017-01-01T00:00:00+00:00</lastmod>
     </url>
@@ -142,28 +187,28 @@
     
     <url>
     
-      <loc>/tags/deep-learning/</loc>
-      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/tags/demo/</loc>
-      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/categories/download/</loc>
-      <lastmod>2016-11-07T00:00:00+00:00</lastmod>
+      <lastmod>2017-04-18T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/</loc>
+      <lastmod>2017-10-15T00:00:00+02:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/modis/</loc>
+      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -173,7 +218,17 @@
     <url>
     
       <loc>/categories/modis/</loc>
-      <lastmod>2016-11-07T00:00:00+00:00</lastmod>
+      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/modistsp/</loc>
+      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -183,7 +238,27 @@
     <url>
     
       <loc>/categories/modistsp/</loc>
-      <lastmod>2016-11-07T00:00:00+00:00</lastmod>
+      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/pkgdown/</loc>
+      <lastmod>2017-08-01T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/pkgdown/</loc>
+      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -193,7 +268,7 @@
     <url>
     
       <loc>/categories/preprocessing/</loc>
-      <lastmod>2016-11-07T00:00:00+00:00</lastmod>
+      <lastmod>2017-04-18T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -223,7 +298,7 @@
     <url>
     
       <loc>/tags/r/</loc>
-      <lastmod>2016-11-07T00:00:00+00:00</lastmod>
+      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -233,7 +308,27 @@
     <url>
     
       <loc>/categories/r/</loc>
-      <lastmod>2016-11-07T00:00:00+00:00</lastmod>
+      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/r-package/</loc>
+      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/remote-sensing/</loc>
+      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -253,7 +348,7 @@
     <url>
     
       <loc>/categories/time-series/</loc>
-      <lastmod>2016-11-07T00:00:00+00:00</lastmod>
+      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -262,8 +357,18 @@
     
     <url>
     
-      <loc>/</loc>
-      <lastmod>2017-10-15T00:00:00+02:00</lastmod>
+      <loc>/categories/vegetation-indexes/</loc>
+      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/website/</loc>
+      <lastmod>2017-08-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
