@@ -1,6 +1,6 @@
 bibtex_2academic <- function(bibfile, outfold, overwrite = FALSE) {
 
-  require(bib2df)
+  require(RefManageR)
   require(dplyr)
   require(stringr)
   require(anytime)
@@ -13,43 +13,47 @@ bibtex_2academic <- function(bibfile, outfold, overwrite = FALSE) {
   #
   # Do some clean-up: remove latex-style accented characters and all
   # curly braces, and assign "categories" to publication types
-  mypubs   <- bib2df(bibfile) %>%
-    dplyr::mutate(TITLE  = stringr::str_remove_all(TITLE, "[{}]")) %>%
-    dplyr::mutate(AUTHOR = stringr::str_remove_all(AUTHOR, "\\}\\}")) %>%
-    dplyr::mutate(AUTHOR = stringr::str_remove_all(AUTHOR, "\\{\\\\'\\{\\\\")) %>%
-    dplyr::mutate(AUTHOR = stringr::str_remove_all(AUTHOR, "\\{\\\\'\\{")) %>%
-    dplyr::mutate(AUTHOR = stringr::str_remove_all(AUTHOR, "[{}]")) %>%
-    dplyr::mutate(pubtype = dplyr::case_when(CATEGORY == "ARTICLE" ~ "2",
-                                             CATEGORY == "INPROCEEDINGS" ~ "1",
-                                             CATEGORY == "PROCEEDINGS" ~ "1",
-                                             CATEGORY == "CONFERENCE" ~ "1",
-                                             CATEGORY == "MASTERSTHESIS" ~ "3",
-                                             CATEGORY == "PHDTHESIS" ~ "3",
-                                             CATEGORY == "MANUAL" ~ "4",
-                                             CATEGORY == "TECHREPORT" ~ "4",
-                                             CATEGORY == "MANUAL" ~ "4",
-                                             CATEGORY == "BOOK" ~ "5",
-                                             CATEGORY == "INCOLLECTION" ~ "6",
-                                             CATEGORY == "INBOOK" ~ "6",
-                                             CATEGORY == "MISC" ~ "0",
+  mypubs   <- ReadBib(bibfile, check = "warn") %>%
+    as.data.frame()
+    # toBibtex(check = "warn") %>%
+    # ReadBib() %>%
+  mypubs   <- mypubs %>%
+    dplyr::mutate(title  = stringr::str_remove_all(title, "[{}]")) %>%
+    dplyr::mutate(author = stringr::str_remove_all(author, "\\}\\}")) %>%
+    dplyr::mutate(author = stringr::str_remove_all(author, "\\{\\\\'\\{\\\\")) %>%
+    dplyr::mutate(author = stringr::str_remove_all(author, "\\{\\\\'\\{")) %>%
+    dplyr::mutate(author = stringr::str_remove_all(author, "[{}]")) %>%
+    dplyr::mutate(pubtype = dplyr::case_when(document_type == "Article" ~ "2",
+                                             document_type == "InProceedings" ~ "1",
+                                             document_type == "Proceedings" ~ "1",
+                                             document_type == "Conference" ~ "1",
+                                             document_type == "MastersThesis" ~ "3",
+                                             document_type == "PhdThesis" ~ "3",
+                                             document_type == "Manual" ~ "4",
+                                             document_type == "TechReport" ~ "4",
+                                             document_type == "Book" ~ "5",
+                                             document_type == "InCollection" ~ "6",
+                                             document_type == "InBook" ~ "6",
+                                             document_type == "Misc" ~ "0",
                                              TRUE ~ "0"))
 
   create_md <- function(x) {
 
-    filename <- paste(x[["DATE"]], x[["TITLE"]] %>%
+    filename <- paste(x[["date"]], x[["title"]] %>%
                         str_replace_all(fixed(" "), "_") %>%
                         str_remove_all(fixed(":")) %>%
                         str_sub(1, 20) %>%
                         paste0(".md"), sep = "_")
-    if (overwrite) {
+    if (!file.exists(filename) | overwrite) {
       fileConn <- file.path(outfold, filename)
       write("+++", fileConn)
-      write(paste0("title = \"", x[["TITLE"]], "\""), fileConn, append = T)
-      write(paste0("date = \"", anydate(x[["DATE"]]), "\""), fileConn, append = T)
+      write(paste0("title = \"", x[["title"]], "\""), fileConn, append = T)
+      write(paste0("date = \"", anydate(x[["date"]]), "\""), fileConn, append = T)
 
       # Authors. Comma separated list, e.g. `["Bob Smith", "David Jones"]`.
-      auth_hugo <- paste0(paste0("\"", x["AUTHOR"], "\""), collapse = ", ")
-      write(paste0("authors = [", auth_hugo,"]"), fileConn, append = T)
+      auth_hugo <- str_replace_all(x["author"], " and ", "\", \"")
+
+      write(paste0("authors = [\"", auth_hugo,"\"]"), fileConn, append = T)
 
       # Publication type.
       # Legend:
@@ -63,12 +67,12 @@ bibtex_2academic <- function(bibfile, outfold, overwrite = FALSE) {
       write(paste0("publication_types = [\"", x[["pubtype"]],"\"]"), fileConn, append = T)
 
       # Publication name and optional abbreviated version.
-      write(paste0("publication = \"", x[["JOURNALTITLE"]],"\""), fileConn, append = T)
-      write(paste0("publication_short = \"", x[["ABBREV_SOURCE_TITLE"]],"\""),
+      write(paste0("publication = \"", x[["journal"]],"\""), fileConn, append = T)
+      write(paste0("publication_short = \"", x[["abbrev_source_title"]],"\""),
             fileConn, append = T)
 
       # Abstract and optional shortened version.
-      write(paste0("abstract = \"", x[["ABSTRACT"]],"\""), fileConn, append = T)
+      write(paste0("abstract = \"", x[["abstract"]],"\""), fileConn, append = T)
       write(paste0("abstract_short = \"","\""), fileConn, append = T)
 
       # Featured image thumbnail (optional)
@@ -88,7 +92,7 @@ bibtex_2academic <- function(bibfile, outfold, overwrite = FALSE) {
       write("tags = []", fileConn, append = T)
 
       # Links (optional).
-      write(paste0("url_pdf = \"", paste0("https://doi.org/", x[["DOI"]], "\"")),
+      write(paste0("url_pdf = \"", paste0("https://doi.org/", x[["doi"]], "\"")),
             fileConn, append = T)
       write("url_preprint = \"\"", fileConn, append = T)
       write("url_code = \"\"", fileConn, append = T)
