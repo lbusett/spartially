@@ -28,8 +28,6 @@ weight = 5
   year = 2002
 +++
 
-# Biography
-
 I am an environmental scientist specialising in remote sensing data
 analysis, in particular the analysis of time series of coarse resolution satellite
 images for vegetation monitoring. My main research interests concern the __use of

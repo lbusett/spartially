@@ -7,19 +7,10 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Sun, 15 Oct 2017 00:00:00 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/home/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>spaRtially</title>
-      <link>/home/hero/</link>
-      <pubDate>Sun, 15 Oct 2017 00:00:00 +0200</pubDate>
-      
-      <guid>/home/hero/</guid>
-      <description>A small blog about geospatial processing in R </description>
-    </item>
     
     <item>
       <title></title>
@@ -27,7 +18,7 @@
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>/home/about/</guid>
-      <description>Biography I am an environmental scientist specialising in remote sensing data analysis, in particular the analysis of time series of coarse resolution satellite images for vegetation monitoring. My main research interests concern the use of remotely sensed images for the analysis of vegetation characteristics at different spatial scales.
+      <description>I am an environmental scientist specialising in remote sensing data analysis, in particular the analysis of time series of coarse resolution satellite images for vegetation monitoring. My main research interests concern the use of remotely sensed images for the analysis of vegetation characteristics at different spatial scales.
 I graduated Environmental Sciences at the University of Milano-Bicocca in 2001. My graduation thesis work focused on the classification of aerial hyperspectral data for the identification of asbestos-concrete roofs.</description>
     </item>
     
@@ -46,15 +37,6 @@ I graduated Environmental Sciences at the University of Milano-Bicocca in 2001. 
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0200</pubDate>
       
       <guid>/home/publications/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Recent &amp; Upcoming Talks</title>
-      <link>/home/talks/</link>
-      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
-      
-      <guid>/home/talks/</guid>
       <description></description>
     </item>
     

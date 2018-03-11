@@ -1,32 +1,29 @@
-bibtex_2academic <- function(bibfile, outfold, overwrite = FALSE) {
+bibtex_2academic <- function(bibfile, outfold, abstract = FALSE,
+                             overwrite = FALSE) {
 
   require(RefManageR)
   require(dplyr)
   require(stringr)
   require(anytime)
 
-  # detex <- function(x) {
-  #   str_remove_all(x, "\\}\\}") %>%
-  #     str_remove_all("\\{\\\\'\\{\\\\") %>%
-  #     str_remove_all("\\{\\\\'\\{")
-  # }
-  #
   # Do some clean-up: remove latex-style accented characters and all
   # curly braces, and assign "categories" to publication types
-  mypubs   <- ReadBib(bibfile, check = "warn") %>%
+  mypubs   <- ReadBib(bibfile, check = "warn", .Encoding = "UTF-8") %>%
     as.data.frame()
-    # toBibtex(check = "warn") %>%
-    # ReadBib() %>%
+
   mypubs   <- mypubs %>%
-    dplyr::mutate(title  = stringr::str_remove_all(title, "[{}]")) %>%
-    dplyr::mutate(author = stringr::str_remove_all(author, "\\}\\}")) %>%
-    dplyr::mutate(author = stringr::str_remove_all(author, "\\{\\\\'\\{\\\\")) %>%
-    dplyr::mutate(author = stringr::str_remove_all(author, "\\{\\\\'\\{")) %>%
-    dplyr::mutate(author = stringr::str_remove_all(author, "[{}]")) %>%
+    # dplyr::mutate(title  = stringr::str_remove_all(title, "[{}]")) %>%
+    # dplyr::mutate(author = stringr::str_remove_all(author, "\\}\\}")) %>%
+    # dplyr::mutate(author = stringr::str_remove_all(author, "\\{\\\\'\\{\\\\")) %>%
+    # dplyr::mutate(author = stringr::str_remove_all(author, "\\\\'\\\\")) %>%
+    # dplyr::mutate(author = stringr::str_remove_all(author, "\\{\\\\'\\{")) %>%
+    # dplyr::mutate(author = stringr::str_remove_all(author, "[{}]")) %>%
     dplyr::mutate(pubtype = dplyr::case_when(document_type == "Article" ~ "2",
+                                             document_type == "Article in Press" ~ "2",
                                              document_type == "InProceedings" ~ "1",
                                              document_type == "Proceedings" ~ "1",
                                              document_type == "Conference" ~ "1",
+                                             document_type == "Conference Paper" ~ "1",
                                              document_type == "MastersThesis" ~ "3",
                                              document_type == "PhdThesis" ~ "3",
                                              document_type == "Manual" ~ "4",
@@ -39,6 +36,11 @@ bibtex_2academic <- function(bibfile, outfold, overwrite = FALSE) {
 
   create_md <- function(x) {
 
+    if (!is.na(x[["year"]])) {
+        x[["date"]] <- paste0(x[["year"]], "-01-01")
+    } else {
+      x[["date"]] <- "2999-01-01"
+    }
     filename <- paste(x[["date"]], x[["title"]] %>%
                         str_replace_all(fixed(" "), "_") %>%
                         str_remove_all(fixed(":")) %>%
@@ -52,6 +54,7 @@ bibtex_2academic <- function(bibfile, outfold, overwrite = FALSE) {
 
       # Authors. Comma separated list, e.g. `["Bob Smith", "David Jones"]`.
       auth_hugo <- str_replace_all(x["author"], " and ", "\", \"")
+      auth_hugo <- stringi::stri_trans_general(auth_hugo, "latin-ascii")
 
       write(paste0("authors = [\"", auth_hugo,"\"]"), fileConn, append = T)
 
@@ -67,12 +70,24 @@ bibtex_2academic <- function(bibfile, outfold, overwrite = FALSE) {
       write(paste0("publication_types = [\"", x[["pubtype"]],"\"]"), fileConn, append = T)
 
       # Publication name and optional abbreviated version.
-      write(paste0("publication = \"", x[["journal"]],"\""), fileConn, append = T)
-      write(paste0("publication_short = \"", x[["abbrev_source_title"]],"\""),
+      #
+      publication <- x[["journal"]]
+      if (!is.na(x[["volume"]])) publication <- paste0(publication, ", (", x[["volume"]], ")")
+      if (!is.na(x[["number"]])) publication <- paste0(publication, ", ", x[["number"]])
+      if (!is.na(x[["pages"]])) publication <- paste0(publication, ", _pp. ", x[["pages"]], "_")
+
+      if (!is.na(x[["doi"]])) publication <- paste0(publication, ", ", paste0("https://doi.org/", x[["doi"]]))
+
+      write(paste0("publication = \"", publication,"\""), fileConn, append = T)
+      write(paste0("publication_short = \"", publication,"\""),
             fileConn, append = T)
 
       # Abstract and optional shortened version.
-      write(paste0("abstract = \"", x[["abstract"]],"\""), fileConn, append = T)
+      if (abstract) {
+        write(paste0("abstract = \"", x[["abstract"]],"\""), fileConn, append = T)
+      } else {
+        write("abstract = \"\"", fileConn, append = T)
+      }
       write(paste0("abstract_short = \"","\""), fileConn, append = T)
 
       # Featured image thumbnail (optional)
@@ -92,8 +107,7 @@ bibtex_2academic <- function(bibfile, outfold, overwrite = FALSE) {
       write("tags = []", fileConn, append = T)
 
       # Links (optional).
-      write(paste0("url_pdf = \"", paste0("https://doi.org/", x[["doi"]], "\"")),
-            fileConn, append = T)
+      write("url_pdf = \"\"", fileConn, append = T)
       write("url_preprint = \"\"", fileConn, append = T)
       write("url_code = \"\"", fileConn, append = T)
       write("url_dataset = \"\"", fileConn, append = T)
