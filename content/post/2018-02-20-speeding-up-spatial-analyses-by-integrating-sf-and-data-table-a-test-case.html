@@ -33,16 +33,16 @@ int &lt;- sf::st_intersects(pts_buf, pts)
 int</code></pre>
 <pre><code>## Sparse geometry binary predicate list of length 50000, where the predicate was `intersects&#39;
 ## first 10 elements:
-##  1: 1, 20011, 23322, 29497, 31000, 49451
-##  2: 2, 1870, 12498, 18599, 37109, 47597
-##  3: 3, 20954
-##  4: 4, 29042, 30336, 39918, 46479
-##  5: 5, 5905, 21216
-##  6: 6, 6295, 11865, 39913, 42388
-##  7: 7, 2026, 9213, 14083, 34069, 37994, 47075
-##  8: 8, 22165, 28236, 34290, 39080
-##  9: 9, 1132, 27640, 41921
-##  10: 10, 832, 10240, 14194, 18746, 24742, 28791, 30401, 42308</code></pre>
+##  1: 1, 30982, 31310, 38254
+##  2: 2, 32617, 48466
+##  3: 3, 4635, 6127, 17264, 20669, 22752, 25417, 48220
+##  4: 4, 29002, 41667
+##  5: 5, 16783, 30014, 40066
+##  6: 6, 20293, 28081, 28336, 29702, 33054, 43746
+##  7: 7, 24663, 26271
+##  8: 8, 406, 1703, 12046, 12167, 40873, 40985, 42006
+##  9: 9, 8461, 19264, 27454, 27624
+##  10: 10, 856, 5909, 8191, 11587, 22690, 36028, 42120</code></pre>
 <p>However, this starts to have problems over really large datasets, because the total number of comparisons to be done still rapidly increase besides the use of spatial indexes. A test done by changing the number of points in the above example in the range 25000 - 475000 shows for example this kind of behavior, for two different values of maxdist (500 and 2000 m):</p>
 <div class="figure">
 <img src="/img/speeding_up/Rplot01.png" />
@@ -149,9 +149,15 @@ int</code></pre>
   st_as_sf(coords = c(&quot;x&quot;, &quot;y&quot;), remove = FALSE)
 maxdist &lt;- 2000
 out &lt;- points_in_distance(pts, maxdist = maxdist, ncut = 10)
-head(out)
-
-# get a random point
+head(out)</code></pre>
+<pre><code>##       id                              int_ids
+## 1:  9007  9007, 9146,11733, 2769,19030, 4150,
+## 2:  9146  9007, 9146, 2769,19030, 4150,10882,
+## 3: 16748 16748,11733,  373, 9989, 1938,15034,
+## 4: 12679 12679, 7246,17503,16179, 8807, 8197,
+## 5: 11733  9007,16748,11733, 2769, 9989, 1475,
+## 6:  7246 12679, 7246,19030,17503, 5848,19599,</code></pre>
+<pre class="r"><code># get a random point
 sel_id  &lt;- sample(pts$id,1)
 pt_sel  &lt;- pts[sel_id, ]
 pt_buff &lt;- pt_sel %&gt;%  sf::st_buffer(maxdist)
@@ -160,14 +166,17 @@ id_inters &lt;- unlist(out[id == sel_id, ]$int_ids)
 pt_inters &lt;- pts[id_inters,]
 
 #plot results
-ggplot(pt_buff)  + theme_light() +
+plot &lt;- ggplot(pt_buff)  + theme_light() +
   geom_point(data = pts, aes(x = x, y = y), size = 1) +
   geom_sf(col = &quot;blue&quot;, size = 1.2, fill = &quot;transparent&quot;) +
   geom_sf(data = pt_inters, col = &quot;red&quot;, size = 1.5) +
   geom_point(data = pt_sel, aes(x = x, y = y), size = 2, col = &quot;green&quot;) +
   xlim(st_bbox(pt_buff)[1] - maxdist, st_bbox(pt_buff)[3] + maxdist) +
   ylim(st_bbox(pt_buff)[2] - maxdist, st_bbox(pt_buff)[4] + maxdist) + 
-  ggtitle(paste0(&quot;id = &quot;, sel_id, &quot; - Number of points within distance = &quot;, length(id_inters)))</code></pre>
+  ggtitle(paste0(&quot;id = &quot;, sel_id, &quot; - Number of points within distance = &quot;, 
+                 length(id_inters)))
+plot</code></pre>
+<p><img src="/post/2018-02-20-speeding-up-spatial-analyses-by-integrating-sf-and-data-table-a-test-case_files/figure-html/unnamed-chunk-4-1.png" width="336" /></p>
 <p><strong>So far, so good</strong>. Now, let’s do the same exercise with varying number of points to see how it behaves in term of speed:</p>
 <div class="figure">
 <img src="/img/speeding_up/Rplot3.png" />

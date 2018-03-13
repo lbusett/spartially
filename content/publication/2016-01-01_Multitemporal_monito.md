@@ -1,7 +1,7 @@
 +++
 title = "Multitemporal monitoring of plant area index in the valencia rice district with PocketLAI"
 date = "2016-01-01"
-authors = ["M. Campos-Taberner", "F.J. Garcia-Haro", "R. Confalonieri", "B. Martinez", "A. Moreno", "S. Sanchez-Ruiz", "M.A. Gilabert", "F. Camacho", "M. Boschetti", "L. Busetto"]
+authors = ["M. Campos-Taberner", "F.J. Garcia-Haro", "R. Confalonieri", "B. Martinez", "AÅ. Moreno", "S. Sanchez-Ruiz", "M.A. Gilabert", "F. Camacho", "M. Boschetti", "L. Busetto"]
 publication_types = ["2"]
 publication = "Remote Sensing, (8), 3, https://doi.org/10.3390/rs8030202"
 publication_short = "Remote Sensing, (8), 3, https://doi.org/10.3390/rs8030202"
@@ -20,7 +20,7 @@ url_slides = ""
 url_video = ""
 url_poster = ""
 url_source = ""
-math = false
+math = true
 highlight = true
 [header]
 image = ""

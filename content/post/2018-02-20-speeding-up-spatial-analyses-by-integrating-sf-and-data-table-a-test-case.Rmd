@@ -101,7 +101,7 @@ Now, every “R” expert will tell you that if you need to perform fast subsett
 
 So, let’s see how we could code this in a functions:
 
-```{r eval=FALSE, message=FALSE, warning=FALSE}
+```{r eval=TRUE, message=FALSE, warning=FALSE}
 points_in_distance <- function(in_pts,
                                maxdist,
                                ncuts = 10) {
@@ -179,7 +179,7 @@ The function takes as input a points sf object, a target distance and a number o
 
 Now, let’s see if this works:
 
-```{r eval=FALSE, message=FALSE, warning=FALSE}
+```{r echo=TRUE, fig.height=3.5, fig.width=3.5, message=FALSE, warning=FALSE}
 pts <- data.frame(x = runif(20000, 0, 100000),
                   y = runif(20000, 0, 100000),
                   id = 1:20000) %>%
@@ -197,14 +197,16 @@ id_inters <- unlist(out[id == sel_id, ]$int_ids)
 pt_inters <- pts[id_inters,]
 
 #plot results
-ggplot(pt_buff)  + theme_light() +
+plot <- ggplot(pt_buff)  + theme_light() +
   geom_point(data = pts, aes(x = x, y = y), size = 1) +
   geom_sf(col = "blue", size = 1.2, fill = "transparent") +
   geom_sf(data = pt_inters, col = "red", size = 1.5) +
   geom_point(data = pt_sel, aes(x = x, y = y), size = 2, col = "green") +
   xlim(st_bbox(pt_buff)[1] - maxdist, st_bbox(pt_buff)[3] + maxdist) +
   ylim(st_bbox(pt_buff)[2] - maxdist, st_bbox(pt_buff)[4] + maxdist) + 
-  ggtitle(paste0("id = ", sel_id, " - Number of points within distance = ", length(id_inters)))
+  ggtitle(paste0("id = ", sel_id, " - Number of points within distance = ", 
+                 length(id_inters)))
+plot
 ```
 
 

@@ -1,8 +1,8 @@
 ---
-title: Automatically importing publications for a hugo-academic blog from bibtex
+title: Automatically importing publications from bibtex to a hugo-academic blog 
 author: Lorenzo Busetto
 date: '2018-03-13'
-slug: automatically-importing-publications-for-a-hugo-academic-blog-from-bibtex
+slug: automatically-importing-publications-from-bibtex-to-a-hugo-academic-blog
 categories:
   - R
   - blogdown
@@ -15,56 +15,61 @@ header:
 
 ##The problem 
 
-Last week, I started migrating my (rather ugly) [blog](https://www.blogger.com/blogger.g?blogID=4683863749820351779#allposts) from 
-"Bloggers" to blogdown. As several others, I choose to use the [hugo-academic theme](https://github.com/gcushen/hugo-academic), due to its good look, 
+I am in the process of migrating my (rather ugly) [small blog](https://www.blogger.com/blogger.g?blogID=4683863749820351779#allposts) from 
+"Bloggers" to blogdown and, as several others, I choose to use the [hugo-academic theme](https://github.com/gcushen/hugo-academic) due to its good looks, 
 simplicity, and "focus" towards researchers. 
 
-One nice feature of "hugo-academic" is that it includes out-of-the-box a "Publications"
+One nice feature of `hugo-academic` is that it includes out-of-the-box a "Publications"
 section, allowing researchers to easily create a list of their publication as a 
-section of the website. **Unfortunately**, in order to populate that list, users 
-have to manually create one different `.md` file for each publication, by cutting
-and pasting several different info (e.g., title, authors, etc.) in a "simple"" yaml
-template like [this one](https://github.com/gcushen/hugo-academic/blob/master/archetypes/publication.md). 
+section of the website.
 
-**This is boring!** Since I was not in the mood of doing that, and no automatic
-solutions could be found (well, there appears to be a `python` one, but here we are 
-speaking `R`), I decided to try and develop some script to automatically create
-the required `md`s starting from a `bibtex` list of my publications. Here are the
-results of that effort. 
+**Unfortunately**, in order to populate that list, users have to manually create one 
+different `.md` file for each publication, by cutting and pasting several different 
+info (e.g., title, authors, etc.) in a "simple"" template like [this one](https://github.com/gcushen/hugo-academic/blob/master/archetypes/publication.md). 
 
-##The solution
+**THIS IS BORING!** 
 
-###Creating the bibtex file 
+Since I was not in the mood of doing that, and no automatic solutions could be 
+found (well, there appears to be a `python` one, but we are speaking `R`, here...), I
+decided to try and develop some script to automatically create the required `md`
+files starting from a `BibTex` list of my publications. Here are the results of 
+that effort. 
 
-To automatically create the publications `md`s, all you need is a (properly formatted)
-`bibtex` file. Since I did not have one ready, I created mine by exporting from 
-[Scopus](https://www.scopus.com/authid/detail.uri?authorId=23003461400), but you 
-could use any valid bibtex file.
-**One important thing is that you have to be sure that the file is saved with UTF-8 encoding**. 
-If you are not sure, you can open it in RStudio (or any decent text editor), 
-and then re-save it with a forced encoding (in RStudio, you can use `File-->Save with Encoding)
+##A possible sdolution
+
+###Preparing the `BibTex` file 
+
+To automatically create the publications `md` files, all you need is a (properly formatted)
+`BibTex` file. Since I did not have one ready, I created mine by exporting my
+publications list from [Scopus](https://www.scopus.com/authid/detail.uri?authorId=23003461400), but you 
+could use any valid BibTeX file.
+
+**One important thing, though, is that you have to be sure that the file is saved 
+with UTF-8 encoding**. If you are not sure, you can open it in RStudio (or any decent
+text editor), and then re-save it with a forced encoding (in RStudio, you can use 
+`File-->Save with Encoding`)
 
 ###Creating an import script
 
-Now, you need a script that reads the `bibtex` entries and use the data to populate
+Now, you need a script that reads the `BibTex` entries and use the data to populate
 one different `md` file for each publication. Below you can find my attempt at this. 
 
 
-```{r eval=FALSE}
+```{r eval=FALSE, message=FALSE, warning=FALSE}
 bibtex_2academic <- function(bibfile,
                              outfold,
-                             abstract = FALSE,
+                             abstract = FALSE, 
                              overwrite = FALSE) {
-
+  
   require(RefManageR)
   require(dplyr)
   require(stringr)
   require(anytime)
-
+  
   # Import the bibtex file and convert to data.frame
   mypubs   <- ReadBib(bibfile, check = "warn", .Encoding = "UTF-8") %>%
     as.data.frame()
-
+  
   # assign "categories" to the different types of publications
   mypubs   <- mypubs %>%
     dplyr::mutate(
@@ -83,57 +88,58 @@ bibtex_2academic <- function(bibfile,
                                  document_type == "InBook" ~ "6",
                                  document_type == "Misc" ~ "0",
                                  TRUE ~ "0"))
-
+  
   # create a function which populates the md template based on the info
   # about a publication
   create_md <- function(x) {
-
-    # define a date and create filename
+    
+    # define a date and create filename by appending date and start of title
     if (!is.na(x[["year"]])) {
-        x[["date"]] <- paste0(x[["year"]], "-01-01")
+      x[["date"]] <- paste0(x[["year"]], "-01-01")
     } else {
       x[["date"]] <- "2999-01-01"
     }
+    
     filename <- paste(x[["date"]], x[["title"]] %>%
                         str_replace_all(fixed(" "), "_") %>%
                         str_remove_all(fixed(":")) %>%
                         str_sub(1, 20) %>%
                         paste0(".md"), sep = "_")
     # start writing
-    if (!file.exists(filename) | overwrite) {
+    if (!file.exists(file.path(outfold, filename)) | overwrite) {
       fileConn <- file.path(outfold, filename)
       write("+++", fileConn)
-
+      
       # Title and date
       write(paste0("title = \"", x[["title"]], "\""), fileConn, append = T)
       write(paste0("date = \"", anydate(x[["date"]]), "\""), fileConn, append = T)
-
+      
       # Authors. Comma separated list, e.g. `["Bob Smith", "David Jones"]`.
       auth_hugo <- str_replace_all(x["author"], " and ", "\", \"")
       auth_hugo <- stringi::stri_trans_general(auth_hugo, "latin-ascii")
       write(paste0("authors = [\"", auth_hugo,"\"]"), fileConn, append = T)
-
-      # Publication type.
-      # Legend:
-      # 0 = Uncategorized
-      # 1 = Conference paper
-      # 2 = Journal article
-      # 3 = Manuscript
-      # 4 = Report
-      # 5 = Book
-      # 6 = Book section
-      write(paste0("publication_types = [\"", x[["pubtype"]],"\"]"), fileConn, append = T)
-
+      
+      # Publication type. Legend:
+      # 0 = Uncategorized, 1 = Conference paper, 2 = Journal article
+      # 3 = Manuscript, 4 = Report, 5 = Book,  6 = Book section
+      write(paste0("publication_types = [\"", x[["pubtype"]],"\"]"), 
+            fileConn, append = T)
+      
       # Publication details: journal, volume, issue, page numbers and doi link
       publication <- x[["journal"]]
-      if (!is.na(x[["volume"]])) publication <- paste0(publication, ", (", x[["volume"]], ")")
-      if (!is.na(x[["number"]])) publication <- paste0(publication, ", ", x[["number"]])
-      if (!is.na(x[["pages"]])) publication <- paste0(publication, ", _pp. ", x[["pages"]], "_")
-      if (!is.na(x[["doi"]])) publication <- paste0(publication, ", ", paste0("https://doi.org/", x[["doi"]]))
-
+      if (!is.na(x[["volume"]])) publication <- paste0(publication, 
+                                                       ", (", x[["volume"]], ")")
+      if (!is.na(x[["number"]])) publication <- paste0(publication,
+                                                       ", ", x[["number"]])
+      if (!is.na(x[["pages"]])) publication <- paste0(publication,
+                                                      ", _pp. ", x[["pages"]], "_")
+      if (!is.na(x[["doi"]])) publication <- paste0(publication,
+                                                    ", ", paste0("https://doi.org/", 
+                                                                 x[["doi"]]))
+      
       write(paste0("publication = \"", publication,"\""), fileConn, append = T)
       write(paste0("publication_short = \"", publication,"\""),fileConn, append = T)
-
+      
       # Abstract and optional shortened version.
       if (abstract) {
         write(paste0("abstract = \"", x[["abstract"]],"\""), fileConn, append = T)
@@ -141,21 +147,15 @@ bibtex_2academic <- function(bibfile,
         write("abstract = \"\"", fileConn, append = T)
       }
       write(paste0("abstract_short = \"","\""), fileConn, append = T)
-
-      # Featured image thumbnail (optional) - keep empty can be customized later
-      # in the md
+      
+      # other possible fields are kept empty. They can be customized later by 
+      # editing the created md
+      
       write("image_preview = \"\"", fileConn, append = T)
-
-      # Is this a selected publication? (true/false) can be customized later
       write("selected = false", fileConn, append = T)
-
-      # Projects (optional). can be customized later
       write("projects = []", fileConn, append = T)
-
-      # Tags (optional). can be customized later
       write("tags = []", fileConn, append = T)
-
-      # Links (optional). can be customized later
+      #links
       write("url_pdf = \"\"", fileConn, append = T)
       write("url_preprint = \"\"", fileConn, append = T)
       write("url_code = \"\"", fileConn, append = T)
@@ -165,37 +165,26 @@ bibtex_2academic <- function(bibfile,
       write("url_video = \"\"", fileConn, append = T)
       write("url_poster = \"\"", fileConn, append = T)
       write("url_source = \"\"", fileConn, append = T)
-
-      # Custom links (optional).
-      #   Uncomment line below to enable. For multiple links, use the form `[{...}, {...}, {...}]`.
-      # url_custom = [{name = "Custom Link", url = "http://example.org"}]
-
-      # Does this page contain LaTeX math? (true/false)
-      write("math = false", fileConn, append = T)
-
-      # Does this page require source code highlighting? (true/false)
+      #other stuff
+      write("math = true", fileConn, append = T)
       write("highlight = true", fileConn, append = T)
-
       # Featured image
-      # Place your image in the `static/img/` folder and reference its filename
-      #  below, e.g. `image = "example.jpg"`.
       write("[header]", fileConn, append = T)
       write("image = \"\"", fileConn, append = T)
       write("caption = \"\"", fileConn, append = T)
-
+      
       write("+++", fileConn, append = T)
-
-      # close(fileConn)
     }
   }
   # apply the "create_md" function over the publications list to generate
   # the different "md" files.
+  
   apply(mypubs, FUN = function(x) create_md(x), MARGIN = 1)
 }
 ```
 
 Nothing fancy, here: I just use the [`RefManageR`](https://cran.r-project.org/web/packages/RefManageR/index.html) 
-package to read the bibtex file, and then cycles over publications to create 
+package to read the BibTeX file, and then cycles over publications to create 
 files properly formatted for `hugo-academic` use. 
 
 ###Running the script
@@ -209,17 +198,16 @@ out_fold   <- "/path/to/myoutfolder"
 
 bibtex_2academic(bibffile  = my_bibfile, 
                  outfold   = out_fold, 
-                 abstract  = TRUE, 
-                 overwrite = TRUE)
+                 abstract  = FALSE)
 
 ```
 
-* The `outfold` argument allows specifying where the generated `md`s will be saved. 
-Though in the end they will have to be moved to folder `content/publication` you 
-may want to save them in a different folder to be able to check them before trying
-to deploy them.
+* The `outfold` argument allows specifying where the generated `md` files will be
+saved. Though in the end they will have to be moved to folder `content/publication` you 
+may want to save them at first in a different folder to be able to check them 
+before trying to deploy.
 
-* The `abstract` argument specifies wheter to include the abstract in the `md` or 
+* The `abstract` argument specifies whether to include the abstract in the `md` or 
 not. 
 
 Running the script will give you files like this one: 
@@ -268,10 +256,18 @@ You can have a look at the final results on my (under construction) website [her
 
 ##Final Notes
 
-* My importing script is quite "quick and dirty". It does not attempt to deal 
+* My importing script is quite "quick and dirty". It __does not attempt to deal 
 with special characters, and even substitutes accented letters with "bare"
-letters to avoid rendering problems. If someone more knowledgeable about encoding
-issues want to try and improve it, I put it in this gist
+letters to avoid rendering problems__. If someone more knowledgeable about encoding
+issues wants to try and improve it, I put it in [this gist](https://gist.github.com/lbusett/da7b1fba4345e03192a450226a17636e)
+
+* It may happen that your site will stop rendering when you put the new `md` files
+in `content/publication`. If so, the reason is probably that you have some "strange"
+formatting in some of the files. Usual suspects would be unproperly recognized **accents**, 
+**math formulas** or other special characters in the **authors** and **abstract**
+fields. You will have to look into each file and remove any offending areas. 
+(It happened to me a lot before properly saving to UTF-8)
+
 
 
 

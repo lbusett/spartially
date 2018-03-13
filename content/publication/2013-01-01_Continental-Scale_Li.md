@@ -20,7 +20,7 @@ url_slides = ""
 url_video = ""
 url_poster = ""
 url_source = ""
-math = false
+math = true
 highlight = true
 [header]
 image = ""

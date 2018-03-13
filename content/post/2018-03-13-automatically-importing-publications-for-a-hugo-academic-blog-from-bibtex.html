@@ -1,8 +1,8 @@
 ---
-title: Automatically importing publications for a hugo-academic blog from bibtex
+title: Automatically importing publications from bibtex to a hugo-academic blog 
 author: Lorenzo Busetto
 date: '2018-03-13'
-slug: automatically-importing-publications-for-a-hugo-academic-blog-from-bibtex
+slug: automatically-importing-publications-from-bibtex-to-a-hugo-academic-blog
 categories:
   - R
   - blogdown
@@ -17,33 +17,36 @@ header:
 
 <div id="the-problem" class="section level2">
 <h2>The problem</h2>
-<p>Last week, I started migrating my (rather ugly) <a href="https://www.blogger.com/blogger.g?blogID=4683863749820351779#allposts">blog</a> from “Bloggers” to blogdown. As several others, I choose to use the <a href="https://github.com/gcushen/hugo-academic">hugo-academic theme</a>, due to its good look, simplicity, and “focus” towards researchers.</p>
-<p>One nice feature of “hugo-academic” is that it includes out-of-the-box a “Publications” section, allowing researchers to easily create a list of their publication as a section of the website. <strong>Unfortunately</strong>, in order to populate that list, users have to manually create one different <code>.md</code> file for each publication, by cutting and pasting several different info (e.g., title, authors, etc.) in a “simple”&quot; yaml template like <a href="https://github.com/gcushen/hugo-academic/blob/master/archetypes/publication.md">this one</a>.</p>
-<p><strong>This is boring!</strong> Since I was not in the mood of doing that, and no automatic solutions could be found (well, there appears to be a <code>python</code> one, but here we are speaking <code>R</code>), I decided to try and develop some script to automatically create the required <code>md</code>s starting from a <code>bibtex</code> list of my publications. Here are the results of that effort.</p>
+<p>I am in the process of migrating my (rather ugly) <a href="https://www.blogger.com/blogger.g?blogID=4683863749820351779#allposts">small blog</a> from “Bloggers” to blogdown and, as several others, I choose to use the <a href="https://github.com/gcushen/hugo-academic">hugo-academic theme</a> due to its good looks, simplicity, and “focus” towards researchers.</p>
+<p>One nice feature of <code>hugo-academic</code> is that it includes out-of-the-box a “Publications” section, allowing researchers to easily create a list of their publication as a section of the website.</p>
+<p><strong>Unfortunately</strong>, in order to populate that list, users have to manually create one different <code>.md</code> file for each publication, by cutting and pasting several different info (e.g., title, authors, etc.) in a “simple”&quot; template like <a href="https://github.com/gcushen/hugo-academic/blob/master/archetypes/publication.md">this one</a>.</p>
+<p><strong>THIS IS BORING!</strong></p>
+<p>Since I was not in the mood of doing that, and no automatic solutions could be found (well, there appears to be a <code>python</code> one, but we are speaking <code>R</code>, here…), I decided to try and develop some script to automatically create the required <code>md</code> files starting from a <code>BibTex</code> list of my publications. Here are the results of that effort.</p>
 </div>
-<div id="the-solution" class="section level2">
-<h2>The solution</h2>
-<div id="creating-the-bibtex-file" class="section level3">
-<h3>Creating the bibtex file</h3>
-<p>To automatically create the publications <code>md</code>s, all you need is a (properly formatted) <code>bibtex</code> file. Since I did not have one ready, I created mine by exporting from <a href="https://www.scopus.com/authid/detail.uri?authorId=23003461400">Scopus</a>, but you could use any valid bibtex file. <strong>One important thing is that you have to be sure that the file is saved with UTF-8 encoding</strong>. If you are not sure, you can open it in RStudio (or any decent text editor), and then re-save it with a forced encoding (in RStudio, you can use `File–&gt;Save with Encoding)</p>
+<div id="a-possible-sdolution" class="section level2">
+<h2>A possible sdolution</h2>
+<div id="preparing-the-bibtex-file" class="section level3">
+<h3>Preparing the <code>BibTex</code> file</h3>
+<p>To automatically create the publications <code>md</code> files, all you need is a (properly formatted) <code>BibTex</code> file. Since I did not have one ready, I created mine by exporting my publications list from <a href="https://www.scopus.com/authid/detail.uri?authorId=23003461400">Scopus</a>, but you could use any valid BibTeX file.</p>
+<p><strong>One important thing, though, is that you have to be sure that the file is saved with UTF-8 encoding</strong>. If you are not sure, you can open it in RStudio (or any decent text editor), and then re-save it with a forced encoding (in RStudio, you can use <code>File--&gt;Save with Encoding</code>)</p>
 </div>
 <div id="creating-an-import-script" class="section level3">
 <h3>Creating an import script</h3>
-<p>Now, you need a script that reads the <code>bibtex</code> entries and use the data to populate one different <code>md</code> file for each publication. Below you can find my attempt at this.</p>
+<p>Now, you need a script that reads the <code>BibTex</code> entries and use the data to populate one different <code>md</code> file for each publication. Below you can find my attempt at this.</p>
 <pre class="r"><code>bibtex_2academic &lt;- function(bibfile,
                              outfold,
-                             abstract = FALSE,
+                             abstract = FALSE, 
                              overwrite = FALSE) {
-
+  
   require(RefManageR)
   require(dplyr)
   require(stringr)
   require(anytime)
-
+  
   # Import the bibtex file and convert to data.frame
   mypubs   &lt;- ReadBib(bibfile, check = &quot;warn&quot;, .Encoding = &quot;UTF-8&quot;) %&gt;%
     as.data.frame()
-
+  
   # assign &quot;categories&quot; to the different types of publications
   mypubs   &lt;- mypubs %&gt;%
     dplyr::mutate(
@@ -62,57 +65,58 @@ header:
                                  document_type == &quot;InBook&quot; ~ &quot;6&quot;,
                                  document_type == &quot;Misc&quot; ~ &quot;0&quot;,
                                  TRUE ~ &quot;0&quot;))
-
+  
   # create a function which populates the md template based on the info
   # about a publication
   create_md &lt;- function(x) {
-
-    # define a date and create filename
+    
+    # define a date and create filename by appending date and start of title
     if (!is.na(x[[&quot;year&quot;]])) {
-        x[[&quot;date&quot;]] &lt;- paste0(x[[&quot;year&quot;]], &quot;-01-01&quot;)
+      x[[&quot;date&quot;]] &lt;- paste0(x[[&quot;year&quot;]], &quot;-01-01&quot;)
     } else {
       x[[&quot;date&quot;]] &lt;- &quot;2999-01-01&quot;
     }
+    
     filename &lt;- paste(x[[&quot;date&quot;]], x[[&quot;title&quot;]] %&gt;%
                         str_replace_all(fixed(&quot; &quot;), &quot;_&quot;) %&gt;%
                         str_remove_all(fixed(&quot;:&quot;)) %&gt;%
                         str_sub(1, 20) %&gt;%
                         paste0(&quot;.md&quot;), sep = &quot;_&quot;)
     # start writing
-    if (!file.exists(filename) | overwrite) {
+    if (!file.exists(file.path(outfold, filename)) | overwrite) {
       fileConn &lt;- file.path(outfold, filename)
       write(&quot;+++&quot;, fileConn)
-
+      
       # Title and date
       write(paste0(&quot;title = \&quot;&quot;, x[[&quot;title&quot;]], &quot;\&quot;&quot;), fileConn, append = T)
       write(paste0(&quot;date = \&quot;&quot;, anydate(x[[&quot;date&quot;]]), &quot;\&quot;&quot;), fileConn, append = T)
-
+      
       # Authors. Comma separated list, e.g. `[&quot;Bob Smith&quot;, &quot;David Jones&quot;]`.
       auth_hugo &lt;- str_replace_all(x[&quot;author&quot;], &quot; and &quot;, &quot;\&quot;, \&quot;&quot;)
       auth_hugo &lt;- stringi::stri_trans_general(auth_hugo, &quot;latin-ascii&quot;)
       write(paste0(&quot;authors = [\&quot;&quot;, auth_hugo,&quot;\&quot;]&quot;), fileConn, append = T)
-
-      # Publication type.
-      # Legend:
-      # 0 = Uncategorized
-      # 1 = Conference paper
-      # 2 = Journal article
-      # 3 = Manuscript
-      # 4 = Report
-      # 5 = Book
-      # 6 = Book section
-      write(paste0(&quot;publication_types = [\&quot;&quot;, x[[&quot;pubtype&quot;]],&quot;\&quot;]&quot;), fileConn, append = T)
-
+      
+      # Publication type. Legend:
+      # 0 = Uncategorized, 1 = Conference paper, 2 = Journal article
+      # 3 = Manuscript, 4 = Report, 5 = Book,  6 = Book section
+      write(paste0(&quot;publication_types = [\&quot;&quot;, x[[&quot;pubtype&quot;]],&quot;\&quot;]&quot;), 
+            fileConn, append = T)
+      
       # Publication details: journal, volume, issue, page numbers and doi link
       publication &lt;- x[[&quot;journal&quot;]]
-      if (!is.na(x[[&quot;volume&quot;]])) publication &lt;- paste0(publication, &quot;, (&quot;, x[[&quot;volume&quot;]], &quot;)&quot;)
-      if (!is.na(x[[&quot;number&quot;]])) publication &lt;- paste0(publication, &quot;, &quot;, x[[&quot;number&quot;]])
-      if (!is.na(x[[&quot;pages&quot;]])) publication &lt;- paste0(publication, &quot;, _pp. &quot;, x[[&quot;pages&quot;]], &quot;_&quot;)
-      if (!is.na(x[[&quot;doi&quot;]])) publication &lt;- paste0(publication, &quot;, &quot;, paste0(&quot;https://doi.org/&quot;, x[[&quot;doi&quot;]]))
-
+      if (!is.na(x[[&quot;volume&quot;]])) publication &lt;- paste0(publication, 
+                                                       &quot;, (&quot;, x[[&quot;volume&quot;]], &quot;)&quot;)
+      if (!is.na(x[[&quot;number&quot;]])) publication &lt;- paste0(publication,
+                                                       &quot;, &quot;, x[[&quot;number&quot;]])
+      if (!is.na(x[[&quot;pages&quot;]])) publication &lt;- paste0(publication,
+                                                      &quot;, _pp. &quot;, x[[&quot;pages&quot;]], &quot;_&quot;)
+      if (!is.na(x[[&quot;doi&quot;]])) publication &lt;- paste0(publication,
+                                                    &quot;, &quot;, paste0(&quot;https://doi.org/&quot;, 
+                                                                 x[[&quot;doi&quot;]]))
+      
       write(paste0(&quot;publication = \&quot;&quot;, publication,&quot;\&quot;&quot;), fileConn, append = T)
       write(paste0(&quot;publication_short = \&quot;&quot;, publication,&quot;\&quot;&quot;),fileConn, append = T)
-
+      
       # Abstract and optional shortened version.
       if (abstract) {
         write(paste0(&quot;abstract = \&quot;&quot;, x[[&quot;abstract&quot;]],&quot;\&quot;&quot;), fileConn, append = T)
@@ -120,21 +124,15 @@ header:
         write(&quot;abstract = \&quot;\&quot;&quot;, fileConn, append = T)
       }
       write(paste0(&quot;abstract_short = \&quot;&quot;,&quot;\&quot;&quot;), fileConn, append = T)
-
-      # Featured image thumbnail (optional) - keep empty can be customized later
-      # in the md
+      
+      # other possible fields are kept empty. They can be customized later by 
+      # editing the created md
+      
       write(&quot;image_preview = \&quot;\&quot;&quot;, fileConn, append = T)
-
-      # Is this a selected publication? (true/false) can be customized later
       write(&quot;selected = false&quot;, fileConn, append = T)
-
-      # Projects (optional). can be customized later
       write(&quot;projects = []&quot;, fileConn, append = T)
-
-      # Tags (optional). can be customized later
       write(&quot;tags = []&quot;, fileConn, append = T)
-
-      # Links (optional). can be customized later
+      #links
       write(&quot;url_pdf = \&quot;\&quot;&quot;, fileConn, append = T)
       write(&quot;url_preprint = \&quot;\&quot;&quot;, fileConn, append = T)
       write(&quot;url_code = \&quot;\&quot;&quot;, fileConn, append = T)
@@ -144,34 +142,23 @@ header:
       write(&quot;url_video = \&quot;\&quot;&quot;, fileConn, append = T)
       write(&quot;url_poster = \&quot;\&quot;&quot;, fileConn, append = T)
       write(&quot;url_source = \&quot;\&quot;&quot;, fileConn, append = T)
-
-      # Custom links (optional).
-      #   Uncomment line below to enable. For multiple links, use the form `[{...}, {...}, {...}]`.
-      # url_custom = [{name = &quot;Custom Link&quot;, url = &quot;http://example.org&quot;}]
-
-      # Does this page contain LaTeX math? (true/false)
-      write(&quot;math = false&quot;, fileConn, append = T)
-
-      # Does this page require source code highlighting? (true/false)
+      #other stuff
+      write(&quot;math = true&quot;, fileConn, append = T)
       write(&quot;highlight = true&quot;, fileConn, append = T)
-
       # Featured image
-      # Place your image in the `static/img/` folder and reference its filename
-      #  below, e.g. `image = &quot;example.jpg&quot;`.
       write(&quot;[header]&quot;, fileConn, append = T)
       write(&quot;image = \&quot;\&quot;&quot;, fileConn, append = T)
       write(&quot;caption = \&quot;\&quot;&quot;, fileConn, append = T)
-
+      
       write(&quot;+++&quot;, fileConn, append = T)
-
-      # close(fileConn)
     }
   }
   # apply the &quot;create_md&quot; function over the publications list to generate
   # the different &quot;md&quot; files.
+  
   apply(mypubs, FUN = function(x) create_md(x), MARGIN = 1)
 }</code></pre>
-<p>Nothing fancy, here: I just use the <a href="https://cran.r-project.org/web/packages/RefManageR/index.html"><code>RefManageR</code></a> package to read the bibtex file, and then cycles over publications to create files properly formatted for <code>hugo-academic</code> use.</p>
+<p>Nothing fancy, here: I just use the <a href="https://cran.r-project.org/web/packages/RefManageR/index.html"><code>RefManageR</code></a> package to read the BibTeX file, and then cycles over publications to create files properly formatted for <code>hugo-academic</code> use.</p>
 </div>
 <div id="running-the-script" class="section level3">
 <h3>Running the script</h3>
@@ -181,11 +168,10 @@ out_fold   &lt;- &quot;/path/to/myoutfolder&quot;
 
 bibtex_2academic(bibffile  = my_bibfile, 
                  outfold   = out_fold, 
-                 abstract  = TRUE, 
-                 overwrite = TRUE)</code></pre>
+                 abstract  = FALSE)</code></pre>
 <ul>
-<li><p>The <code>outfold</code> argument allows specifying where the generated <code>md</code>s will be saved. Though in the end they will have to be moved to folder <code>content/publication</code> you may want to save them in a different folder to be able to check them before trying to deploy them.</p></li>
-<li><p>The <code>abstract</code> argument specifies wheter to include the abstract in the <code>md</code> or not.</p></li>
+<li><p>The <code>outfold</code> argument allows specifying where the generated <code>md</code> files will be saved. Though in the end they will have to be moved to folder <code>content/publication</code> you may want to save them at first in a different folder to be able to check them before trying to deploy.</p></li>
+<li><p>The <code>abstract</code> argument specifies whether to include the abstract in the <code>md</code> or not.</p></li>
 </ul>
 <p>Running the script will give you files like this one:</p>
 <pre class="yml"><code>+++
@@ -227,6 +213,7 @@ caption = &quot;&quot;
 <div id="final-notes" class="section level2">
 <h2>Final Notes</h2>
 <ul>
-<li>My importing script is quite “quick and dirty”. It does not attempt to deal with special characters, and even substitutes accented letters with “bare” letters to avoid rendering problems. If someone more knowledgeable about encoding issues want to try and improve it, I put it in this gist</li>
+<li><p>My importing script is quite “quick and dirty”. It <strong>does not attempt to deal with special characters, and even substitutes accented letters with “bare” letters to avoid rendering problems</strong>. If someone more knowledgeable about encoding issues wants to try and improve it, I put it in <a href="https://gist.github.com/lbusett/da7b1fba4345e03192a450226a17636e">this gist</a></p></li>
+<li><p>It may happen that your site will stop rendering when you put the new <code>md</code> files in <code>content/publication</code>. If so, the reason is probably that you have some “strange” formatting in some of the files. Usual suspects would be unproperly recognized <strong>accents</strong>, <strong>math formulas</strong> or other special characters in the <strong>authors</strong> and <strong>abstract</strong> fields. You will have to look into each file and remove any offending areas. (It happened to me a lot before properly saving to UTF-8)</p></li>
 </ul>
 </div>

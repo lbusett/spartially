@@ -1,3 +1,7 @@
+#' @title bibtex_2academic
+#' @description import publications from a bibtex file to a hugo-academic website
+#' @author Lorenzo Busetto, phD (2017) <lbusett@gmail.com>
+
 bibtex_2academic <- function(bibfile,
                              outfold,
                              abstract = FALSE,
@@ -35,19 +39,20 @@ bibtex_2academic <- function(bibfile,
   # about a publication
   create_md <- function(x) {
 
-    # define a date and create filename
+    # define a date and create filename by appending date and start of title
     if (!is.na(x[["year"]])) {
-        x[["date"]] <- paste0(x[["year"]], "-01-01")
+      x[["date"]] <- paste0(x[["year"]], "-01-01")
     } else {
       x[["date"]] <- "2999-01-01"
     }
+
     filename <- paste(x[["date"]], x[["title"]] %>%
                         str_replace_all(fixed(" "), "_") %>%
                         str_remove_all(fixed(":")) %>%
                         str_sub(1, 20) %>%
                         paste0(".md"), sep = "_")
     # start writing
-    if (!file.exists(filename) | overwrite) {
+    if (!file.exists(file.path(outfold, filename)) | overwrite) {
       fileConn <- file.path(outfold, filename)
       write("+++", fileConn)
 
@@ -60,23 +65,23 @@ bibtex_2academic <- function(bibfile,
       auth_hugo <- stringi::stri_trans_general(auth_hugo, "latin-ascii")
       write(paste0("authors = [\"", auth_hugo,"\"]"), fileConn, append = T)
 
-      # Publication type.
-      # Legend:
-      # 0 = Uncategorized
-      # 1 = Conference paper
-      # 2 = Journal article
-      # 3 = Manuscript
-      # 4 = Report
-      # 5 = Book
-      # 6 = Book section
-      write(paste0("publication_types = [\"", x[["pubtype"]],"\"]"), fileConn, append = T)
+      # Publication type. Legend:
+      # 0 = Uncategorized, 1 = Conference paper, 2 = Journal article
+      # 3 = Manuscript, 4 = Report, 5 = Book,  6 = Book section
+      write(paste0("publication_types = [\"", x[["pubtype"]],"\"]"),
+            fileConn, append = T)
 
       # Publication details: journal, volume, issue, page numbers and doi link
       publication <- x[["journal"]]
-      if (!is.na(x[["volume"]])) publication <- paste0(publication, ", (", x[["volume"]], ")")
-      if (!is.na(x[["number"]])) publication <- paste0(publication, ", ", x[["number"]])
-      if (!is.na(x[["pages"]])) publication <- paste0(publication, ", _pp. ", x[["pages"]], "_")
-      if (!is.na(x[["doi"]])) publication <- paste0(publication, ", ", paste0("https://doi.org/", x[["doi"]]))
+      if (!is.na(x[["volume"]])) publication <- paste0(publication,
+                                                       ", (", x[["volume"]], ")")
+      if (!is.na(x[["number"]])) publication <- paste0(publication,
+                                                       ", ", x[["number"]])
+      if (!is.na(x[["pages"]])) publication <- paste0(publication,
+                                                      ", _pp. ", x[["pages"]], "_")
+      if (!is.na(x[["doi"]])) publication <- paste0(publication,
+                                                    ", ", paste0("https://doi.org/",
+                                                                 x[["doi"]]))
 
       write(paste0("publication = \"", publication,"\""), fileConn, append = T)
       write(paste0("publication_short = \"", publication,"\""),fileConn, append = T)
@@ -89,20 +94,14 @@ bibtex_2academic <- function(bibfile,
       }
       write(paste0("abstract_short = \"","\""), fileConn, append = T)
 
-      # Featured image thumbnail (optional) - keep empty can be customized later
-      # in the md
+      # other possible fields are kept empty. They can be customized later by
+      # editing the created md
+
       write("image_preview = \"\"", fileConn, append = T)
-
-      # Is this a selected publication? (true/false) can be customized later
       write("selected = false", fileConn, append = T)
-
-      # Projects (optional). can be customized later
       write("projects = []", fileConn, append = T)
-
-      # Tags (optional). can be customized later
       write("tags = []", fileConn, append = T)
-
-      # Links (optional). can be customized later
+      #links
       write("url_pdf = \"\"", fileConn, append = T)
       write("url_preprint = \"\"", fileConn, append = T)
       write("url_code = \"\"", fileConn, append = T)
@@ -112,31 +111,19 @@ bibtex_2academic <- function(bibfile,
       write("url_video = \"\"", fileConn, append = T)
       write("url_poster = \"\"", fileConn, append = T)
       write("url_source = \"\"", fileConn, append = T)
-
-      # Custom links (optional).
-      #   Uncomment line below to enable. For multiple links, use the form `[{...}, {...}, {...}]`.
-      # url_custom = [{name = "Custom Link", url = "http://example.org"}]
-
-      # Does this page contain LaTeX math? (true/false)
-      write("math = false", fileConn, append = T)
-
-      # Does this page require source code highlighting? (true/false)
+      #other stuff
+      write("math = true", fileConn, append = T)
       write("highlight = true", fileConn, append = T)
-
       # Featured image
-      # Place your image in the `static/img/` folder and reference its filename
-      #  below, e.g. `image = "example.jpg"`.
       write("[header]", fileConn, append = T)
       write("image = \"\"", fileConn, append = T)
       write("caption = \"\"", fileConn, append = T)
 
       write("+++", fileConn, append = T)
-
-      # close(fileConn)
     }
   }
-
   # apply the "create_md" function over the publications list to generate
   # the different "md" files.
+
   apply(mypubs, FUN = function(x) create_md(x), MARGIN = 1)
 }
