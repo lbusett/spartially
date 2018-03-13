@@ -234,7 +234,7 @@ noticeable.
 In terms of execution time, extrapolating again to the “infamous” 12 Million
 points dataset, this would be what we get:
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 tbl <- tibble::tribble(
   ~Method, ~Maxdist, ~`Expected completion time (hours)`,
   "st_intersect",                 500,   15.00,

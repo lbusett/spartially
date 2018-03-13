@@ -245,16 +245,16 @@ int &amp;lt;- sf::st_intersects(pts_buf, pts)
 int&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Sparse geometry binary predicate list of length 50000, where the predicate was `intersects&amp;#39;
 ## first 10 elements:
-##  1: 1, 30982, 31310, 38254
-##  2: 2, 32617, 48466
-##  3: 3, 4635, 6127, 17264, 20669, 22752, 25417, 48220
-##  4: 4, 29002, 41667
-##  5: 5, 16783, 30014, 40066
-##  6: 6, 20293, 28081, 28336, 29702, 33054, 43746
-##  7: 7, 24663, 26271
-##  8: 8, 406, 1703, 12046, 12167, 40873, 40985, 42006
-##  9: 9, 8461, 19264, 27454, 27624
-##  10: 10, 856, 5909, 8191, 11587, 22690, 36028, 42120&lt;/code&gt;&lt;/pre&gt;
+##  1: 1, 22750, 35887
+##  2: 2, 1505, 3384, 34615, 48676
+##  3: 3, 24153, 45576
+##  4: 4, 3281, 4672, 19138, 20674, 29056, 45773
+##  5: 5, 26358
+##  6: 6, 17614, 25597, 35275, 36183
+##  7: 7, 29705, 48122
+##  8: 8, 9938, 18302, 22494, 29677, 39839, 48297
+##  9: 9, 46436
+##  10: 10, 2494, 9050, 15550, 20773, 43133, 44612&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;However, this starts to have problems over really large datasets, because the total number of comparisons to be done still rapidly increase besides the use of spatial indexes. A test done by changing the number of points in the above example in the range 25000 - 475000 shows for example this kind of behavior, for two different values of maxdist (500 and 2000 m):&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
 &lt;img src=&#34;/img/speeding_up/Rplot01.png&#34; /&gt;
@@ -363,12 +363,12 @@ maxdist &amp;lt;- 2000
 out &amp;lt;- points_in_distance(pts, maxdist = maxdist, ncut = 10)
 head(out)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##       id                              int_ids
-## 1:  9007  9007, 9146,11733, 2769,19030, 4150,
-## 2:  9146  9007, 9146, 2769,19030, 4150,10882,
-## 3: 16748 16748,11733,  373, 9989, 1938,15034,
-## 4: 12679 12679, 7246,17503,16179, 8807, 8197,
-## 5: 11733  9007,16748,11733, 2769, 9989, 1475,
-## 6:  7246 12679, 7246,19030,17503, 5848,19599,&lt;/code&gt;&lt;/pre&gt;
+## 1: 16960 16960,11590, 6029,19744,12065,10873,
+## 2: 11590 16960,11590, 6029,19744,16904, 8361,
+## 3:  3757  3757,16305, 2870,17562,16904, 2966,
+## 4:  5863  5863,16716,11949, 5398,16540,13287,
+## 5:  6029 16960,11590, 6029,19744,12065,10873,
+## 6: 19744 16960,11590, 6029,19744,12065,10873,&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# get a random point
 sel_id  &amp;lt;- sample(pts$id,1)
 pt_sel  &amp;lt;- pts[sel_id, ]
@@ -403,22 +403,6 @@ plot&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;p&gt;Looking good! Some more skilled programmer could probably squeeze out even more speed from it by some additional data.table magic, but the improvement is very noticeable.&lt;/p&gt;
 &lt;p&gt;In terms of execution time, extrapolating again to the “infamous” 12 Million points dataset, this would be what we get:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tbl &amp;lt;- tibble::tribble(
-  ~Method, ~Maxdist, ~`Expected completion time (hours)`,
-  &amp;quot;st_intersect&amp;quot;,                 500,   15.00,
-  &amp;quot;points_in_distance - serial&amp;quot;,  500,    2.50,
-  &amp;quot;points_in_distance - parallel&amp;quot;, 500,   0.57,
-  &amp;quot;st_intersect&amp;quot;,                 2000,  85.00,
-  &amp;quot;points_in_distance - serial&amp;quot;,  2000,  15.20,
-  &amp;quot;points_in_distance - parallel&amp;quot;, 2000,  3.18
-)
-
-tbl %&amp;gt;% 
-  mutate(`Expected completion time (hours)` = 
-           ifelse(`Expected completion time (hours)` == 85.00,
-                  cell_spec(`Expected completion time (hours)`, &amp;quot;html&amp;quot;, color = &amp;quot;red&amp;quot;, bold = T), 
-                  cell_spec(`Expected completion time (hours)`, &amp;quot;html&amp;quot;,  bold = F))) %&amp;gt;% 
-   kable(&amp;quot;html&amp;quot;, escape = F) &lt;/code&gt;&lt;/pre&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
