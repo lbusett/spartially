@@ -11,6 +11,521 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Automatically importing publications for a hugo-academic blog from bibtex</title>
+      <link>/post/automatically-importing-publications-for-a-hugo-academic-blog-from-bibtex/</link>
+      <pubDate>Tue, 13 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/automatically-importing-publications-for-a-hugo-academic-blog-from-bibtex/</guid>
+      <description>&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The problem&lt;/h2&gt;
+&lt;p&gt;Last week, I started migrating my (rather ugly) &lt;a href=&#34;https://www.blogger.com/blogger.g?blogID=4683863749820351779#allposts&#34;&gt;blog&lt;/a&gt; from “Bloggers” to blogdown. As several others, I choose to use the &lt;a href=&#34;https://github.com/gcushen/hugo-academic&#34;&gt;hugo-academic theme&lt;/a&gt;, due to its good look, simplicity, and “focus” towards researchers.&lt;/p&gt;
+&lt;p&gt;One nice feature of “hugo-academic” is that it includes out-of-the-box a “Publications” section, allowing researchers to easily create a list of their publication as a section of the website. &lt;strong&gt;Unfortunately&lt;/strong&gt;, in order to populate that list, users have to manually create one different &lt;code&gt;.md&lt;/code&gt; file for each publication, by cutting and pasting several different info (e.g., title, authors, etc.) in a “simple”&amp;quot; yaml template like &lt;a href=&#34;https://github.com/gcushen/hugo-academic/blob/master/archetypes/publication.md&#34;&gt;this one&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;This is boring!&lt;/strong&gt; Since I was not in the mood of doing that, and no automatic solutions could be found (well, there appears to be a &lt;code&gt;python&lt;/code&gt; one, but here we are speaking &lt;code&gt;R&lt;/code&gt;), I decided to try and develop some script to automatically create the required &lt;code&gt;md&lt;/code&gt;s starting from a &lt;code&gt;bibtex&lt;/code&gt; list of my publications. Here are the results of that effort.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;the-solution&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The solution&lt;/h2&gt;
+&lt;div id=&#34;creating-the-bibtex-file&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Creating the bibtex file&lt;/h3&gt;
+&lt;p&gt;To automatically create the publications &lt;code&gt;md&lt;/code&gt;s, all you need is a (properly formatted) &lt;code&gt;bibtex&lt;/code&gt; file. Since I did not have one ready, I created mine by exporting from &lt;a href=&#34;https://www.scopus.com/authid/detail.uri?authorId=23003461400&#34;&gt;Scopus&lt;/a&gt;, but you could use any valid bibtex file. &lt;strong&gt;One important thing is that you have to be sure that the file is saved with UTF-8 encoding&lt;/strong&gt;. If you are not sure, you can open it in RStudio (or any decent text editor), and then re-save it with a forced encoding (in RStudio, you can use `File–&amp;gt;Save with Encoding)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;creating-an-import-script&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Creating an import script&lt;/h3&gt;
+&lt;p&gt;Now, you need a script that reads the &lt;code&gt;bibtex&lt;/code&gt; entries and use the data to populate one different &lt;code&gt;md&lt;/code&gt; file for each publication. Below you can find my attempt at this.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bibtex_2academic &amp;lt;- function(bibfile,
+                             outfold,
+                             abstract = FALSE,
+                             overwrite = FALSE) {
+
+  require(RefManageR)
+  require(dplyr)
+  require(stringr)
+  require(anytime)
+
+  # Import the bibtex file and convert to data.frame
+  mypubs   &amp;lt;- ReadBib(bibfile, check = &amp;quot;warn&amp;quot;, .Encoding = &amp;quot;UTF-8&amp;quot;) %&amp;gt;%
+    as.data.frame()
+
+  # assign &amp;quot;categories&amp;quot; to the different types of publications
+  mypubs   &amp;lt;- mypubs %&amp;gt;%
+    dplyr::mutate(
+      pubtype = dplyr::case_when(document_type == &amp;quot;Article&amp;quot; ~ &amp;quot;2&amp;quot;,
+                                 document_type == &amp;quot;Article in Press&amp;quot; ~ &amp;quot;2&amp;quot;,
+                                 document_type == &amp;quot;InProceedings&amp;quot; ~ &amp;quot;1&amp;quot;,
+                                 document_type == &amp;quot;Proceedings&amp;quot; ~ &amp;quot;1&amp;quot;,
+                                 document_type == &amp;quot;Conference&amp;quot; ~ &amp;quot;1&amp;quot;,
+                                 document_type == &amp;quot;Conference Paper&amp;quot; ~ &amp;quot;1&amp;quot;,
+                                 document_type == &amp;quot;MastersThesis&amp;quot; ~ &amp;quot;3&amp;quot;,
+                                 document_type == &amp;quot;PhdThesis&amp;quot; ~ &amp;quot;3&amp;quot;,
+                                 document_type == &amp;quot;Manual&amp;quot; ~ &amp;quot;4&amp;quot;,
+                                 document_type == &amp;quot;TechReport&amp;quot; ~ &amp;quot;4&amp;quot;,
+                                 document_type == &amp;quot;Book&amp;quot; ~ &amp;quot;5&amp;quot;,
+                                 document_type == &amp;quot;InCollection&amp;quot; ~ &amp;quot;6&amp;quot;,
+                                 document_type == &amp;quot;InBook&amp;quot; ~ &amp;quot;6&amp;quot;,
+                                 document_type == &amp;quot;Misc&amp;quot; ~ &amp;quot;0&amp;quot;,
+                                 TRUE ~ &amp;quot;0&amp;quot;))
+
+  # create a function which populates the md template based on the info
+  # about a publication
+  create_md &amp;lt;- function(x) {
+
+    # define a date and create filename
+    if (!is.na(x[[&amp;quot;year&amp;quot;]])) {
+        x[[&amp;quot;date&amp;quot;]] &amp;lt;- paste0(x[[&amp;quot;year&amp;quot;]], &amp;quot;-01-01&amp;quot;)
+    } else {
+      x[[&amp;quot;date&amp;quot;]] &amp;lt;- &amp;quot;2999-01-01&amp;quot;
+    }
+    filename &amp;lt;- paste(x[[&amp;quot;date&amp;quot;]], x[[&amp;quot;title&amp;quot;]] %&amp;gt;%
+                        str_replace_all(fixed(&amp;quot; &amp;quot;), &amp;quot;_&amp;quot;) %&amp;gt;%
+                        str_remove_all(fixed(&amp;quot;:&amp;quot;)) %&amp;gt;%
+                        str_sub(1, 20) %&amp;gt;%
+                        paste0(&amp;quot;.md&amp;quot;), sep = &amp;quot;_&amp;quot;)
+    # start writing
+    if (!file.exists(filename) | overwrite) {
+      fileConn &amp;lt;- file.path(outfold, filename)
+      write(&amp;quot;+++&amp;quot;, fileConn)
+
+      # Title and date
+      write(paste0(&amp;quot;title = \&amp;quot;&amp;quot;, x[[&amp;quot;title&amp;quot;]], &amp;quot;\&amp;quot;&amp;quot;), fileConn, append = T)
+      write(paste0(&amp;quot;date = \&amp;quot;&amp;quot;, anydate(x[[&amp;quot;date&amp;quot;]]), &amp;quot;\&amp;quot;&amp;quot;), fileConn, append = T)
+
+      # Authors. Comma separated list, e.g. `[&amp;quot;Bob Smith&amp;quot;, &amp;quot;David Jones&amp;quot;]`.
+      auth_hugo &amp;lt;- str_replace_all(x[&amp;quot;author&amp;quot;], &amp;quot; and &amp;quot;, &amp;quot;\&amp;quot;, \&amp;quot;&amp;quot;)
+      auth_hugo &amp;lt;- stringi::stri_trans_general(auth_hugo, &amp;quot;latin-ascii&amp;quot;)
+      write(paste0(&amp;quot;authors = [\&amp;quot;&amp;quot;, auth_hugo,&amp;quot;\&amp;quot;]&amp;quot;), fileConn, append = T)
+
+      # Publication type.
+      # Legend:
+      # 0 = Uncategorized
+      # 1 = Conference paper
+      # 2 = Journal article
+      # 3 = Manuscript
+      # 4 = Report
+      # 5 = Book
+      # 6 = Book section
+      write(paste0(&amp;quot;publication_types = [\&amp;quot;&amp;quot;, x[[&amp;quot;pubtype&amp;quot;]],&amp;quot;\&amp;quot;]&amp;quot;), fileConn, append = T)
+
+      # Publication details: journal, volume, issue, page numbers and doi link
+      publication &amp;lt;- x[[&amp;quot;journal&amp;quot;]]
+      if (!is.na(x[[&amp;quot;volume&amp;quot;]])) publication &amp;lt;- paste0(publication, &amp;quot;, (&amp;quot;, x[[&amp;quot;volume&amp;quot;]], &amp;quot;)&amp;quot;)
+      if (!is.na(x[[&amp;quot;number&amp;quot;]])) publication &amp;lt;- paste0(publication, &amp;quot;, &amp;quot;, x[[&amp;quot;number&amp;quot;]])
+      if (!is.na(x[[&amp;quot;pages&amp;quot;]])) publication &amp;lt;- paste0(publication, &amp;quot;, _pp. &amp;quot;, x[[&amp;quot;pages&amp;quot;]], &amp;quot;_&amp;quot;)
+      if (!is.na(x[[&amp;quot;doi&amp;quot;]])) publication &amp;lt;- paste0(publication, &amp;quot;, &amp;quot;, paste0(&amp;quot;https://doi.org/&amp;quot;, x[[&amp;quot;doi&amp;quot;]]))
+
+      write(paste0(&amp;quot;publication = \&amp;quot;&amp;quot;, publication,&amp;quot;\&amp;quot;&amp;quot;), fileConn, append = T)
+      write(paste0(&amp;quot;publication_short = \&amp;quot;&amp;quot;, publication,&amp;quot;\&amp;quot;&amp;quot;),fileConn, append = T)
+
+      # Abstract and optional shortened version.
+      if (abstract) {
+        write(paste0(&amp;quot;abstract = \&amp;quot;&amp;quot;, x[[&amp;quot;abstract&amp;quot;]],&amp;quot;\&amp;quot;&amp;quot;), fileConn, append = T)
+      } else {
+        write(&amp;quot;abstract = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      }
+      write(paste0(&amp;quot;abstract_short = \&amp;quot;&amp;quot;,&amp;quot;\&amp;quot;&amp;quot;), fileConn, append = T)
+
+      # Featured image thumbnail (optional) - keep empty can be customized later
+      # in the md
+      write(&amp;quot;image_preview = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+
+      # Is this a selected publication? (true/false) can be customized later
+      write(&amp;quot;selected = false&amp;quot;, fileConn, append = T)
+
+      # Projects (optional). can be customized later
+      write(&amp;quot;projects = []&amp;quot;, fileConn, append = T)
+
+      # Tags (optional). can be customized later
+      write(&amp;quot;tags = []&amp;quot;, fileConn, append = T)
+
+      # Links (optional). can be customized later
+      write(&amp;quot;url_pdf = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_preprint = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_code = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_dataset = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_project = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_slides = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_video = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_poster = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_source = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+
+      # Custom links (optional).
+      #   Uncomment line below to enable. For multiple links, use the form `[{...}, {...}, {...}]`.
+      # url_custom = [{name = &amp;quot;Custom Link&amp;quot;, url = &amp;quot;http://example.org&amp;quot;}]
+
+      # Does this page contain LaTeX math? (true/false)
+      write(&amp;quot;math = false&amp;quot;, fileConn, append = T)
+
+      # Does this page require source code highlighting? (true/false)
+      write(&amp;quot;highlight = true&amp;quot;, fileConn, append = T)
+
+      # Featured image
+      # Place your image in the `static/img/` folder and reference its filename
+      #  below, e.g. `image = &amp;quot;example.jpg&amp;quot;`.
+      write(&amp;quot;[header]&amp;quot;, fileConn, append = T)
+      write(&amp;quot;image = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;caption = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+
+      write(&amp;quot;+++&amp;quot;, fileConn, append = T)
+
+      # close(fileConn)
+    }
+  }
+  # apply the &amp;quot;create_md&amp;quot; function over the publications list to generate
+  # the different &amp;quot;md&amp;quot; files.
+  apply(mypubs, FUN = function(x) create_md(x), MARGIN = 1)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Nothing fancy, here: I just use the &lt;a href=&#34;https://cran.r-project.org/web/packages/RefManageR/index.html&#34;&gt;&lt;code&gt;RefManageR&lt;/code&gt;&lt;/a&gt; package to read the bibtex file, and then cycles over publications to create files properly formatted for &lt;code&gt;hugo-academic&lt;/code&gt; use.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;running-the-script&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Running the script&lt;/h3&gt;
+&lt;p&gt;All is left is to run the script:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_bibfile &amp;lt;- &amp;quot;/path/to/mybibtex.bib&amp;quot;
+out_fold   &amp;lt;- &amp;quot;/path/to/myoutfolder&amp;quot;
+
+bibtex_2academic(bibffile  = my_bibfile, 
+                 outfold   = out_fold, 
+                 abstract  = TRUE, 
+                 overwrite = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The &lt;code&gt;outfold&lt;/code&gt; argument allows specifying where the generated &lt;code&gt;md&lt;/code&gt;s will be saved. Though in the end they will have to be moved to folder &lt;code&gt;content/publication&lt;/code&gt; you may want to save them in a different folder to be able to check them before trying to deploy them.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The &lt;code&gt;abstract&lt;/code&gt; argument specifies wheter to include the abstract in the &lt;code&gt;md&lt;/code&gt; or not.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Running the script will give you files like this one:&lt;/p&gt;
+&lt;pre class=&#34;yml&#34;&gt;&lt;code&gt;+++
+title = &amp;quot;Estimating canopy water content of poplar plantation from MIVIS data&amp;quot;
+date = &amp;quot;2006-01-01&amp;quot;
+authors = [&amp;quot;R. Colombo&amp;quot;, &amp;quot;L. Busetto&amp;quot;, &amp;quot;A. Marchesi&amp;quot;, &amp;quot;M. Meroni&amp;quot;, &amp;quot;C. Giardino&amp;quot;]
+publication_types = [&amp;quot;1&amp;quot;]
+publication = &amp;quot;AIP Conference Proceedings, (852), _pp. 242-249_, https://doi.org/10.1063/1.2349350&amp;quot;
+publication_short = &amp;quot;&amp;quot;
+abstract_short = &amp;quot;&amp;quot;
+image_preview = &amp;quot;&amp;quot;
+selected = false
+projects = []
+tags = []
+url_pdf = &amp;quot;&amp;quot;
+url_preprint = &amp;quot;&amp;quot;
+url_code = &amp;quot;&amp;quot;
+url_dataset = &amp;quot;&amp;quot;
+url_project = &amp;quot;&amp;quot;
+url_slides = &amp;quot;&amp;quot;
+url_video = &amp;quot;&amp;quot;
+url_poster = &amp;quot;&amp;quot;
+url_source = &amp;quot;&amp;quot;
+math = false
+highlight = true
+[header]
+image = &amp;quot;&amp;quot;
+caption = &amp;quot;&amp;quot;
++++&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;, where I tweaked a bit the hugo-academic format to include bibliographic info such as volume, number, pages and doi link. The files can then be further customized to include, for example, links to pdfs, images, etcetera.&lt;/p&gt;
+&lt;p&gt;After moving all the &lt;code&gt;md&lt;/code&gt; files to &lt;code&gt;content/publication&lt;/code&gt;, the publications section of your &lt;code&gt;hugo-academic&lt;/code&gt; site will be auto-populated, and should look more or less like this:&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/publications/publications.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;You can have a look at the final results on my (under construction) website &lt;a href=&#34;https://lbusett.netlify.com/publication/&#34;&gt;here&lt;/a&gt;. I think it’s quite nice!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;final-notes&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Final Notes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;My importing script is quite “quick and dirty”. It does not attempt to deal with special characters, and even substitutes accented letters with “bare” letters to avoid rendering problems. If someone more knowledgeable about encoding issues want to try and improve it, I put it in this gist&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Speeding up spatial analyses by integrating `sf` and `data.table`: a test case</title>
+      <link>/post/speeding-up-spatial-analyses-by-integrating-sf-and-data-table-a-test-case/</link>
+      <pubDate>Tue, 20 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/speeding-up-spatial-analyses-by-integrating-sf-and-data-table-a-test-case/</guid>
+      <description>&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The problem&lt;/h2&gt;
+&lt;p&gt;Last week, I replied to &lt;a href=&#34;https://stackoverflow.com/questions/48650274/spatial-efficient-way-of-finding-all-points-within-x-meters-of-a-point&#34;&gt;this interesting question&lt;/a&gt; posted by &lt;span class=&#34;citation&#34;&gt;@Tim_K&lt;/span&gt; over stackoverflow. He was seeking efficient solutions to identify all points falling within a maximum distance of xx meters with respect to each single point in a spatial points dataset.&lt;/p&gt;
+&lt;p&gt;If you have a look at the thread, you will see that a simple solution based on creating a “buffered” polygon dataset beforehand and then intersecting it with the original points is quite fast for “reasonably sized” datasets, thanks to sf spatial indexing capabilities which reduce the number of the required comparisons to be done (See &lt;a href=&#34;http://r-spatial.org/r/2017/06/22/spatial-index.html&#34; class=&#34;uri&#34;&gt;http://r-spatial.org/r/2017/06/22/spatial-index.html&lt;/a&gt;). In practice, something like this:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# create test data: 50000 uniformly distributed points on a &amp;quot;square&amp;quot; of 100000
+# metres
+maxdist &amp;lt;- 500
+pts     &amp;lt;- data.frame(x = runif(50000, 0, 100000),
+                      y = runif(50000, 0, 100000),
+                      id = 1:50000) %&amp;gt;%
+  sf::st_as_sf(coords = c(&amp;quot;x&amp;quot;, &amp;quot;y&amp;quot;))
+# create buffered polygons
+pts_buf &amp;lt;- sf::st_buffer(pts, maxdist)
+# Find points within 500 meters wrt each point
+int &amp;lt;- sf::st_intersects(pts_buf, pts)
+int&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Sparse geometry binary predicate list of length 50000, where the predicate was `intersects&amp;#39;
+## first 10 elements:
+##  1: 1, 20011, 23322, 29497, 31000, 49451
+##  2: 2, 1870, 12498, 18599, 37109, 47597
+##  3: 3, 20954
+##  4: 4, 29042, 30336, 39918, 46479
+##  5: 5, 5905, 21216
+##  6: 6, 6295, 11865, 39913, 42388
+##  7: 7, 2026, 9213, 14083, 34069, 37994, 47075
+##  8: 8, 22165, 28236, 34290, 39080
+##  9: 9, 1132, 27640, 41921
+##  10: 10, 832, 10240, 14194, 18746, 24742, 28791, 30401, 42308&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;However, this starts to have problems over really large datasets, because the total number of comparisons to be done still rapidly increase besides the use of spatial indexes. A test done by changing the number of points in the above example in the range 25000 - 475000 shows for example this kind of behavior, for two different values of maxdist (500 and 2000 m):&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/speeding_up/Rplot01.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;On the test dataset, the relationships are almost perfectly quadratic (due to the uniform distribution of points). Extrapolating them to the 12 Million points dataset of the OP, we would get an execution time of about 14 hours for maxdist = 500, and a staggering 3.5 days formaxdist = 2000. Still doable, but not ideal…&lt;/p&gt;
+&lt;p&gt;My suggestion to the OP was therefore to “split” the points in chunks based on the x-coordinate and then work on a per-split basis, eventually assigning each chunk to a different core within a parallellized cycle.&lt;/p&gt;
+&lt;p&gt;In the end, I got curious and decided to give it a go to see what kind of performance improvement it was possible to obtain with that kind of approach. You can find results of some tests below.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-possible-solution-speeding-up-computation-by-combining-data.table-and-sf_intersect&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;A (possible) solution: Speeding up computation by combining &lt;code&gt;data.table&lt;/code&gt; and &lt;code&gt;sf_intersect&lt;/code&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;br&gt; The idea here is to use a simple divide-and-conquer approach.&lt;/p&gt;
+&lt;p&gt;We first split the total spatial extent of the dataset in a certain number of regular quadrants. We then iterate over the quadrants and for each one we:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Extract the points contained into the quadrant and apply a buffer to them;&lt;/li&gt;
+&lt;li&gt;Extract the points contained in a slightly larger area, computed by expanding the quadrant by an amount equal to the maximum distance for which we want to identify the “neighbors”;&lt;/li&gt;
+&lt;li&gt;Compute and save the intersection between the buffered points and the points contained in the “expanded” quadrant.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;“Graphically”, this translates to exploring the dataset like this:&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/speeding_up/animation2.gif&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;, where the points included in the current “quadrant” are shown in green and the additional points needed to perform the analysis for that quadrant are shown in red.&lt;/p&gt;
+&lt;p&gt;Provided that the subsetting operations do not introduce an excessive overhead (i.e., they are fast enough…) this should provide a performance boost, because it should consistently reduce the total number of comparisons to be done.&lt;/p&gt;
+&lt;p&gt;Now, every “R” expert will tell you that if you need to perform fast subsetting over large datasets the way to go is to use properly indexeddata.tables, which provide lightning-speed subsetting capabilities.&lt;/p&gt;
+&lt;p&gt;So, let’s see how we could code this in a functions:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;points_in_distance &amp;lt;- function(in_pts,
+                               maxdist,
+                               ncuts = 10) {
+
+  require(data.table)
+  require(sf)
+  # convert points to data.table and create a unique identifier
+  pts &amp;lt;-  data.table(in_pts)
+  pts &amp;lt;- pts[, or_id := 1:dim(in_pts)[1]]
+
+  # divide the extent in quadrants in ncuts*ncuts quadrants and assign each
+  # point to a quadrant, then create the index over &amp;quot;x&amp;quot; to speed-up
+  # the subsetting
+  range_x  &amp;lt;- range(pts$x)
+  limits_x &amp;lt;-(range_x[1] + (0:ncuts)*(range_x[2] - range_x[1])/ncuts)
+  range_y  &amp;lt;- range(pts$y)
+  limits_y &amp;lt;- range_y[1] + (0:ncuts)*(range_y[2] - range_y[1])/ncuts
+  pts[, `:=`(xcut =  as.integer(cut(x, ncuts, labels = 1:ncuts)),
+             ycut = as.integer(cut(y, ncuts, labels = 1:ncuts)))]  %&amp;gt;%
+    setkey(x)
+
+  results &amp;lt;- list()
+  count &amp;lt;- 0
+  # start cycling over quadrants
+  for (cutx in seq_len(ncuts)) {
+
+    # get the points included in a x-slice extended by `maxdist`, and build
+    # an index over y to speed-up subsetting in the inner cycle
+    min_x_comp    &amp;lt;- ifelse(cutx == 1,
+                            limits_x[cutx],
+                            (limits_x[cutx] - maxdist))
+    max_x_comp    &amp;lt;- ifelse(cutx == ncuts,
+                            limits_x[cutx + 1],
+                            (limits_x[cutx + 1] + maxdist))
+    subpts_x &amp;lt;- pts[x &amp;gt;= min_x_comp &amp;amp; x &amp;lt; max_x_comp] %&amp;gt;%
+      setkey(y)
+
+    for (cuty in seq_len(ncuts)) {
+      count &amp;lt;- count + 1
+
+      # subset over subpts_x to find the final set of points needed for the
+      # comparisons
+      min_y_comp  &amp;lt;- ifelse(cuty == 1,
+                            limits_y[cuty],
+                            (limits_y[cuty] - maxdist))
+      max_y_comp  &amp;lt;- ifelse(cuty == ncuts,
+                            limits_y[cuty + 1],
+                            (limits_y[cuty + 1] + maxdist))
+      subpts_comp &amp;lt;- subpts_x[y &amp;gt;= min_y_comp &amp;amp; y &amp;lt; max_y_comp]
+
+      # subset over subpts_comp to get the points included in a x/y chunk,
+      # which &amp;quot;neighbours&amp;quot; we want to find. Then buffer them by maxdist.
+      subpts_buf &amp;lt;- subpts_comp[ycut == cuty &amp;amp; xcut == cutx] %&amp;gt;%
+        sf::st_as_sf() %&amp;gt;% 
+        sf::st_buffer(maxdist)
+
+      # retransform to sf since data.tables lost the geometric attrributes
+      subpts_comp &amp;lt;- sf::st_as_sf(subpts_comp)
+
+      # compute the intersection and save results in a element of &amp;quot;results&amp;quot;.
+      # For each point, save its &amp;quot;or_id&amp;quot; and the &amp;quot;or_ids&amp;quot; of the points within &amp;quot;dist&amp;quot;
+      inters &amp;lt;- sf::st_intersects(subpts_buf, subpts_comp)
+
+      # save results
+      results[[count]] &amp;lt;- data.table(
+        id = subpts_buf$or_id,
+        int_ids = lapply(inters, FUN = function(x) subpts_comp$or_id[x]))
+    }
+  }
+  data.table::rbindlist(results)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The function takes as input a points sf object, a target distance and a number of “cuts” to use to divide the extent in quadrants, and provides in output a data frame in which, for each original point, the “ids” of the points within maxdist are reported in the int_ids list column.&lt;/p&gt;
+&lt;p&gt;Now, let’s see if this works:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pts &amp;lt;- data.frame(x = runif(20000, 0, 100000),
+                  y = runif(20000, 0, 100000),
+                  id = 1:20000) %&amp;gt;%
+  st_as_sf(coords = c(&amp;quot;x&amp;quot;, &amp;quot;y&amp;quot;), remove = FALSE)
+maxdist &amp;lt;- 2000
+out &amp;lt;- points_in_distance(pts, maxdist = maxdist, ncut = 10)
+head(out)
+
+# get a random point
+sel_id  &amp;lt;- sample(pts$id,1)
+pt_sel  &amp;lt;- pts[sel_id, ]
+pt_buff &amp;lt;- pt_sel %&amp;gt;%  sf::st_buffer(maxdist)
+# get ids of points within maxdist
+id_inters &amp;lt;- unlist(out[id == sel_id, ]$int_ids)
+pt_inters &amp;lt;- pts[id_inters,]
+
+#plot results
+ggplot(pt_buff)  + theme_light() +
+  geom_point(data = pts, aes(x = x, y = y), size = 1) +
+  geom_sf(col = &amp;quot;blue&amp;quot;, size = 1.2, fill = &amp;quot;transparent&amp;quot;) +
+  geom_sf(data = pt_inters, col = &amp;quot;red&amp;quot;, size = 1.5) +
+  geom_point(data = pt_sel, aes(x = x, y = y), size = 2, col = &amp;quot;green&amp;quot;) +
+  xlim(st_bbox(pt_buff)[1] - maxdist, st_bbox(pt_buff)[3] + maxdist) +
+  ylim(st_bbox(pt_buff)[2] - maxdist, st_bbox(pt_buff)[4] + maxdist) + 
+  ggtitle(paste0(&amp;quot;id = &amp;quot;, sel_id, &amp;quot; - Number of points within distance = &amp;quot;, length(id_inters)))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;So far, so good&lt;/strong&gt;. Now, let’s do the same exercise with varying number of points to see how it behaves in term of speed:&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/speeding_up/Rplot3.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;Already not bad! In particular for the maxdist = 2000 case, we get a quite large speed improvement!&lt;/p&gt;
+&lt;p&gt;However, a nice thing about the points_in_distance approach is that &lt;strong&gt;it is easily parallelizable&lt;/strong&gt;. All is needed is to change some lines of the function &lt;em&gt;so that the outer loop over the x “chunks” exploits a parallel backend&lt;/em&gt; of some kind. (You can find an example implementation exploiting foreach in &lt;a href=&#34;https://gist.github.com/lbusett/247dc9b0b6bed04ac1b45c03999be348&#34;&gt;this gist&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;On a not-particularly-fast PC, using a 6-cores parallelization leads to this:&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/speeding_up/Rplot4.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;Looking good! Some more skilled programmer could probably squeeze out even more speed from it by some additional data.table magic, but the improvement is very noticeable.&lt;/p&gt;
+&lt;p&gt;In terms of execution time, extrapolating again to the “infamous” 12 Million points dataset, this would be what we get:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tbl &amp;lt;- tibble::tribble(
+  ~Method, ~Maxdist, ~`Expected completion time (hours)`,
+  &amp;quot;st_intersect&amp;quot;,                 500,   15.00,
+  &amp;quot;points_in_distance - serial&amp;quot;,  500,    2.50,
+  &amp;quot;points_in_distance - parallel&amp;quot;, 500,   0.57,
+  &amp;quot;st_intersect&amp;quot;,                 2000,  85.00,
+  &amp;quot;points_in_distance - serial&amp;quot;,  2000,  15.20,
+  &amp;quot;points_in_distance - parallel&amp;quot;, 2000,  3.18
+)
+
+tbl %&amp;gt;% 
+  mutate(`Expected completion time (hours)` = 
+           ifelse(`Expected completion time (hours)` == 85.00,
+                  cell_spec(`Expected completion time (hours)`, &amp;quot;html&amp;quot;, color = &amp;quot;red&amp;quot;, bold = T), 
+                  cell_spec(`Expected completion time (hours)`, &amp;quot;html&amp;quot;,  bold = F))) %&amp;gt;% 
+   kable(&amp;quot;html&amp;quot;, escape = F) &lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Method
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+Maxdist
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Expected completion time (hours)
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+st_intersect
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+500
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     &#34;&gt;15&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+points_in_distance - serial
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+500
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     &#34;&gt;2.5&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+points_in_distance - parallel
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+500
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     &#34;&gt;0.57&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+st_intersect
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34; font-weight: bold;    color: red;&#34;&gt;85&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+points_in_distance - serial
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     &#34;&gt;15.2&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+points_in_distance - parallel
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     &#34;&gt;3.18&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;So, we get a 5-6X speed improvement already on the “serial” implementation, and another 5X thanks to parallelization over 6 cores! On themaxdist = 2000 case, this means going &lt;strong&gt;from more than 3 days to about 3 hours&lt;/strong&gt;. And if we had more cores and RAM to throw at it, it would finish in minutes!&lt;/p&gt;
+&lt;div id=&#34;nice&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;strong&gt;Nice!&lt;/strong&gt;&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div id=&#34;final-notes&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Final Notes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The &lt;strong&gt;timings shown here are merely indicative&lt;/strong&gt;, and related to the particular test-dataset we built. On a less uniformly distributed dataset I would expect a lower speed improvement.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Some time is “wasted” because sf does not (yet) extend data.tables&lt;/strong&gt;, making it necessary to recreate sf objects from thedata.table subsets.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The parallel implementation is quick-and-dirty, and &lt;strong&gt;it is a bit of a memory-hog&lt;/strong&gt;! Be careful before throwing at it 25 processors!&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Speed is influenced in a non-trivial way by the number of “cuts”&lt;/strong&gt; used to subdivide the spatial extent. There may be a sweet-spot related to points distribution and maxdist allowing reaching maximum speed.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;A similar approach for parallelization could exploit repeatedly “cropping” the original sf points object over the extent of the chunk/extended chunk. The &lt;strong&gt;data.table approach seems however to be faster&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;That’s all! Hope you liked this (rather long) post!&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Early season weed mapping in rice crops using multi-spectral UAV data</title>
       <link>/publication/2018-01-01_early_season_weed_ma/</link>
       <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
@@ -561,43 +1076,6 @@ install_github(&amp;quot;lbusett/MODIStsp&amp;quot;, ref = &amp;quot;master&amp;
       
       <guid>/publication/2017-01-01_phenorice_a_method_f/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>Example Talk</title>
-      <link>/talk/example-talk/</link>
-      <pubDate>Sun, 01 Jan 2017 00:00:00 +0100</pubDate>
-      
-      <guid>/talk/example-talk/</guid>
-      <description>&lt;p&gt;Embed your slides or video here using &lt;a href=&#34;https://sourcethemes.com/academic/post/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;shortcodes&lt;/a&gt;. Further details can easily be added using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>MODIStsp v1.3.0 released - adds support for Collection 6 datasets</title>
-      <link>/post/modistsp-v1-3-0-released-adds-support-for-collection-6-datasets/</link>
-      <pubDate>Mon, 07 Nov 2016 00:00:00 +0000</pubDate>
-      
-      <guid>/post/modistsp-v1-3-0-released-adds-support-for-collection-6-datasets/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;MODIStsp v1.3.0 has been finally released !&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;It adds the much-needed functionality for downloading and preprocessing &lt;strong&gt;MODIS
-Collection 006 datasets&lt;/strong&gt;. Off-line preprocessing of already downloaded hdf images
-was also improved, and the GUI was a bit revamped to improve user-friendliness
-(A detailed changelog can be found &lt;a href=&#34;https://github.com/lbusett/MODIStsp/releases/tag/v1.3.0&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
-
-&lt;p&gt;More detailed usage instructions were also added to the
-&lt;a href=&#34;https://github.com/lbusett/MODIStsp&#34; target=&#34;_blank&#34;&gt;main github page&lt;/a&gt;, and a
-&lt;a href=&#34;https://github.com/lbusett/MODIStsp/wiki&#34; target=&#34;_blank&#34;&gt;FAQ section&lt;/a&gt; addressing common issues
-with the package (e.g., installation problems, etc) was added.&lt;/p&gt;
-
-&lt;p&gt;We hope you will find the new version useful and that we didn&amp;rsquo;t introduce too
-many bugs ! &lt;strong&gt;Please report any problems in our &lt;a href=&#34;https://github.com/lbusett/MODIStsp/issues&#34; target=&#34;_blank&#34;&gt;issues&lt;/a&gt;
-GitHub page.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&amp;ldquo;MODIStsp&amp;rdquo; is a R package allowing automatic download and preprocessing of MODIS
-Land Products time series - you can find additional information &lt;a href=&#34;https://spartially.000webhostapp.com/2016/09/modistsp-a-new-r-package-for-modis-land-products-preprocessing&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-</description>
     </item>
     
   </channel>

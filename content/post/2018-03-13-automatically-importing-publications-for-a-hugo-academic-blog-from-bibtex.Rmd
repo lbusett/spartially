@@ -1,3 +1,56 @@
+---
+title: Automatically importing publications for a hugo-academic blog from bibtex
+author: Lorenzo Busetto
+date: '2018-03-13'
+slug: automatically-importing-publications-for-a-hugo-academic-blog-from-bibtex
+categories:
+  - R
+  - blogdown
+tags:
+  - R
+header:
+  caption: ''
+  image: ''
+---
+
+##The problem 
+
+Last week, I started migrating my (rather ugly) [blog](https://www.blogger.com/blogger.g?blogID=4683863749820351779#allposts) from 
+"Bloggers" to blogdown. As several others, I choose to use the [hugo-academic theme](https://github.com/gcushen/hugo-academic), due to its good look, 
+simplicity, and "focus" towards researchers. 
+
+One nice feature of "hugo-academic" is that it includes out-of-the-box a "Publications"
+section, allowing researchers to easily create a list of their publication as a 
+section of the website. **Unfortunately**, in order to populate that list, users 
+have to manually create one different `.md` file for each publication, by cutting
+and pasting several different info (e.g., title, authors, etc.) in a "simple"" yaml
+template like [this one](https://github.com/gcushen/hugo-academic/blob/master/archetypes/publication.md). 
+
+**This is boring!** Since I was not in the mood of doing that, and no automatic
+solutions could be found (well, there appears to be a `python` one, but here we are 
+speaking `R`), I decided to try and develop some script to automatically create
+the required `md`s starting from a `bibtex` list of my publications. Here are the
+results of that effort. 
+
+##The solution
+
+###Creating the bibtex file 
+
+To automatically create the publications `md`s, all you need is a (properly formatted)
+`bibtex` file. Since I did not have one ready, I created mine by exporting from 
+[Scopus](https://www.scopus.com/authid/detail.uri?authorId=23003461400), but you 
+could use any valid bibtex file.
+**One important thing is that you have to be sure that the file is saved with UTF-8 encoding**. 
+If you are not sure, you can open it in RStudio (or any decent text editor), 
+and then re-save it with a forced encoding (in RStudio, you can use `File-->Save with Encoding)
+
+###Creating an import script
+
+Now, you need a script that reads the `bibtex` entries and use the data to populate
+one different `md` file for each publication. Below you can find my attempt at this. 
+
+
+```{r eval=FALSE}
 bibtex_2academic <- function(bibfile,
                              outfold,
                              abstract = FALSE,
@@ -135,8 +188,92 @@ bibtex_2academic <- function(bibfile,
       # close(fileConn)
     }
   }
-
   # apply the "create_md" function over the publications list to generate
   # the different "md" files.
   apply(mypubs, FUN = function(x) create_md(x), MARGIN = 1)
 }
+```
+
+Nothing fancy, here: I just use the [`RefManageR`](https://cran.r-project.org/web/packages/RefManageR/index.html) 
+package to read the bibtex file, and then cycles over publications to create 
+files properly formatted for `hugo-academic` use. 
+
+###Running the script
+
+All is left is to run the script:
+
+```{r eval=FALSE}
+
+my_bibfile <- "/path/to/mybibtex.bib"
+out_fold   <- "/path/to/myoutfolder"
+
+bibtex_2academic(bibffile  = my_bibfile, 
+                 outfold   = out_fold, 
+                 abstract  = TRUE, 
+                 overwrite = TRUE)
+
+```
+
+* The `outfold` argument allows specifying where the generated `md`s will be saved. 
+Though in the end they will have to be moved to folder `content/publication` you 
+may want to save them in a different folder to be able to check them before trying
+to deploy them.
+
+* The `abstract` argument specifies wheter to include the abstract in the `md` or 
+not. 
+
+Running the script will give you files like this one: 
+
+```yml
++++
+title = "Estimating canopy water content of poplar plantation from MIVIS data"
+date = "2006-01-01"
+authors = ["R. Colombo", "L. Busetto", "A. Marchesi", "M. Meroni", "C. Giardino"]
+publication_types = ["1"]
+publication = "AIP Conference Proceedings, (852), _pp. 242-249_, https://doi.org/10.1063/1.2349350"
+publication_short = ""
+abstract_short = ""
+image_preview = ""
+selected = false
+projects = []
+tags = []
+url_pdf = ""
+url_preprint = ""
+url_code = ""
+url_dataset = ""
+url_project = ""
+url_slides = ""
+url_video = ""
+url_poster = ""
+url_source = ""
+math = false
+highlight = true
+[header]
+image = ""
+caption = ""
++++
+```
+
+, where I tweaked a bit the hugo-academic format to include bibliographic 
+info such as volume, number, pages and doi link. The files can then be further customized
+to include, for example, links to pdfs, images, etcetera. 
+
+After moving all the `md` files to `content/publication`, the publications section 
+of your `hugo-academic` site will be auto-populated, and should look more or less
+like this: 
+
+![](/img/publications/publications.png)
+
+You can have a look at the final results on my (under construction) website [here](https://lbusett.netlify.com/publication/). I think it's quite nice!
+
+##Final Notes
+
+* My importing script is quite "quick and dirty". It does not attempt to deal 
+with special characters, and even substitutes accented letters with "bare"
+letters to avoid rendering problems. If someone more knowledgeable about encoding
+issues want to try and improve it, I put it in this gist
+
+
+
+
+

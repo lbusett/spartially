@@ -5,6 +5,24 @@
     
     <url>
     
+      <loc>/post/automatically-importing-publications-for-a-hugo-academic-blog-from-bibtex/</loc>
+      <lastmod>2018-03-13T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/post/speeding-up-spatial-analyses-by-integrating-sf-and-data-table-a-test-case/</loc>
+      <lastmod>2018-02-20T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/publication/2018-01-01_early_season_weed_ma/</loc>
       <lastmod>2018-01-01T00:00:00+00:00</lastmod>
     </url>
@@ -574,7 +592,28 @@
     
     <url>
     
+      <loc>/categories/blogdown/</loc>
+      <lastmod>2018-03-13T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/categories/</loc>
+      <lastmod>2018-03-13T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/data.table/</loc>
+      <lastmod>2018-02-20T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -694,7 +733,7 @@
     <url>
     
       <loc>/tags/r/</loc>
-      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
+      <lastmod>2018-03-13T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -704,7 +743,7 @@
     <url>
     
       <loc>/categories/r/</loc>
-      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
+      <lastmod>2018-03-13T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -725,6 +764,26 @@
     
       <loc>/tags/remote-sensing/</loc>
       <lastmod>2016-04-27T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/sf/</loc>
+      <lastmod>2018-02-20T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/spatial-processing/</loc>
+      <lastmod>2018-02-20T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     

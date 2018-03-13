@@ -15,6 +15,10 @@
  *  Core
  **************************************************/
 
+.article-container {
+  max-width: 850px;
+}
+
 
 /* Headings */
 
@@ -28,6 +32,10 @@ h2, h3, h4, h5, h6 {
   font-weight: 400;
   line-height: 1.25;
   color: rgb(255,170,0);
+}
+
+h2{
+  font-size: 30px;;
 }
 
 /*a:hover,
@@ -49,8 +57,8 @@ a:focus {
 
 /*.btn-primary {
   border-color: rgb(127,140,180);
-  /*background: rgb(127,140,180);*/
-}
+  /*background: rgb(127,140,180);}
+*/
 
 /*.btn-primary:hover,
 .btn-primary:focus,
@@ -134,7 +142,7 @@ html {
   font-weight: 300;
   font-size: 16px;
   color: rgba(0,0,0,0.8);
-  line-height: 1.65;
+  line-height: 1.45;
 }
 
 /*************************************************

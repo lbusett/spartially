@@ -1,0 +1,287 @@
+---
+title: 'Speeding up spatial analyses by integrating `sf` and `data.table`: a test
+  case'
+author: Lorenzo Busetto
+date: '2018-02-20'
+slug: speeding-up-spatial-analyses-by-integrating-sf-and-data-table-a-test-case
+categories:
+  - data.table
+  - R
+  - sf
+  - spatial processing
+tags:
+  - R
+---
+
+```{r echo=TRUE, include=FALSE}
+library(sf)
+library(dplyr)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+library(formattable)
+```
+
+
+## The problem
+
+Last week, I replied to [this interesting question](https://stackoverflow.com/questions/48650274/spatial-efficient-way-of-finding-all-points-within-x-meters-of-a-point) posted by @Tim_K over stackoverflow. He was seeking 
+efficient solutions to identify all points falling within a maximum distance of
+xx meters with respect to each single point in a spatial points dataset.
+
+If you have a look at the thread, you will see that a simple solution based on 
+creating a “buffered” polygon dataset beforehand and then intersecting it with
+the original points is quite fast for “reasonably sized” datasets, thanks to sf
+spatial indexing capabilities which reduce the number of the required comparisons 
+to be done (See http://r-spatial.org/r/2017/06/22/spatial-index.html). In practice,
+something like this:
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# create test data: 50000 uniformly distributed points on a "square" of 100000
+# metres
+maxdist <- 500
+pts     <- data.frame(x = runif(50000, 0, 100000),
+                      y = runif(50000, 0, 100000),
+                      id = 1:50000) %>%
+  sf::st_as_sf(coords = c("x", "y"))
+# create buffered polygons
+pts_buf <- sf::st_buffer(pts, maxdist)
+# Find points within 500 meters wrt each point
+int <- sf::st_intersects(pts_buf, pts)
+int
+```
+
+However, this starts to have problems over really large datasets, because the total
+number of comparisons to be done still rapidly increase besides the use of spatial
+indexes. A test done by changing the number of points in the above example in the 
+range 25000 - 475000 shows for example this kind of behavior, for two different 
+values of maxdist (500 and 2000 m):
+
+![](/img/speeding_up/Rplot01.png)
+
+
+On the test dataset, the relationships are almost perfectly quadratic (due to the
+uniform distribution of points). Extrapolating them to the 12 Million points dataset
+of the OP, we would get an execution time of about 14 hours for maxdist = 500, and
+a staggering 3.5 days formaxdist = 2000. Still doable, but not ideal…
+
+My suggestion to the OP was therefore to “split” the points in chunks based on the 
+x-coordinate and then work on a per-split basis, eventually assigning each chunk 
+to a different core within a parallellized cycle.
+
+In the end, I got curious and decided to give it a go to see what kind of performance
+improvement it was possible to obtain with that kind of approach. You can find results
+of some tests below.
+
+# A (possible) solution: Speeding up computation by combining `data.table` and `sf_intersect`
+
+<br>
+The idea here is to use a simple divide-and-conquer approach.
+
+We first split the total spatial extent of the dataset in a certain number of regular quadrants. We then iterate over the quadrants and for each one we:
+
+* Extract the points contained into the quadrant and apply a buffer to them;
+* Extract the points contained in a slightly larger area, computed by expanding
+  the quadrant by an amount equal to the maximum distance for which we want to
+  identify the   “neighbors”;
+* Compute and save the intersection between the buffered points and the points
+  contained in the “expanded” quadrant.
+  
+“Graphically”, this translates to exploring the dataset like this:
+
+![](/img/speeding_up/animation2.gif)
+
+, where the points included in the current "quadrant" are shown in green and the additional points needed to perform the analysis for that quadrant are shown in red.
+
+
+
+Provided that the subsetting operations do not introduce an excessive overhead (i.e., they are fast enough…) this should provide a performance boost, because it should consistently reduce the total number of comparisons to be done.
+
+Now, every “R” expert will tell you that if you need to perform fast subsetting over large datasets the way to go is to use properly indexeddata.tables, which provide lightning-speed subsetting capabilities.
+
+So, let’s see how we could code this in a functions:
+
+```{r eval=FALSE, message=FALSE, warning=FALSE}
+points_in_distance <- function(in_pts,
+                               maxdist,
+                               ncuts = 10) {
+
+  require(data.table)
+  require(sf)
+  # convert points to data.table and create a unique identifier
+  pts <-  data.table(in_pts)
+  pts <- pts[, or_id := 1:dim(in_pts)[1]]
+
+  # divide the extent in quadrants in ncuts*ncuts quadrants and assign each
+  # point to a quadrant, then create the index over "x" to speed-up
+  # the subsetting
+  range_x  <- range(pts$x)
+  limits_x <-(range_x[1] + (0:ncuts)*(range_x[2] - range_x[1])/ncuts)
+  range_y  <- range(pts$y)
+  limits_y <- range_y[1] + (0:ncuts)*(range_y[2] - range_y[1])/ncuts
+  pts[, `:=`(xcut =  as.integer(cut(x, ncuts, labels = 1:ncuts)),
+             ycut = as.integer(cut(y, ncuts, labels = 1:ncuts)))]  %>%
+    setkey(x)
+
+  results <- list()
+  count <- 0
+  # start cycling over quadrants
+  for (cutx in seq_len(ncuts)) {
+
+    # get the points included in a x-slice extended by `maxdist`, and build
+    # an index over y to speed-up subsetting in the inner cycle
+    min_x_comp    <- ifelse(cutx == 1,
+                            limits_x[cutx],
+                            (limits_x[cutx] - maxdist))
+    max_x_comp    <- ifelse(cutx == ncuts,
+                            limits_x[cutx + 1],
+                            (limits_x[cutx + 1] + maxdist))
+    subpts_x <- pts[x >= min_x_comp & x < max_x_comp] %>%
+      setkey(y)
+
+    for (cuty in seq_len(ncuts)) {
+      count <- count + 1
+
+      # subset over subpts_x to find the final set of points needed for the
+      # comparisons
+      min_y_comp  <- ifelse(cuty == 1,
+                            limits_y[cuty],
+                            (limits_y[cuty] - maxdist))
+      max_y_comp  <- ifelse(cuty == ncuts,
+                            limits_y[cuty + 1],
+                            (limits_y[cuty + 1] + maxdist))
+      subpts_comp <- subpts_x[y >= min_y_comp & y < max_y_comp]
+
+      # subset over subpts_comp to get the points included in a x/y chunk,
+      # which "neighbours" we want to find. Then buffer them by maxdist.
+      subpts_buf <- subpts_comp[ycut == cuty & xcut == cutx] %>%
+        sf::st_as_sf() %>% 
+        sf::st_buffer(maxdist)
+
+      # retransform to sf since data.tables lost the geometric attrributes
+      subpts_comp <- sf::st_as_sf(subpts_comp)
+
+      # compute the intersection and save results in a element of "results".
+      # For each point, save its "or_id" and the "or_ids" of the points within "dist"
+      inters <- sf::st_intersects(subpts_buf, subpts_comp)
+
+      # save results
+      results[[count]] <- data.table(
+        id = subpts_buf$or_id,
+        int_ids = lapply(inters, FUN = function(x) subpts_comp$or_id[x]))
+    }
+  }
+  data.table::rbindlist(results)
+}
+```
+
+The function takes as input a points sf object, a target distance and a number of “cuts” to use to divide the extent in quadrants, and provides in output a data frame in which, for each original point, the “ids” of the points within maxdist are reported in the int_ids list column.
+
+Now, let’s see if this works:
+
+```{r eval=FALSE, message=FALSE, warning=FALSE}
+pts <- data.frame(x = runif(20000, 0, 100000),
+                  y = runif(20000, 0, 100000),
+                  id = 1:20000) %>%
+  st_as_sf(coords = c("x", "y"), remove = FALSE)
+maxdist <- 2000
+out <- points_in_distance(pts, maxdist = maxdist, ncut = 10)
+head(out)
+
+# get a random point
+sel_id  <- sample(pts$id,1)
+pt_sel  <- pts[sel_id, ]
+pt_buff <- pt_sel %>%  sf::st_buffer(maxdist)
+# get ids of points within maxdist
+id_inters <- unlist(out[id == sel_id, ]$int_ids)
+pt_inters <- pts[id_inters,]
+
+#plot results
+ggplot(pt_buff)  + theme_light() +
+  geom_point(data = pts, aes(x = x, y = y), size = 1) +
+  geom_sf(col = "blue", size = 1.2, fill = "transparent") +
+  geom_sf(data = pt_inters, col = "red", size = 1.5) +
+  geom_point(data = pt_sel, aes(x = x, y = y), size = 2, col = "green") +
+  xlim(st_bbox(pt_buff)[1] - maxdist, st_bbox(pt_buff)[3] + maxdist) +
+  ylim(st_bbox(pt_buff)[2] - maxdist, st_bbox(pt_buff)[4] + maxdist) + 
+  ggtitle(paste0("id = ", sel_id, " - Number of points within distance = ", length(id_inters)))
+```
+
+
+__So far, so good__. Now, let’s do the same exercise with varying number of points 
+to see how it behaves in term of speed:
+
+![](/img/speeding_up/Rplot3.png)
+
+Already not bad! In particular for the maxdist = 2000 case, we get a quite large
+speed improvement!
+
+However, a nice thing about the points_in_distance approach is that __it is easily 
+parallelizable__. All is needed is to change some lines of the function _so that the
+outer loop over the x “chunks” exploits a parallel backend_ of some kind. (You can
+find an example implementation exploiting foreach in [this gist](https://gist.github.com/lbusett/247dc9b0b6bed04ac1b45c03999be348))
+
+On a not-particularly-fast PC, using a 6-cores parallelization leads to this:
+
+![](/img/speeding_up/Rplot4.png)
+
+Looking good! Some more skilled programmer could probably squeeze out even more 
+speed from it by some additional data.table magic, but the improvement is very 
+noticeable.
+
+In terms of execution time, extrapolating again to the “infamous” 12 Million
+points dataset, this would be what we get:
+
+```{r}
+tbl <- tibble::tribble(
+  ~Method, ~Maxdist, ~`Expected completion time (hours)`,
+  "st_intersect",                 500,   15.00,
+  "points_in_distance - serial",  500,    2.50,
+  "points_in_distance - parallel", 500,   0.57,
+  "st_intersect",                 2000,  85.00,
+  "points_in_distance - serial",  2000,  15.20,
+  "points_in_distance - parallel", 2000,  3.18
+)
+
+tbl %>% 
+  mutate(`Expected completion time (hours)` = 
+           ifelse(`Expected completion time (hours)` == 85.00,
+                  cell_spec(`Expected completion time (hours)`, "html", color = "red", bold = T), 
+                  cell_spec(`Expected completion time (hours)`, "html",  bold = F))) %>% 
+   kable("html", escape = F) 
+
+
+```
+
+
+So, we get a 5-6X speed improvement already on the “serial” implementation, and
+another 5X thanks to parallelization over 6 cores! On themaxdist = 2000 case, 
+this means going __from more than 3 days to about 3 hours__. And if we had more cores 
+and RAM to throw at it, it would finish in minutes!
+
+
+###__Nice!__
+
+
+##Final Notes
+
+* The __timings shown here are merely indicative__, and related to the particular
+test-dataset we built. On a less uniformly distributed dataset I would expect a
+lower speed improvement.
+
+* __Some time is “wasted” because sf does not (yet) extend data.tables__, making it
+necessary to recreate sf objects from thedata.table subsets.
+
+* The parallel implementation is quick-and-dirty, and __it is a bit of a memory-hog__! 
+Be careful before throwing at it 25 processors!
+
+* __Speed is influenced in a non-trivial way by the number of “cuts”__ used to 
+subdivide the spatial extent. There may be a sweet-spot related to points
+distribution and maxdist allowing reaching maximum speed.
+
+* A similar approach for parallelization could exploit repeatedly “cropping” the
+original sf points object over the extent of the chunk/extended chunk. The 
+__data.table approach seems however to be faster__.
+
+
+__That's all! Hope you liked this (rather long) post!__
