@@ -1,3 +1,18 @@
+---
+title: 'Speeding up spatial analyses by integrating `sf` and `data.table`: a test
+  case'
+author: Lorenzo Busetto
+date: '2018-02-20'
+slug: speeding-up-spatial-analyses-by-integrating-sf-and-data-table-a-test-case
+categories:
+  - data.table
+  - R
+  - sf
+  - spatial processing
+tags:
+  - R
+---
+
 
 
 <div id="the-problem" class="section level2">
@@ -18,16 +33,16 @@ int &lt;- sf::st_intersects(pts_buf, pts)
 int</code></pre>
 <pre><code>## Sparse geometry binary predicate list of length 50000, where the predicate was `intersects&#39;
 ## first 10 elements:
-##  1: 1, 4162, 39005
-##  2: 2, 32383
-##  3: 3, 25956, 29986
-##  4: 4, 15225, 15994, 16913, 37314, 39438
-##  5: 5, 4616, 6687, 19501, 40631
-##  6: 6, 6681, 49632
-##  7: 7, 7442, 18364, 18419, 27858, 49774
-##  8: 8, 6731, 13941, 30066
-##  9: 9, 6412, 11217, 12889, 16764, 19134, 23545, 35917, 37541, 46765
-##  10: 10, 2761, 6055, 9851, 12504, 12971, 40676</code></pre>
+##  1: 1, 3580
+##  2: 2
+##  3: 3, 2453, 16562, 18348, 24535, 31152, 36731
+##  4: 4, 14355, 26004, 32574, 38900, 41742
+##  5: 5, 833, 4330, 10347, 30130
+##  6: 6, 5213, 30318
+##  7: 7, 3467, 10237, 12056, 13963
+##  8: 8, 1537, 1681, 18159, 18760, 22427, 24000, 24418, 28905, 35472, ...
+##  9: 9, 3354
+##  10: 10, 9501, 10980, 36755, 41535, 42729</code></pre>
 <p>However, this starts to have problems over really large datasets, because the total number of comparisons to be done still rapidly increase besides the use of spatial indexes. A test done by changing the number of points in the above example in the range 25000 - 475000 shows for example this kind of behavior, for two different values of maxdist (500 and 2000 m):</p>
 <div class="figure">
 <img src="/img/speeding_up/Rplot01.png" />
@@ -136,12 +151,12 @@ maxdist &lt;- 2000
 out &lt;- points_in_distance(pts, maxdist = maxdist, ncut = 10)
 head(out)</code></pre>
 <pre><code>##       id                              int_ids
-## 1:  2948  2948, 5730, 3543, 5437,11163, 5029,
-## 2:  5730  2948, 5730, 3543, 5437, 8569,11163,
-## 3:  3543  2948, 5730, 3543,14320, 5437, 5029,
-## 4: 14320  3543,14320, 5360,10674,19028,12978,
-## 5:  5437  2948, 5730, 3543, 5437,11163, 5029,
-## 6:  8569  5730, 8569,11163, 7119,19298, 4129,</code></pre>
+## 1: 10934 10934, 9905, 5801,16328,11001, 5274,
+## 2:   588   588, 5801, 6532,16328, 5274, 4685,
+## 3:  9905 10934, 9905, 6433,11001,10596, 7491,
+## 4:  6433  9905, 6433,11001,10596, 5712,14190,
+## 5:  5801 10934,  588, 5801, 6532,16328, 5274,
+## 6: 13254 13254, 6532,10619,11582, 4685, 5683,</code></pre>
 <pre class="r"><code># get a random point
 sel_id  &lt;- sample(pts$id,1)
 pt_sel  &lt;- pts[sel_id, ]
@@ -161,7 +176,7 @@ plot &lt;- ggplot(pt_buff)  + theme_light() +
   ggtitle(paste0(&quot;id = &quot;, sel_id, &quot; - Number of points within distance = &quot;, 
                  length(id_inters)))
 plot</code></pre>
-<p><img src="2018-02-20-speeding-up-spatial-analyses-by-integrating-sf-and-data-table-a-test-case_files/figure-html/unnamed-chunk-4-1.png" width="336" /></p>
+<p><img src="/post/2018-02-20-speeding-up-spatial-analyses-by-integrating-sf-and-data-table-a-test-case_files/figure-html/unnamed-chunk-4-1.png" width="336" /></p>
 <p><strong>So far, so good</strong>. Now, let’s do the same exercise with varying number of points to see how it behaves in term of speed:</p>
 <div class="figure">
 <img src="/img/speeding_up/Rplot3.png" />
