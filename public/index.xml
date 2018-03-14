@@ -24,8 +24,8 @@
 &lt;p&gt;&lt;strong&gt;THIS IS BORING!&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Since I was not in the mood of doing that, and no automatic solutions could be found (well, there appears to be a &lt;code&gt;python&lt;/code&gt; one, but we are speaking &lt;code&gt;R&lt;/code&gt;, here…), I decided to try and develop some script to automatically create the required &lt;code&gt;md&lt;/code&gt; files starting from a &lt;code&gt;BibTex&lt;/code&gt; list of my publications. Here are the results of that effort.&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id=&#34;a-possible-sdolution&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;A possible sdolution&lt;/h2&gt;
+&lt;div id=&#34;a-possible-solution&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;A possible solution&lt;/h2&gt;
 &lt;div id=&#34;preparing-the-bibtex-file&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Preparing the &lt;code&gt;BibTex&lt;/code&gt; file&lt;/h3&gt;
 &lt;p&gt;To automatically create the publications &lt;code&gt;md&lt;/code&gt; files, all you need is a (properly formatted) &lt;code&gt;BibTex&lt;/code&gt; file. Since I did not have one ready, I created mine by exporting my publications list from &lt;a href=&#34;https://www.scopus.com/authid/detail.uri?authorId=23003461400&#34;&gt;Scopus&lt;/a&gt;, but you could use any valid BibTeX file.&lt;/p&gt;
@@ -159,7 +159,7 @@
   
   apply(mypubs, FUN = function(x) create_md(x), MARGIN = 1)
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Nothing fancy, here: I just use the &lt;a href=&#34;https://cran.r-project.org/web/packages/RefManageR/index.html&#34;&gt;&lt;code&gt;RefManageR&lt;/code&gt;&lt;/a&gt; package to read the BibTeX file, and then cycles over publications to create files properly formatted for &lt;code&gt;hugo-academic&lt;/code&gt; use.&lt;/p&gt;
+&lt;p&gt;Nothing fancy, here: I just use the &lt;a href=&#34;https://cran.r-project.org/web/packages/RefManageR/index.html&#34;&gt;&lt;code&gt;RefManageR&lt;/code&gt;&lt;/a&gt; package to read the BibTeX file, and then cycle over publications to create files properly formatted for &lt;code&gt;hugo-academic&lt;/code&gt; use.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;running-the-script&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Running the script&lt;/h3&gt;
@@ -245,16 +245,16 @@ int &amp;lt;- sf::st_intersects(pts_buf, pts)
 int&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Sparse geometry binary predicate list of length 50000, where the predicate was `intersects&amp;#39;
 ## first 10 elements:
-##  1: 1, 13076, 20029, 20284, 26674, 42740
-##  2: 2, 1007, 7518, 31193
-##  3: 3, 6412, 29946, 42321, 44890, 46073
-##  4: 4, 14104, 29434
-##  5: 5, 781, 4366, 6123, 26595
-##  6: 6, 10488, 16830, 25455, 28520
-##  7: 7, 7023, 13542, 49084, 49646
-##  8: 8, 37593, 42842, 46785
-##  9: 9, 19452, 42906
-##  10: 10, 2092, 2310, 2730, 23058, 27600, 39773, 43134&lt;/code&gt;&lt;/pre&gt;
+##  1: 1, 7301, 15696, 45128, 47589
+##  2: 2, 11874, 13641
+##  3: 3, 3017, 21797
+##  4: 4, 1676, 3578, 45976
+##  5: 5, 17809, 28304, 43134
+##  6: 6, 12201, 22526, 23845, 38054, 46711
+##  7: 7, 24598, 32408, 32803, 32894, 48799
+##  8: 8, 11918, 14538, 45002
+##  9: 9, 8085, 12217, 19951, 27947, 43308
+##  10: 10, 11349, 30804, 38095, 42791, 42879&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;However, this starts to have problems over really large datasets, because the total number of comparisons to be done still rapidly increase besides the use of spatial indexes. A test done by changing the number of points in the above example in the range 25000 - 475000 shows for example this kind of behavior, for two different values of maxdist (500 and 2000 m):&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
 &lt;img src=&#34;/img/speeding_up/Rplot01.png&#34; /&gt;
@@ -363,12 +363,12 @@ maxdist &amp;lt;- 2000
 out &amp;lt;- points_in_distance(pts, maxdist = maxdist, ncut = 10)
 head(out)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##       id                              int_ids
-## 1:  4381  4381, 7942,16650, 4304, 7852, 7318,
-## 2:  7942  4381, 7942,16650, 4304, 3003,11164,
-## 3: 16650  4381, 7942,16650, 4304, 3003,12997,
-## 4: 14639 14639,15933,10965,10389, 1362, 4509,
-## 5:  4304  4381, 7942,16650, 4304, 3003,11164,
-## 6: 15933 14639,15933,10965,10389,11164, 1362,&lt;/code&gt;&lt;/pre&gt;
+## 1:  1461  1461, 1689, 5270, 9321,16434,12180,
+## 2:  1689  1461, 1689, 5270, 9321,16434,12180,
+## 3: 11945 11945, 8568,11104,19057, 7447, 1249,
+## 4:  8568 11945, 8568,11104,19057, 7447, 3667,
+## 5: 11104 11945, 8568,11104,19057, 7447, 3667,
+## 6:  8517  8517,14478, 9981,  887,15044,15103,&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# get a random point
 sel_id  &amp;lt;- sample(pts$id,1)
 pt_sel  &amp;lt;- pts[sel_id, ]

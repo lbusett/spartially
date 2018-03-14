@@ -23,8 +23,8 @@ header:
 <p><strong>THIS IS BORING!</strong></p>
 <p>Since I was not in the mood of doing that, and no automatic solutions could be found (well, there appears to be a <code>python</code> one, but we are speaking <code>R</code>, here…), I decided to try and develop some script to automatically create the required <code>md</code> files starting from a <code>BibTex</code> list of my publications. Here are the results of that effort.</p>
 </div>
-<div id="a-possible-sdolution" class="section level2">
-<h2>A possible sdolution</h2>
+<div id="a-possible-solution" class="section level2">
+<h2>A possible solution</h2>
 <div id="preparing-the-bibtex-file" class="section level3">
 <h3>Preparing the <code>BibTex</code> file</h3>
 <p>To automatically create the publications <code>md</code> files, all you need is a (properly formatted) <code>BibTex</code> file. Since I did not have one ready, I created mine by exporting my publications list from <a href="https://www.scopus.com/authid/detail.uri?authorId=23003461400">Scopus</a>, but you could use any valid BibTeX file.</p>
@@ -158,7 +158,7 @@ header:
   
   apply(mypubs, FUN = function(x) create_md(x), MARGIN = 1)
 }</code></pre>
-<p>Nothing fancy, here: I just use the <a href="https://cran.r-project.org/web/packages/RefManageR/index.html"><code>RefManageR</code></a> package to read the BibTeX file, and then cycles over publications to create files properly formatted for <code>hugo-academic</code> use.</p>
+<p>Nothing fancy, here: I just use the <a href="https://cran.r-project.org/web/packages/RefManageR/index.html"><code>RefManageR</code></a> package to read the BibTeX file, and then cycle over publications to create files properly formatted for <code>hugo-academic</code> use.</p>
 </div>
 <div id="running-the-script" class="section level3">
 <h3>Running the script</h3>

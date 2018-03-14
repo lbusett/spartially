@@ -35,7 +35,7 @@ decided to try and develop some script to automatically create the required `md`
 files starting from a `BibTex` list of my publications. Here are the results of 
 that effort. 
 
-##A possible sdolution
+##A possible solution
 
 ###Preparing the `BibTex` file 
 
@@ -184,7 +184,7 @@ bibtex_2academic <- function(bibfile,
 ```
 
 Nothing fancy, here: I just use the [`RefManageR`](https://cran.r-project.org/web/packages/RefManageR/index.html) 
-package to read the BibTeX file, and then cycles over publications to create 
+package to read the BibTeX file, and then cycle over publications to create 
 files properly formatted for `hugo-academic` use. 
 
 ###Running the script
