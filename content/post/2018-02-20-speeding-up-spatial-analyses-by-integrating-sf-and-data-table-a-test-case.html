@@ -33,16 +33,16 @@ int &lt;- sf::st_intersects(pts_buf, pts)
 int</code></pre>
 <pre><code>## Sparse geometry binary predicate list of length 50000, where the predicate was `intersects&#39;
 ## first 10 elements:
-##  1: 1, 3580
-##  2: 2
-##  3: 3, 2453, 16562, 18348, 24535, 31152, 36731
-##  4: 4, 14355, 26004, 32574, 38900, 41742
-##  5: 5, 833, 4330, 10347, 30130
-##  6: 6, 5213, 30318
-##  7: 7, 3467, 10237, 12056, 13963
-##  8: 8, 1537, 1681, 18159, 18760, 22427, 24000, 24418, 28905, 35472, ...
-##  9: 9, 3354
-##  10: 10, 9501, 10980, 36755, 41535, 42729</code></pre>
+##  1: 1, 4011, 4943, 21147, 37653, 45539
+##  2: 2, 7699, 28907, 33545
+##  3: 3, 696, 9497, 25042, 47785
+##  4: 4, 7836, 14019, 43171, 44885
+##  5: 5, 1077, 16947, 49137
+##  6: 6, 34926, 37886
+##  7: 7, 8529, 27151, 40375, 40857
+##  8: 8, 3062, 3135, 5082, 8507, 8787, 22350, 23579, 34285
+##  9: 9, 4076, 24342, 28625, 31218, 34759
+##  10: 10, 27320, 34263, 38731</code></pre>
 <p>However, this starts to have problems over really large datasets, because the total number of comparisons to be done still rapidly increase besides the use of spatial indexes. A test done by changing the number of points in the above example in the range 25000 - 475000 shows for example this kind of behavior, for two different values of maxdist (500 and 2000 m):</p>
 <div class="figure">
 <img src="/img/speeding_up/Rplot01.png" />
@@ -151,12 +151,12 @@ maxdist &lt;- 2000
 out &lt;- points_in_distance(pts, maxdist = maxdist, ncut = 10)
 head(out)</code></pre>
 <pre><code>##       id                              int_ids
-## 1: 10934 10934, 9905, 5801,16328,11001, 5274,
-## 2:   588   588, 5801, 6532,16328, 5274, 4685,
-## 3:  9905 10934, 9905, 6433,11001,10596, 7491,
-## 4:  6433  9905, 6433,11001,10596, 5712,14190,
-## 5:  5801 10934,  588, 5801, 6532,16328, 5274,
-## 6: 13254 13254, 6532,10619,11582, 4685, 5683,</code></pre>
+## 1:  3289  3289,17800,   98, 8328,19723, 5760,
+## 2: 10044 10044,13927, 8337, 2669,19410, 3543,
+## 3: 17800  3289,17800,12197,17106,19940, 8328,
+## 4: 13927 10044,13927, 8337, 3543,12197, 4385,
+## 5:  8337 10044,13927, 8337, 2669, 3543,12197,
+## 6:  2669 10044, 8337, 2669,19410, 3543, 8779,</code></pre>
 <pre class="r"><code># get a random point
 sel_id  &lt;- sample(pts$id,1)
 pt_sel  &lt;- pts[sel_id, ]
