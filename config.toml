@@ -240,6 +240,16 @@ defaultContentLanguageInSubdir = false
     icon_pack = "ai"
     link = "https://www.researchgate.net/profile/Lorenzo_Busetto"
 
+  [[params.social]]
+    icon = "linkedin"
+    icon_pack = "fa"
+    link = "https://www.linkedin.com/in/lorenzo-busetto-017a1974/"
+
+  [[params.social]]
+    icon = "impactstory"
+    icon_pack = "ai"
+    link = "https://profiles.impactstory.org/u/0000-0001-9634-6038"
+
 
 # Navigation Links
 #   To link a homepage widget, specify the URL as a hash `#` followed by the filename of the

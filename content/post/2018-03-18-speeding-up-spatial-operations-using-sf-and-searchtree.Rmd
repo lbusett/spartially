@@ -1,0 +1,17 @@
+---
+title: Speeding-up spatial operations using `sf` and `searchTree`
+author: Lorenzo Busetto
+date: '2018-03-18'
+slug: speeding-up-spatial-operations-using-sf-and-searchtree
+categories:
+  - R
+  - spatial processing
+tags:
+  - R
+draft: true
+---
+
+# Testst
+
+AAAA
+

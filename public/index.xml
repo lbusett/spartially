@@ -11,6 +11,19 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Speeding-up spatial operations using `sf` and `searchTree`</title>
+      <link>/post/speeding-up-spatial-operations-using-sf-and-searchtree/</link>
+      <pubDate>Sun, 18 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/speeding-up-spatial-operations-using-sf-and-searchtree/</guid>
+      <description>&lt;div id=&#34;testst&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Testst&lt;/h1&gt;
+&lt;p&gt;AAAA&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Automatically importing publications from bibtex to a hugo-academic blog</title>
       <link>/post/automatically-importing-publications-from-bibtex-to-a-hugo-academic-blog/</link>
       <pubDate>Tue, 13 Mar 2018 00:00:00 +0000</pubDate>
