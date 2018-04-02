@@ -1,0 +1,96 @@
+---
+title: A new RStudio addin to facilitate inserting tables in rmarkdown documents
+author: Lorenzo Busetto
+date: '2018-04-01'
+draft: true
+slug: a-new-rstudio-addin-to-facilitate-inserting-tables-in-rmarkdown-documents
+categories:
+  - R
+  - blogdown
+tags:
+  - R
+  - blogdown
+  - rmarkdown
+  - RStudio
+  - addin
+header:
+  caption: ''
+  image: ''
+---
+
+In the last months, I started increasingly using `Rmd` documents for preparing scientific reports, blog posts, etcetera. While I really like the flexibility offered by the system, one thing that I thought could be improved is the support for easily inserting table. So, also "inspired" by the recent addition of the excellent [__`insert image` addin__](http://lcolladotor.github.io/2018/03/07/blogdown-insert-image-addin/#.WsEt2YhuaHs) in `blogdown`, I decided to give it a go and try to implement some kind of addin to ease table insertion in `Rmd` documentents. 
+
+
+
+After struggling a bit due to my rather inexistent shiny skills, in the end I manage to obtain a "basic but useful" addin. Let's see how it works"
+
+## Usage
+
+You can install the addin from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("lbusett/insert_table")
+```
+
+## Usage
+
+Upon installing, `inserttable` registers a new RStudio Addin (__Insert Table__)
+that can be used to easily insert a table in a `Rmd` document. To use it, open a `Rmd` document and, with the cursor within a `r` chunk and select  "Addins --> Insert Table". 
+
+These are the two main __use modes__:
+
+### Launch the addin while the cursor is on a empty line
+
+In this case, a GUI will open allowing you to __select the desired output format__ (
+`kable`, `DT` and `rhandsontable` are currently implemented), and to __edit the content of the table__. After clicking __Done__ the Addin will add in the `Rmd`
+document the code needed to generate the table in a nice `tribble` format (thanks to Miles McBain's [`datapasta`](https://github.com/milesmcbain/datapasta) package!) to allow easier editing, and also the code needed to render it with the selected output format using some 
+default options, as can be seen below: 
+
+
+![](/img/inserttable/animation_1.gif)
+
+
+A useful feature is that, for larger tables, you can also __cut and paste content from a spreadsheet__ : 
+
+![](/img/inserttable/animation_2.gif)
+
+
+Obviously, rendering of the table can be tweaked further by changing/adding arguments of the rendering functions in the automatically generated code.
+
+
+### Launch the addin while selecting the name of a variable
+
+In this case, the GUI allows you to select __only the desired output format__ (
+it is assumed that the variable you select corresponds to a `data frame` or similar
+object containing the data you wish to show as table). After clicking __Done__
+the Addin will add in the `Rmd` document the code needed to render the selected variable as a table with the selected output format. The code will be added at the first empty line below that containing the name of the selected variable.
+
+
+![](/img/inserttable/animation_3.gif)
+
+
+__IMPORTANT NOTE__: `inserttable` will make no effort to guarantee that the 
+variable you select is a `data.frame`. It is up to you to select a meaningful
+variable!
+
+## Usage from the console
+
+You can also use (part of) `inserttable` functionality from the console by calling
+function `insert_table()`. 
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+
+> insert_table(tbl_name = "table_1", nrows = 4, ncols = 4, tbl_format = "DT")
+
+```
+
+The function will return __to the console__ the code needed to create a empty 
+table of the specified dimensions and render it with the selected format:
+
+![](/img/inserttable/animation_4.gif)
+
+
+####__That's all__!. 
+
+I hope someone else will find this useful! 
