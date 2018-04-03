@@ -17,9 +17,9 @@ header:
   image: ''
 ---
 
-In the last months, I started increasingly using `Rmd` documents for preparing scientific reports, blog posts, etcetera. While I really like the flexibility offered by the system, one thing that I thought could be improved is the support for __easily inserting tables__. So, "inspired" also by the recent addition of the excellent [__`insert image` addin__](http://lcolladotor.github.io/2018/03/07/blogdown-insert-image-addin/#.WsEt2YhuaHs) in `blogdown`, I decided to give it a go and try to implement some kind of addin to ease table insertion in `Rmd` documents. 
+In the last months, I started increasingly using `Rmd` documents for preparing scientific reports, blog posts, etcetera. While I really like the flexibility offered by the system, one thing that I thought could be improved is the support for __easily inserting tables__. So, "inspired" also by the recent addition of the excellent [__`insert image` addin__](http://lcolladotor.github.io/2018/03/07/blogdown-insert-image-addin/#.WsEt2YhuaHs) in `blogdown`, I decided to give it a go and try to implement some kind of addin to facilitate table insertion in `Rmd` documents. 
 
-After struggling a bit due to my rather nonexistent shiny skills, in the end I managed to obtain a "basic but useful" addin. Let's see how it works:
+After struggling a bit due to my rather nonexistent shiny skills, in the end I managed to obtain a "basic but useful" (IMO) addin. Let's see how it works:
 
 ## Installation
 
@@ -35,7 +35,7 @@ devtools::install_github("lbusett/insert_table")
 Upon installing, `inserttable` registers a new RStudio Addin (__Insert Table__)
 that can be used to easily insert a table in a `Rmd` document. To use it, open a `Rmd` document and, with the cursor within a `r` chunk and select  "Addins --> Insert Table". 
 
-These are the two main __use modes__:
+There are two main __use modes__:
 
 ### Launch the addin while the cursor is on a empty line
 
