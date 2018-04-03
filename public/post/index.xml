@@ -13,12 +13,12 @@
     
     
     <item>
-      <title>A new RStudio addin to facilitate inserting tables in rmarkdown documents</title>
+      <title>A new RStudio addin to facilitate inserting tables in Rmarkdown documents</title>
       <link>/post/a-new-rstudio-addin-to-facilitate-inserting-tables-in-rmarkdown-documents/</link>
       <pubDate>Sun, 01 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/a-new-rstudio-addin-to-facilitate-inserting-tables-in-rmarkdown-documents/</guid>
-      <description>In the last months, I started increasingly using Rmd documents for preparing scientific reports, blog posts, etcetera. While I really like the flexibility offered by the system, one thing that I thought could be improved is the support for easily inserting tables. So, “inspired” also by the recent addition of the excellent insert image addin in blogdown, I decided to give it a go and try to implement some kind of addin to ease table insertion in Rmd documents.</description>
+      <description>In the last months, I started increasingly using Rmd documents for preparing scientific reports, blog posts, etcetera. While I really like the flexibility offered by the system, one thing that I thought could be improved is the support for easily inserting tables. So, “inspired” also by the recent addition of the excellent insert image addin in blogdown, I decided to give it a go and try to implement some kind of addin to facilitate table insertion in Rmd documents.</description>
     </item>
     
     <item>

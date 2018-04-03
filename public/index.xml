@@ -11,23 +11,23 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>A new RStudio addin to facilitate inserting tables in rmarkdown documents</title>
+      <title>A new RStudio addin to facilitate inserting tables in Rmarkdown documents</title>
       <link>/post/a-new-rstudio-addin-to-facilitate-inserting-tables-in-rmarkdown-documents/</link>
       <pubDate>Sun, 01 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/a-new-rstudio-addin-to-facilitate-inserting-tables-in-rmarkdown-documents/</guid>
-      <description>&lt;p&gt;In the last months, I started increasingly using &lt;code&gt;Rmd&lt;/code&gt; documents for preparing scientific reports, blog posts, etcetera. While I really like the flexibility offered by the system, one thing that I thought could be improved is the support for &lt;strong&gt;easily inserting tables&lt;/strong&gt;. So, “inspired” also by the recent addition of the excellent &lt;a href=&#34;http://lcolladotor.github.io/2018/03/07/blogdown-insert-image-addin/#.WsEt2YhuaHs&#34;&gt;&lt;strong&gt;&lt;code&gt;insert image&lt;/code&gt; addin&lt;/strong&gt;&lt;/a&gt; in &lt;code&gt;blogdown&lt;/code&gt;, I decided to give it a go and try to implement some kind of addin to ease table insertion in &lt;code&gt;Rmd&lt;/code&gt; documents.&lt;/p&gt;
-&lt;p&gt;After struggling a bit due to my rather nonexistent shiny skills, in the end I managed to obtain a “basic but useful” addin. Let’s see how it works:&lt;/p&gt;
+      <description>&lt;p&gt;In the last months, I started increasingly using &lt;code&gt;Rmd&lt;/code&gt; documents for preparing scientific reports, blog posts, etcetera. While I really like the flexibility offered by the system, one thing that I thought could be improved is the support for &lt;strong&gt;easily inserting tables&lt;/strong&gt;. So, “inspired” also by the recent addition of the excellent &lt;a href=&#34;http://lcolladotor.github.io/2018/03/07/blogdown-insert-image-addin/#.WsEt2YhuaHs&#34;&gt;&lt;strong&gt;&lt;code&gt;insert image&lt;/code&gt; addin&lt;/strong&gt;&lt;/a&gt; in &lt;code&gt;blogdown&lt;/code&gt;, I decided to give it a go and try to implement some kind of addin to facilitate table insertion in &lt;code&gt;Rmd&lt;/code&gt; documents.&lt;/p&gt;
+&lt;p&gt;After struggling a bit due to my rather nonexistent shiny skills, in the end I managed to obtain a “basic but useful” (IMO) addin. Let’s see how it works:&lt;/p&gt;
 &lt;div id=&#34;installation&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Installation&lt;/h2&gt;
-&lt;p&gt;You can install the addin from &lt;a href=&#34;https://github.com/&#34;&gt;GitHub&lt;/a&gt; with:&lt;/p&gt;
+&lt;p&gt;You can install the addin from &lt;a href=&#34;https://github.com/lbusett/insert_table&#34;&gt;GitHub&lt;/a&gt; with:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# install.packages(&amp;quot;devtools&amp;quot;)
 devtools::install_github(&amp;quot;lbusett/insert_table&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;usage&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Usage&lt;/h2&gt;
 &lt;p&gt;Upon installing, &lt;code&gt;inserttable&lt;/code&gt; registers a new RStudio Addin (&lt;strong&gt;Insert Table&lt;/strong&gt;) that can be used to easily insert a table in a &lt;code&gt;Rmd&lt;/code&gt; document. To use it, open a &lt;code&gt;Rmd&lt;/code&gt; document and, with the cursor within a &lt;code&gt;r&lt;/code&gt; chunk and select “Addins –&amp;gt; Insert Table”.&lt;/p&gt;
-&lt;p&gt;These are the two main &lt;strong&gt;use modes&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;There are two main &lt;strong&gt;use modes&lt;/strong&gt;:&lt;/p&gt;
 &lt;div id=&#34;launch-the-addin-while-the-cursor-is-on-a-empty-line&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Launch the addin while the cursor is on a empty line&lt;/h3&gt;
 &lt;p&gt;In this case, a GUI will open allowing you to &lt;strong&gt;select the desired output format&lt;/strong&gt; ( &lt;code&gt;kableExtra&lt;/code&gt;, &lt;code&gt;DT&lt;/code&gt; and &lt;code&gt;rhandsontable&lt;/code&gt; are currently implemented), and to &lt;strong&gt;edit the content of the table&lt;/strong&gt;. After clicking &lt;strong&gt;Done&lt;/strong&gt; the Addin will add in the &lt;code&gt;Rmd&lt;/code&gt; document the code needed to generate the table in a nice &lt;code&gt;tribble&lt;/code&gt; format (thanks to Miles McBain’s &lt;a href=&#34;https://github.com/milesmcbain/datapasta&#34;&gt;&lt;code&gt;datapasta&lt;/code&gt;&lt;/a&gt; package!) to allow easier editing, and also the code needed to render it with the selected output format using some default options, as can be seen below:&lt;/p&gt;
