@@ -1,5 +1,5 @@
 ---
-title: A new RStudio addin to facilitate inserting tables in rmarkdown documents
+title: A new RStudio addin to facilitate inserting tables in Rmarkdown documents
 author: Lorenzo Busetto
 date: '2018-04-01'
 slug: a-new-rstudio-addin-to-facilitate-inserting-tables-in-rmarkdown-documents
@@ -23,7 +23,7 @@ After struggling a bit due to my rather nonexistent shiny skills, in the end I m
 
 ## Installation
 
-You can install the addin from [GitHub](https://github.com/) with:
+You can install the addin from [GitHub](https://github.com/lbusett/insert_table) with:
 
 ``` r
 # install.packages("devtools")
