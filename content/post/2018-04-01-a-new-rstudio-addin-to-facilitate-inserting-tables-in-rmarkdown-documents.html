@@ -2,7 +2,6 @@
 title: A new RStudio addin to facilitate inserting tables in rmarkdown documents
 author: Lorenzo Busetto
 date: '2018-04-01'
-draft: true
 slug: a-new-rstudio-addin-to-facilitate-inserting-tables-in-rmarkdown-documents
 categories:
   - R
@@ -20,21 +19,21 @@ header:
 
 
 
-<p>In the last months, I started increasingly using <code>Rmd</code> documents for preparing scientific reports, blog posts, etcetera. While I really like the flexibility offered by the system, one thing that I thought could be improved is the support for easily inserting table. So, also “inspired” by the recent addition of the excellent <a href="http://lcolladotor.github.io/2018/03/07/blogdown-insert-image-addin/#.WsEt2YhuaHs"><strong><code>insert image</code> addin</strong></a> in <code>blogdown</code>, I decided to give it a go and try to implement some kind of addin to ease table insertion in <code>Rmd</code> documentents.</p>
-<p>After struggling a bit due to my rather inexistent shiny skills, in the end I manage to obtain a “basic but useful” addin. Let’s see how it works&quot;</p>
-<div id="usage" class="section level2">
-<h2>Usage</h2>
+<p>In the last months, I started increasingly using <code>Rmd</code> documents for preparing scientific reports, blog posts, etcetera. While I really like the flexibility offered by the system, one thing that I thought could be improved is the support for <strong>easily inserting tables</strong>. So, “inspired” also by the recent addition of the excellent <a href="http://lcolladotor.github.io/2018/03/07/blogdown-insert-image-addin/#.WsEt2YhuaHs"><strong><code>insert image</code> addin</strong></a> in <code>blogdown</code>, I decided to give it a go and try to implement some kind of addin to ease table insertion in <code>Rmd</code> documents.</p>
+<p>After struggling a bit due to my rather nonexistent shiny skills, in the end I managed to obtain a “basic but useful” addin. Let’s see how it works:</p>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
 <p>You can install the addin from <a href="https://github.com/">GitHub</a> with:</p>
 <pre class="r"><code># install.packages(&quot;devtools&quot;)
 devtools::install_github(&quot;lbusett/insert_table&quot;)</code></pre>
 </div>
-<div id="usage-1" class="section level2">
+<div id="usage" class="section level2">
 <h2>Usage</h2>
 <p>Upon installing, <code>inserttable</code> registers a new RStudio Addin (<strong>Insert Table</strong>) that can be used to easily insert a table in a <code>Rmd</code> document. To use it, open a <code>Rmd</code> document and, with the cursor within a <code>r</code> chunk and select “Addins –&gt; Insert Table”.</p>
 <p>These are the two main <strong>use modes</strong>:</p>
 <div id="launch-the-addin-while-the-cursor-is-on-a-empty-line" class="section level3">
 <h3>Launch the addin while the cursor is on a empty line</h3>
-<p>In this case, a GUI will open allowing you to <strong>select the desired output format</strong> ( <code>kable</code>, <code>DT</code> and <code>rhandsontable</code> are currently implemented), and to <strong>edit the content of the table</strong>. After clicking <strong>Done</strong> the Addin will add in the <code>Rmd</code> document the code needed to generate the table in a nice <code>tribble</code> format (thanks to Miles McBain’s <a href="https://github.com/milesmcbain/datapasta"><code>datapasta</code></a> package!) to allow easier editing, and also the code needed to render it with the selected output format using some default options, as can be seen below:</p>
+<p>In this case, a GUI will open allowing you to <strong>select the desired output format</strong> ( <code>kableExtra</code>, <code>DT</code> and <code>rhandsontable</code> are currently implemented), and to <strong>edit the content of the table</strong>. After clicking <strong>Done</strong> the Addin will add in the <code>Rmd</code> document the code needed to generate the table in a nice <code>tribble</code> format (thanks to Miles McBain’s <a href="https://github.com/milesmcbain/datapasta"><code>datapasta</code></a> package!) to allow easier editing, and also the code needed to render it with the selected output format using some default options, as can be seen below:</p>
 <div class="figure">
 <img src="/img/inserttable/animation_1.gif" />
 

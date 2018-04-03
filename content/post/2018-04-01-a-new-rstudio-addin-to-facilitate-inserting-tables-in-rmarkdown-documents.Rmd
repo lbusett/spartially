@@ -2,7 +2,6 @@
 title: A new RStudio addin to facilitate inserting tables in rmarkdown documents
 author: Lorenzo Busetto
 date: '2018-04-01'
-draft: true
 slug: a-new-rstudio-addin-to-facilitate-inserting-tables-in-rmarkdown-documents
 categories:
   - R
@@ -18,13 +17,11 @@ header:
   image: ''
 ---
 
-In the last months, I started increasingly using `Rmd` documents for preparing scientific reports, blog posts, etcetera. While I really like the flexibility offered by the system, one thing that I thought could be improved is the support for easily inserting table. So, also "inspired" by the recent addition of the excellent [__`insert image` addin__](http://lcolladotor.github.io/2018/03/07/blogdown-insert-image-addin/#.WsEt2YhuaHs) in `blogdown`, I decided to give it a go and try to implement some kind of addin to ease table insertion in `Rmd` documentents. 
+In the last months, I started increasingly using `Rmd` documents for preparing scientific reports, blog posts, etcetera. While I really like the flexibility offered by the system, one thing that I thought could be improved is the support for __easily inserting tables__. So, "inspired" also by the recent addition of the excellent [__`insert image` addin__](http://lcolladotor.github.io/2018/03/07/blogdown-insert-image-addin/#.WsEt2YhuaHs) in `blogdown`, I decided to give it a go and try to implement some kind of addin to ease table insertion in `Rmd` documents. 
 
+After struggling a bit due to my rather nonexistent shiny skills, in the end I managed to obtain a "basic but useful" addin. Let's see how it works:
 
-
-After struggling a bit due to my rather inexistent shiny skills, in the end I manage to obtain a "basic but useful" addin. Let's see how it works"
-
-## Usage
+## Installation
 
 You can install the addin from [GitHub](https://github.com/) with:
 
@@ -43,7 +40,7 @@ These are the two main __use modes__:
 ### Launch the addin while the cursor is on a empty line
 
 In this case, a GUI will open allowing you to __select the desired output format__ (
-`kable`, `DT` and `rhandsontable` are currently implemented), and to __edit the content of the table__. After clicking __Done__ the Addin will add in the `Rmd`
+`kableExtra`, `DT` and `rhandsontable` are currently implemented), and to __edit the content of the table__. After clicking __Done__ the Addin will add in the `Rmd`
 document the code needed to generate the table in a nice `tribble` format (thanks to Miles McBain's [`datapasta`](https://github.com/milesmcbain/datapasta) package!) to allow easier editing, and also the code needed to render it with the selected output format using some 
 default options, as can be seen below: 
 

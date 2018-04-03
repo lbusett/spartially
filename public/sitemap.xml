@@ -5,8 +5,8 @@
     
     <url>
     
-      <loc>/post/speeding-up-spatial-operations-using-sf-and-searchtree/</loc>
-      <lastmod>2018-03-18T00:00:00+00:00</lastmod>
+      <loc>/post/a-new-rstudio-addin-to-facilitate-inserting-tables-in-rmarkdown-documents/</loc>
+      <lastmod>2018-04-01T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -620,8 +620,28 @@
     
     <url>
     
+      <loc>/tags/addin/</loc>
+      <lastmod>2018-04-01T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/categories/blogdown/</loc>
-      <lastmod>2018-03-13T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-01T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/blogdown/</loc>
+      <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -631,7 +651,7 @@
     <url>
     
       <loc>/categories/</loc>
-      <lastmod>2018-03-13T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -670,6 +690,16 @@
     
     <url>
     
+      <loc>/categories/modis/</loc>
+      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/tags/modis/</loc>
       <lastmod>2016-04-27T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -680,7 +710,7 @@
     
     <url>
     
-      <loc>/categories/modis/</loc>
+      <loc>/categories/modistsp/</loc>
       <lastmod>2017-08-16T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -700,7 +730,7 @@
     
     <url>
     
-      <loc>/categories/modistsp/</loc>
+      <loc>/categories/pkgdown/</loc>
       <lastmod>2017-08-16T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -712,16 +742,6 @@
     
       <loc>/tags/pkgdown/</loc>
       <lastmod>2017-08-01T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>/categories/pkgdown/</loc>
-      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -760,13 +780,8 @@
     
     <url>
     
-<<<<<<< Updated upstream
-      <loc>/tags/r/</loc>
-      <lastmod>2018-03-13T00:00:00+00:00</lastmod>
-=======
       <loc>/categories/r/</loc>
-      <lastmod>2018-03-18T00:00:00+00:00</lastmod>
->>>>>>> Stashed changes
+      <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -775,13 +790,8 @@
     
     <url>
     
-<<<<<<< Updated upstream
-      <loc>/categories/r/</loc>
-      <lastmod>2018-03-13T00:00:00+00:00</lastmod>
-=======
       <loc>/tags/r/</loc>
-      <lastmod>2018-03-18T00:00:00+00:00</lastmod>
->>>>>>> Stashed changes
+      <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -800,8 +810,28 @@
     
     <url>
     
+      <loc>/tags/rstudio/</loc>
+      <lastmod>2018-04-01T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/tags/remote-sensing/</loc>
       <lastmod>2016-04-27T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/rmarkdown/</loc>
+      <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -821,7 +851,7 @@
     <url>
     
       <loc>/categories/spatial-processing/</loc>
-      <lastmod>2018-03-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-02-20T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
