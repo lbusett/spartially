@@ -30,7 +30,7 @@ defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = false
 
 [outputs]
-  home = [ "HTML", "CSS", "RSS" ]
+  home    = [ "HTML", "CSS", "RSS" ]
   section = [ "HTML", "RSS" ]
 
 # Configure BlackFriday Markdown rendering.
