@@ -8,9 +8,7 @@
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0100</lastBuildDate>
-    
-	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
-    
+    <atom:link href="/post/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>A new RStudio addin to facilitate inserting tables in Rmarkdown documents</title>
@@ -18,7 +16,57 @@
       <pubDate>Sun, 01 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/a-new-rstudio-addin-to-facilitate-inserting-tables-in-rmarkdown-documents/</guid>
-      <description>In the last months, I started increasingly using Rmd documents for preparing scientific reports, blog posts, etcetera. While I really like the flexibility offered by the system, one thing that I thought could be improved is the support for easily inserting tables. So, “inspired” also by the recent addition of the excellent insert image addin in blogdown, I decided to give it a go and try to implement some kind of addin to facilitate table insertion in Rmd documents.</description>
+      <description>&lt;p&gt;In the last months, I started increasingly using &lt;code&gt;Rmd&lt;/code&gt; documents for preparing scientific reports, blog posts, etcetera. While I really like the flexibility offered by the system, one thing that I thought could be improved is the support for &lt;strong&gt;easily inserting tables&lt;/strong&gt;. So, “inspired” also by the recent addition of the excellent &lt;a href=&#34;http://lcolladotor.github.io/2018/03/07/blogdown-insert-image-addin/#.WsEt2YhuaHs&#34;&gt;&lt;strong&gt;&lt;code&gt;insert image&lt;/code&gt; addin&lt;/strong&gt;&lt;/a&gt; in &lt;code&gt;blogdown&lt;/code&gt;, I decided to give it a go and try to implement some kind of addin to facilitate table insertion in &lt;code&gt;Rmd&lt;/code&gt; documents.&lt;/p&gt;
+&lt;p&gt;After struggling a bit due to my rather nonexistent shiny skills, in the end I managed to obtain a “basic but useful” (IMO) addin. Let’s see how it works:&lt;/p&gt;
+&lt;div id=&#34;installation&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Installation&lt;/h2&gt;
+&lt;p&gt;You can install the addin from &lt;a href=&#34;https://github.com/lbusett/insert_table&#34;&gt;GitHub&lt;/a&gt; with:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# install.packages(&amp;quot;devtools&amp;quot;)
+devtools::install_github(&amp;quot;lbusett/insert_table&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;usage&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Usage&lt;/h2&gt;
+&lt;p&gt;Upon installing, &lt;code&gt;inserttable&lt;/code&gt; registers a new RStudio Addin (&lt;strong&gt;Insert Table&lt;/strong&gt;) that can be used to easily insert a table in a &lt;code&gt;Rmd&lt;/code&gt; document. To use it, open a &lt;code&gt;Rmd&lt;/code&gt; document and, with the cursor within a &lt;code&gt;r&lt;/code&gt; chunk and select “Addins –&amp;gt; Insert Table”.&lt;/p&gt;
+&lt;p&gt;There are two main &lt;strong&gt;use modes&lt;/strong&gt;:&lt;/p&gt;
+&lt;div id=&#34;launch-the-addin-while-the-cursor-is-on-a-empty-line&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Launch the addin while the cursor is on a empty line&lt;/h3&gt;
+&lt;p&gt;In this case, a GUI will open allowing you to &lt;strong&gt;select the desired output format&lt;/strong&gt; ( &lt;code&gt;kableExtra&lt;/code&gt;, &lt;code&gt;DT&lt;/code&gt; and &lt;code&gt;rhandsontable&lt;/code&gt; are currently implemented), and to &lt;strong&gt;edit the content of the table&lt;/strong&gt;. After clicking &lt;strong&gt;Done&lt;/strong&gt; the Addin will add in the &lt;code&gt;Rmd&lt;/code&gt; document the code needed to generate the table in a nice &lt;code&gt;tribble&lt;/code&gt; format (thanks to Miles McBain’s &lt;a href=&#34;https://github.com/milesmcbain/datapasta&#34;&gt;&lt;code&gt;datapasta&lt;/code&gt;&lt;/a&gt; package!) to allow easier editing, and also the code needed to render it with the selected output format using some default options, as can be seen below:&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/inserttable/animation_1.gif&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;A useful feature is that, for larger tables, you can also &lt;strong&gt;cut and paste content from a spreadsheet&lt;/strong&gt; :&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/inserttable/animation_2.gif&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;Obviously, rendering of the table can be tweaked further by changing/adding arguments of the rendering functions in the automatically generated code.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;launch-the-addin-while-selecting-the-name-of-a-variable&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Launch the addin while selecting the name of a variable&lt;/h3&gt;
+&lt;p&gt;In this case, the GUI allows you to select &lt;strong&gt;only the desired output format&lt;/strong&gt; ( it is assumed that the variable you select corresponds to a &lt;code&gt;data frame&lt;/code&gt; or similar object containing the data you wish to show as table). After clicking &lt;strong&gt;Done&lt;/strong&gt; the Addin will add in the &lt;code&gt;Rmd&lt;/code&gt; document the code needed to render the selected variable as a table with the selected output format. The code will be added at the first empty line below that containing the name of the selected variable.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/inserttable/animation_3.gif&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;IMPORTANT NOTE&lt;/strong&gt;: &lt;code&gt;inserttable&lt;/code&gt; will make no effort to guarantee that the variable you select is a &lt;code&gt;data.frame&lt;/code&gt;. It is up to you to select a meaningful variable!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;usage-from-the-console&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Usage from the console&lt;/h2&gt;
+&lt;p&gt;You can also use (part of) &lt;code&gt;inserttable&lt;/code&gt; functionality from the console by calling function &lt;code&gt;insert_table()&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;&amp;gt; insert_table(tbl_name = &amp;quot;table_1&amp;quot;, nrows = 4, ncols = 4, tbl_format = &amp;quot;DT&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The function will return &lt;strong&gt;to the console&lt;/strong&gt; the code needed to create a empty table of the specified dimensions and render it with the selected format:&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/inserttable/animation_4.gif&#34; /&gt;
+
+&lt;/div&gt;
+&lt;div id=&#34;thats-all.&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;&lt;strong&gt;That’s all&lt;/strong&gt;!.&lt;/h4&gt;
+&lt;p&gt;I hope someone else will find this useful!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>
@@ -27,9 +75,209 @@
       <pubDate>Tue, 13 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/automatically-importing-publications-from-bibtex-to-a-hugo-academic-blog/</guid>
-      <description>The problem I am in the process of migrating my (rather ugly) small blog from “Bloggers” to blogdown and, as several others, I choose to use the hugo-academic theme due to its good looks, simplicity, and “focus” towards researchers.
-One nice feature of hugo-academic is that it includes out-of-the-box a “Publications” section, allowing researchers to easily create a list of their publication as a section of the website.
-Unfortunately, in order to populate that list, users have to manually create one different .</description>
+      <description>&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The problem&lt;/h2&gt;
+&lt;p&gt;I am in the process of migrating my (rather ugly) &lt;a href=&#34;https://www.blogger.com/blogger.g?blogID=4683863749820351779#allposts&#34;&gt;small blog&lt;/a&gt; from “Bloggers” to blogdown and, as several others, I choose to use the &lt;a href=&#34;https://github.com/gcushen/hugo-academic&#34;&gt;hugo-academic theme&lt;/a&gt; due to its good looks, simplicity, and “focus” towards researchers.&lt;/p&gt;
+&lt;p&gt;One nice feature of &lt;code&gt;hugo-academic&lt;/code&gt; is that it includes out-of-the-box a “Publications” section, allowing researchers to easily create a list of their publication as a section of the website.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Unfortunately&lt;/strong&gt;, in order to populate that list, users have to manually create one different &lt;code&gt;.md&lt;/code&gt; file for each publication, by cutting and pasting several different info (e.g., title, authors, etc.) in a “simple”&amp;quot; template like &lt;a href=&#34;https://github.com/gcushen/hugo-academic/blob/master/archetypes/publication.md&#34;&gt;this one&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;THIS IS BORING!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Since I was not in the mood of doing that, and no automatic solutions could be found (well, there appears to be a &lt;code&gt;python&lt;/code&gt; one, but we are speaking &lt;code&gt;R&lt;/code&gt;, here…), I decided to try and develop some script to automatically create the required &lt;code&gt;md&lt;/code&gt; files starting from a &lt;code&gt;BibTex&lt;/code&gt; list of my publications. Here are the results of that effort.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-possible-solution&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;A possible solution&lt;/h2&gt;
+&lt;div id=&#34;preparing-the-bibtex-file&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Preparing the &lt;code&gt;BibTex&lt;/code&gt; file&lt;/h3&gt;
+&lt;p&gt;To automatically create the publications &lt;code&gt;md&lt;/code&gt; files, all you need is a (properly formatted) &lt;code&gt;BibTex&lt;/code&gt; file. Since I did not have one ready, I created mine by exporting my publications list from &lt;a href=&#34;https://www.scopus.com/authid/detail.uri?authorId=23003461400&#34;&gt;Scopus&lt;/a&gt;, but you could use any valid BibTeX file.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;One important thing, though, is that you have to be sure that the file is saved with UTF-8 encoding&lt;/strong&gt;. If you are not sure, you can open it in RStudio (or any decent text editor), and then re-save it with a forced encoding (in RStudio, you can use &lt;code&gt;File--&amp;gt;Save with Encoding&lt;/code&gt;)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;creating-an-import-script&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Creating an import script&lt;/h3&gt;
+&lt;p&gt;Now, you need a script that reads the &lt;code&gt;BibTex&lt;/code&gt; entries and use the data to populate one different &lt;code&gt;md&lt;/code&gt; file for each publication. Below you can find my attempt at this.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bibtex_2academic &amp;lt;- function(bibfile,
+                             outfold,
+                             abstract = FALSE, 
+                             overwrite = FALSE) {
+  
+  require(RefManageR)
+  require(dplyr)
+  require(stringr)
+  require(anytime)
+  
+  # Import the bibtex file and convert to data.frame
+  mypubs   &amp;lt;- ReadBib(bibfile, check = &amp;quot;warn&amp;quot;, .Encoding = &amp;quot;UTF-8&amp;quot;) %&amp;gt;%
+    as.data.frame()
+  
+  # assign &amp;quot;categories&amp;quot; to the different types of publications
+  mypubs   &amp;lt;- mypubs %&amp;gt;%
+    dplyr::mutate(
+      pubtype = dplyr::case_when(document_type == &amp;quot;Article&amp;quot; ~ &amp;quot;2&amp;quot;,
+                                 document_type == &amp;quot;Article in Press&amp;quot; ~ &amp;quot;2&amp;quot;,
+                                 document_type == &amp;quot;InProceedings&amp;quot; ~ &amp;quot;1&amp;quot;,
+                                 document_type == &amp;quot;Proceedings&amp;quot; ~ &amp;quot;1&amp;quot;,
+                                 document_type == &amp;quot;Conference&amp;quot; ~ &amp;quot;1&amp;quot;,
+                                 document_type == &amp;quot;Conference Paper&amp;quot; ~ &amp;quot;1&amp;quot;,
+                                 document_type == &amp;quot;MastersThesis&amp;quot; ~ &amp;quot;3&amp;quot;,
+                                 document_type == &amp;quot;PhdThesis&amp;quot; ~ &amp;quot;3&amp;quot;,
+                                 document_type == &amp;quot;Manual&amp;quot; ~ &amp;quot;4&amp;quot;,
+                                 document_type == &amp;quot;TechReport&amp;quot; ~ &amp;quot;4&amp;quot;,
+                                 document_type == &amp;quot;Book&amp;quot; ~ &amp;quot;5&amp;quot;,
+                                 document_type == &amp;quot;InCollection&amp;quot; ~ &amp;quot;6&amp;quot;,
+                                 document_type == &amp;quot;InBook&amp;quot; ~ &amp;quot;6&amp;quot;,
+                                 document_type == &amp;quot;Misc&amp;quot; ~ &amp;quot;0&amp;quot;,
+                                 TRUE ~ &amp;quot;0&amp;quot;))
+  
+  # create a function which populates the md template based on the info
+  # about a publication
+  create_md &amp;lt;- function(x) {
+    
+    # define a date and create filename by appending date and start of title
+    if (!is.na(x[[&amp;quot;year&amp;quot;]])) {
+      x[[&amp;quot;date&amp;quot;]] &amp;lt;- paste0(x[[&amp;quot;year&amp;quot;]], &amp;quot;-01-01&amp;quot;)
+    } else {
+      x[[&amp;quot;date&amp;quot;]] &amp;lt;- &amp;quot;2999-01-01&amp;quot;
+    }
+    
+    filename &amp;lt;- paste(x[[&amp;quot;date&amp;quot;]], x[[&amp;quot;title&amp;quot;]] %&amp;gt;%
+                        str_replace_all(fixed(&amp;quot; &amp;quot;), &amp;quot;_&amp;quot;) %&amp;gt;%
+                        str_remove_all(fixed(&amp;quot;:&amp;quot;)) %&amp;gt;%
+                        str_sub(1, 20) %&amp;gt;%
+                        paste0(&amp;quot;.md&amp;quot;), sep = &amp;quot;_&amp;quot;)
+    # start writing
+    if (!file.exists(file.path(outfold, filename)) | overwrite) {
+      fileConn &amp;lt;- file.path(outfold, filename)
+      write(&amp;quot;+++&amp;quot;, fileConn)
+      
+      # Title and date
+      write(paste0(&amp;quot;title = \&amp;quot;&amp;quot;, x[[&amp;quot;title&amp;quot;]], &amp;quot;\&amp;quot;&amp;quot;), fileConn, append = T)
+      write(paste0(&amp;quot;date = \&amp;quot;&amp;quot;, anydate(x[[&amp;quot;date&amp;quot;]]), &amp;quot;\&amp;quot;&amp;quot;), fileConn, append = T)
+      
+      # Authors. Comma separated list, e.g. `[&amp;quot;Bob Smith&amp;quot;, &amp;quot;David Jones&amp;quot;]`.
+      auth_hugo &amp;lt;- str_replace_all(x[&amp;quot;author&amp;quot;], &amp;quot; and &amp;quot;, &amp;quot;\&amp;quot;, \&amp;quot;&amp;quot;)
+      auth_hugo &amp;lt;- stringi::stri_trans_general(auth_hugo, &amp;quot;latin-ascii&amp;quot;)
+      write(paste0(&amp;quot;authors = [\&amp;quot;&amp;quot;, auth_hugo,&amp;quot;\&amp;quot;]&amp;quot;), fileConn, append = T)
+      
+      # Publication type. Legend:
+      # 0 = Uncategorized, 1 = Conference paper, 2 = Journal article
+      # 3 = Manuscript, 4 = Report, 5 = Book,  6 = Book section
+      write(paste0(&amp;quot;publication_types = [\&amp;quot;&amp;quot;, x[[&amp;quot;pubtype&amp;quot;]],&amp;quot;\&amp;quot;]&amp;quot;), 
+            fileConn, append = T)
+      
+      # Publication details: journal, volume, issue, page numbers and doi link
+      publication &amp;lt;- x[[&amp;quot;journal&amp;quot;]]
+      if (!is.na(x[[&amp;quot;volume&amp;quot;]])) publication &amp;lt;- paste0(publication, 
+                                                       &amp;quot;, (&amp;quot;, x[[&amp;quot;volume&amp;quot;]], &amp;quot;)&amp;quot;)
+      if (!is.na(x[[&amp;quot;number&amp;quot;]])) publication &amp;lt;- paste0(publication,
+                                                       &amp;quot;, &amp;quot;, x[[&amp;quot;number&amp;quot;]])
+      if (!is.na(x[[&amp;quot;pages&amp;quot;]])) publication &amp;lt;- paste0(publication,
+                                                      &amp;quot;, _pp. &amp;quot;, x[[&amp;quot;pages&amp;quot;]], &amp;quot;_&amp;quot;)
+      if (!is.na(x[[&amp;quot;doi&amp;quot;]])) publication &amp;lt;- paste0(publication,
+                                                    &amp;quot;, &amp;quot;, paste0(&amp;quot;https://doi.org/&amp;quot;, 
+                                                                 x[[&amp;quot;doi&amp;quot;]]))
+      
+      write(paste0(&amp;quot;publication = \&amp;quot;&amp;quot;, publication,&amp;quot;\&amp;quot;&amp;quot;), fileConn, append = T)
+      write(paste0(&amp;quot;publication_short = \&amp;quot;&amp;quot;, publication,&amp;quot;\&amp;quot;&amp;quot;),fileConn, append = T)
+      
+      # Abstract and optional shortened version.
+      if (abstract) {
+        write(paste0(&amp;quot;abstract = \&amp;quot;&amp;quot;, x[[&amp;quot;abstract&amp;quot;]],&amp;quot;\&amp;quot;&amp;quot;), fileConn, append = T)
+      } else {
+        write(&amp;quot;abstract = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      }
+      write(paste0(&amp;quot;abstract_short = \&amp;quot;&amp;quot;,&amp;quot;\&amp;quot;&amp;quot;), fileConn, append = T)
+      
+      # other possible fields are kept empty. They can be customized later by 
+      # editing the created md
+      
+      write(&amp;quot;image_preview = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;selected = false&amp;quot;, fileConn, append = T)
+      write(&amp;quot;projects = []&amp;quot;, fileConn, append = T)
+      write(&amp;quot;tags = []&amp;quot;, fileConn, append = T)
+      #links
+      write(&amp;quot;url_pdf = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_preprint = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_code = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_dataset = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_project = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_slides = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_video = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_poster = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;url_source = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      #other stuff
+      write(&amp;quot;math = true&amp;quot;, fileConn, append = T)
+      write(&amp;quot;highlight = true&amp;quot;, fileConn, append = T)
+      # Featured image
+      write(&amp;quot;[header]&amp;quot;, fileConn, append = T)
+      write(&amp;quot;image = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      write(&amp;quot;caption = \&amp;quot;\&amp;quot;&amp;quot;, fileConn, append = T)
+      
+      write(&amp;quot;+++&amp;quot;, fileConn, append = T)
+    }
+  }
+  # apply the &amp;quot;create_md&amp;quot; function over the publications list to generate
+  # the different &amp;quot;md&amp;quot; files.
+  
+  apply(mypubs, FUN = function(x) create_md(x), MARGIN = 1)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Nothing fancy, here: I just use the &lt;a href=&#34;https://cran.r-project.org/web/packages/RefManageR/index.html&#34;&gt;&lt;code&gt;RefManageR&lt;/code&gt;&lt;/a&gt; package to read the BibTeX file, and then cycle over publications to create files properly formatted for &lt;code&gt;hugo-academic&lt;/code&gt; use.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;running-the-script&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Running the script&lt;/h3&gt;
+&lt;p&gt;All is left is to run the script:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_bibfile &amp;lt;- &amp;quot;/path/to/mybibtex.bib&amp;quot;
+out_fold   &amp;lt;- &amp;quot;/path/to/myoutfolder&amp;quot;
+
+bibtex_2academic(bibffile  = my_bibfile, 
+                 outfold   = out_fold, 
+                 abstract  = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The &lt;code&gt;outfold&lt;/code&gt; argument allows specifying where the generated &lt;code&gt;md&lt;/code&gt; files will be saved. Though in the end they will have to be moved to folder &lt;code&gt;content/publication&lt;/code&gt; you may want to save them at first in a different folder to be able to check them before trying to deploy.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The &lt;code&gt;abstract&lt;/code&gt; argument specifies whether to include the abstract in the &lt;code&gt;md&lt;/code&gt; or not.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Running the script will give you files like this one:&lt;/p&gt;
+&lt;pre class=&#34;yml&#34;&gt;&lt;code&gt;+++
+title = &amp;quot;Estimating canopy water content of poplar plantation from MIVIS data&amp;quot;
+date = &amp;quot;2006-01-01&amp;quot;
+authors = [&amp;quot;R. Colombo&amp;quot;, &amp;quot;L. Busetto&amp;quot;, &amp;quot;A. Marchesi&amp;quot;, &amp;quot;M. Meroni&amp;quot;, &amp;quot;C. Giardino&amp;quot;]
+publication_types = [&amp;quot;1&amp;quot;]
+publication = &amp;quot;AIP Conference Proceedings, (852), _pp. 242-249_, https://doi.org/10.1063/1.2349350&amp;quot;
+publication_short = &amp;quot;&amp;quot;
+abstract_short = &amp;quot;&amp;quot;
+image_preview = &amp;quot;&amp;quot;
+selected = false
+projects = []
+tags = []
+url_pdf = &amp;quot;&amp;quot;
+url_preprint = &amp;quot;&amp;quot;
+url_code = &amp;quot;&amp;quot;
+url_dataset = &amp;quot;&amp;quot;
+url_project = &amp;quot;&amp;quot;
+url_slides = &amp;quot;&amp;quot;
+url_video = &amp;quot;&amp;quot;
+url_poster = &amp;quot;&amp;quot;
+url_source = &amp;quot;&amp;quot;
+math = false
+highlight = true
+[header]
+image = &amp;quot;&amp;quot;
+caption = &amp;quot;&amp;quot;
++++&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;, where I tweaked a bit the hugo-academic format to include bibliographic info such as volume, number, pages and doi link. The files can then be further customized to include, for example, links to pdfs, images, etcetera.&lt;/p&gt;
+&lt;p&gt;After moving all the &lt;code&gt;md&lt;/code&gt; files to &lt;code&gt;content/publication&lt;/code&gt;, the publications section of your &lt;code&gt;hugo-academic&lt;/code&gt; site will be auto-populated, and should look more or less like this:&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/publications/publications.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;You can have a look at the final results on my (under construction) website &lt;a href=&#34;https://lbusett.netlify.com/publication/&#34;&gt;here&lt;/a&gt;. I think it’s quite nice!&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;final-notes&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Final Notes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;My importing script is quite “quick and dirty”. It &lt;strong&gt;does not attempt to deal with special characters, and even substitutes accented letters with “bare” letters to avoid rendering problems&lt;/strong&gt;. If someone more knowledgeable about encoding issues wants to try and improve it, I put it in &lt;a href=&#34;https://gist.github.com/lbusett/da7b1fba4345e03192a450226a17636e&#34;&gt;this gist&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;It may happen that your site will stop rendering when you put the new &lt;code&gt;md&lt;/code&gt; files in &lt;code&gt;content/publication&lt;/code&gt;. If so, the reason is probably that you have some “strange” formatting in some of the files. Usual suspects would be unproperly recognized &lt;strong&gt;accents&lt;/strong&gt;, &lt;strong&gt;math formulas&lt;/strong&gt; or other special characters in the &lt;strong&gt;authors&lt;/strong&gt; and &lt;strong&gt;abstract&lt;/strong&gt; fields. You will have to look into each file and remove any offending areas. (It happened to me a lot before properly saving to UTF-8)&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>
@@ -38,8 +286,282 @@ Unfortunately, in order to populate that list, users have to manually create one
       <pubDate>Tue, 20 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/speeding-up-spatial-analyses-by-integrating-sf-and-data-table-a-test-case/</guid>
-      <description>The problem Last week, I replied to this interesting question posted by @Tim_K over stackoverflow. He was seeking efficient solutions to identify all points falling within a maximum distance of xx meters with respect to each single point in a spatial points dataset.
-If you have a look at the thread, you will see that a simple solution based on creating a “buffered” polygon dataset beforehand and then intersecting it with the original points is quite fast for “reasonably sized” datasets, thanks to sf spatial indexing capabilities which reduce the number of the required comparisons to be done (See http://r-spatial.</description>
+      <description>&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The problem&lt;/h2&gt;
+&lt;p&gt;Last week, I replied to &lt;a href=&#34;https://stackoverflow.com/questions/48650274/spatial-efficient-way-of-finding-all-points-within-x-meters-of-a-point&#34;&gt;this interesting question&lt;/a&gt; posted by &lt;span class=&#34;citation&#34;&gt;@Tim_K&lt;/span&gt; over stackoverflow. He was seeking efficient solutions to identify all points falling within a maximum distance of xx meters with respect to each single point in a spatial points dataset.&lt;/p&gt;
+&lt;p&gt;If you have a look at the thread, you will see that a simple solution based on creating a “buffered” polygon dataset beforehand and then intersecting it with the original points is quite fast for “reasonably sized” datasets, thanks to sf spatial indexing capabilities which reduce the number of the required comparisons to be done (See &lt;a href=&#34;http://r-spatial.org/r/2017/06/22/spatial-index.html&#34; class=&#34;uri&#34;&gt;http://r-spatial.org/r/2017/06/22/spatial-index.html&lt;/a&gt;). In practice, something like this:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# create test data: 50000 uniformly distributed points on a &amp;quot;square&amp;quot; of 100000
+# metres
+maxdist &amp;lt;- 500
+pts     &amp;lt;- data.frame(x = runif(50000, 0, 100000),
+                      y = runif(50000, 0, 100000),
+                      id = 1:50000) %&amp;gt;%
+  sf::st_as_sf(coords = c(&amp;quot;x&amp;quot;, &amp;quot;y&amp;quot;))
+# create buffered polygons
+pts_buf &amp;lt;- sf::st_buffer(pts, maxdist)
+# Find points within 500 meters wrt each point
+int &amp;lt;- sf::st_intersects(pts_buf, pts)
+int&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Sparse geometry binary predicate list of length 50000, where the predicate was `intersects&amp;#39;
+## first 10 elements:
+##  1: 1, 9543, 10064, 14233, 31485
+##  2: 2, 12003, 40923
+##  3: 3, 18913
+##  4: 4, 28268, 28505, 42893, 45560
+##  5: 5, 2570, 4287, 32016, 37806
+##  6: 6, 39270, 41583, 49216
+##  7: 7, 27386, 29567, 29691, 42336
+##  8: 8, 2426, 11947, 20024, 24667, 28285
+##  9: 9
+##  10: 10, 1192, 10159, 11710, 12641, 26826, 28568, 30524, 30840, 36171, ...&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;However, this starts to have problems over really large datasets, because the total number of comparisons to be done still rapidly increase besides the use of spatial indexes. A test done by changing the number of points in the above example in the range 25000 - 475000 shows for example this kind of behavior, for two different values of maxdist (500 and 2000 m):&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/speeding_up/Rplot01.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;On the test dataset, the relationships are almost perfectly quadratic (due to the uniform distribution of points). Extrapolating them to the 12 Million points dataset of the OP, we would get an execution time of about 14 hours for maxdist = 500, and a staggering 3.5 days formaxdist = 2000. Still doable, but not ideal…&lt;/p&gt;
+&lt;p&gt;My suggestion to the OP was therefore to “split” the points in chunks based on the x-coordinate and then work on a per-split basis, eventually assigning each chunk to a different core within a parallellized cycle.&lt;/p&gt;
+&lt;p&gt;In the end, I got curious and decided to give it a go to see what kind of performance improvement it was possible to obtain with that kind of approach. You can find results of some tests below.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-possible-solution-speeding-up-computation-by-combining-data.table-and-sf_intersect&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;A (possible) solution: Speeding up computation by combining &lt;code&gt;data.table&lt;/code&gt; and &lt;code&gt;sf_intersect&lt;/code&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;br&gt; The idea here is to use a simple divide-and-conquer approach.&lt;/p&gt;
+&lt;p&gt;We first split the total spatial extent of the dataset in a certain number of regular quadrants. We then iterate over the quadrants and for each one we:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Extract the points contained into the quadrant and apply a buffer to them;&lt;/li&gt;
+&lt;li&gt;Extract the points contained in a slightly larger area, computed by expanding the quadrant by an amount equal to the maximum distance for which we want to identify the “neighbors”;&lt;/li&gt;
+&lt;li&gt;Compute and save the intersection between the buffered points and the points contained in the “expanded” quadrant.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;“Graphically”, this translates to exploring the dataset like this:&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/speeding_up/animation2.gif&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;, where the points included in the current “quadrant” are shown in green and the additional points needed to perform the analysis for that quadrant are shown in red.&lt;/p&gt;
+&lt;p&gt;Provided that the subsetting operations do not introduce an excessive overhead (i.e., they are fast enough…) this should provide a performance boost, because it should consistently reduce the total number of comparisons to be done.&lt;/p&gt;
+&lt;p&gt;Now, every “R” expert will tell you that if you need to perform fast subsetting over large datasets the way to go is to use properly indexeddata.tables, which provide lightning-speed subsetting capabilities.&lt;/p&gt;
+&lt;p&gt;So, let’s see how we could code this in a functions:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;points_in_distance &amp;lt;- function(in_pts,
+                               maxdist,
+                               ncuts = 10) {
+
+  require(data.table)
+  require(sf)
+  # convert points to data.table and create a unique identifier
+  pts &amp;lt;-  data.table(in_pts)
+  pts &amp;lt;- pts[, or_id := 1:dim(in_pts)[1]]
+
+  # divide the extent in quadrants in ncuts*ncuts quadrants and assign each
+  # point to a quadrant, then create the index over &amp;quot;x&amp;quot; to speed-up
+  # the subsetting
+  range_x  &amp;lt;- range(pts$x)
+  limits_x &amp;lt;-(range_x[1] + (0:ncuts)*(range_x[2] - range_x[1])/ncuts)
+  range_y  &amp;lt;- range(pts$y)
+  limits_y &amp;lt;- range_y[1] + (0:ncuts)*(range_y[2] - range_y[1])/ncuts
+  pts[, `:=`(xcut =  as.integer(cut(x, ncuts, labels = 1:ncuts)),
+             ycut = as.integer(cut(y, ncuts, labels = 1:ncuts)))]  %&amp;gt;%
+    setkey(x)
+
+  results &amp;lt;- list()
+  count &amp;lt;- 0
+  # start cycling over quadrants
+  for (cutx in seq_len(ncuts)) {
+
+    # get the points included in a x-slice extended by `maxdist`, and build
+    # an index over y to speed-up subsetting in the inner cycle
+    min_x_comp    &amp;lt;- ifelse(cutx == 1,
+                            limits_x[cutx],
+                            (limits_x[cutx] - maxdist))
+    max_x_comp    &amp;lt;- ifelse(cutx == ncuts,
+                            limits_x[cutx + 1],
+                            (limits_x[cutx + 1] + maxdist))
+    subpts_x &amp;lt;- pts[x &amp;gt;= min_x_comp &amp;amp; x &amp;lt; max_x_comp] %&amp;gt;%
+      setkey(y)
+
+    for (cuty in seq_len(ncuts)) {
+      count &amp;lt;- count + 1
+
+      # subset over subpts_x to find the final set of points needed for the
+      # comparisons
+      min_y_comp  &amp;lt;- ifelse(cuty == 1,
+                            limits_y[cuty],
+                            (limits_y[cuty] - maxdist))
+      max_y_comp  &amp;lt;- ifelse(cuty == ncuts,
+                            limits_y[cuty + 1],
+                            (limits_y[cuty + 1] + maxdist))
+      subpts_comp &amp;lt;- subpts_x[y &amp;gt;= min_y_comp &amp;amp; y &amp;lt; max_y_comp]
+
+      # subset over subpts_comp to get the points included in a x/y chunk,
+      # which &amp;quot;neighbours&amp;quot; we want to find. Then buffer them by maxdist.
+      subpts_buf &amp;lt;- subpts_comp[ycut == cuty &amp;amp; xcut == cutx] %&amp;gt;%
+        sf::st_as_sf() %&amp;gt;% 
+        sf::st_buffer(maxdist)
+
+      # retransform to sf since data.tables lost the geometric attrributes
+      subpts_comp &amp;lt;- sf::st_as_sf(subpts_comp)
+
+      # compute the intersection and save results in a element of &amp;quot;results&amp;quot;.
+      # For each point, save its &amp;quot;or_id&amp;quot; and the &amp;quot;or_ids&amp;quot; of the points within &amp;quot;dist&amp;quot;
+      inters &amp;lt;- sf::st_intersects(subpts_buf, subpts_comp)
+
+      # save results
+      results[[count]] &amp;lt;- data.table(
+        id = subpts_buf$or_id,
+        int_ids = lapply(inters, FUN = function(x) subpts_comp$or_id[x]))
+    }
+  }
+  data.table::rbindlist(results)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The function takes as input a points sf object, a target distance and a number of “cuts” to use to divide the extent in quadrants, and provides in output a data frame in which, for each original point, the “ids” of the points within maxdist are reported in the int_ids list column.&lt;/p&gt;
+&lt;p&gt;Now, let’s see if this works:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;pts &amp;lt;- data.frame(x = runif(20000, 0, 100000),
+                  y = runif(20000, 0, 100000),
+                  id = 1:20000) %&amp;gt;%
+  st_as_sf(coords = c(&amp;quot;x&amp;quot;, &amp;quot;y&amp;quot;), remove = FALSE)
+maxdist &amp;lt;- 2000
+out &amp;lt;- points_in_distance(pts, maxdist = maxdist, ncut = 10)
+head(out)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##       id                              int_ids
+## 1:  1140  1140,  229, 6899,15301, 6474,10746,
+## 2:   229  1140,  229, 2353, 4980,10746,12784,
+## 3: 10552 10552, 7674,15723,13406, 6899,15301,
+## 4: 17942 17942,13624,16956,18266, 4662, 8173,
+## 5: 13624 17942,13624,16956,18266, 4662, 8173,
+## 6: 16956 17942,13624,16956,18266, 4662, 8173,&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# get a random point
+sel_id  &amp;lt;- sample(pts$id,1)
+pt_sel  &amp;lt;- pts[sel_id, ]
+pt_buff &amp;lt;- pt_sel %&amp;gt;%  sf::st_buffer(maxdist)
+# get ids of points within maxdist
+id_inters &amp;lt;- unlist(out[id == sel_id, ]$int_ids)
+pt_inters &amp;lt;- pts[id_inters,]
+
+#plot results
+plot &amp;lt;- ggplot(pt_buff)  + theme_light() +
+  geom_point(data = pts, aes(x = x, y = y), size = 1) +
+  geom_sf(col = &amp;quot;blue&amp;quot;, size = 1.2, fill = &amp;quot;transparent&amp;quot;) +
+  geom_sf(data = pt_inters, col = &amp;quot;red&amp;quot;, size = 1.5) +
+  geom_point(data = pt_sel, aes(x = x, y = y), size = 2, col = &amp;quot;green&amp;quot;) +
+  xlim(st_bbox(pt_buff)[1] - maxdist, st_bbox(pt_buff)[3] + maxdist) +
+  ylim(st_bbox(pt_buff)[2] - maxdist, st_bbox(pt_buff)[4] + maxdist) + 
+  ggtitle(paste0(&amp;quot;id = &amp;quot;, sel_id, &amp;quot; - Number of points within distance = &amp;quot;, 
+                 length(id_inters)))
+plot&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-02-20-speeding-up-spatial-analyses-by-integrating-sf-and-data-table-a-test-case_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;336&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;So far, so good&lt;/strong&gt;. Now, let’s do the same exercise with varying number of points to see how it behaves in term of speed:&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/speeding_up/Rplot3.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;Already not bad! In particular for the maxdist = 2000 case, we get a quite large speed improvement!&lt;/p&gt;
+&lt;p&gt;However, a nice thing about the points_in_distance approach is that &lt;strong&gt;it is easily parallelizable&lt;/strong&gt;. All is needed is to change some lines of the function &lt;em&gt;so that the outer loop over the x “chunks” exploits a parallel backend&lt;/em&gt; of some kind. (You can find an example implementation exploiting foreach in &lt;a href=&#34;https://gist.github.com/lbusett/247dc9b0b6bed04ac1b45c03999be348&#34;&gt;this gist&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;On a not-particularly-fast PC, using a 6-cores parallelization leads to this:&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;/img/speeding_up/Rplot4.png&#34; /&gt;
+
+&lt;/div&gt;
+&lt;p&gt;Looking good! Some more skilled programmer could probably squeeze out even more speed from it by some additional data.table magic, but the improvement is very noticeable.&lt;/p&gt;
+&lt;p&gt;In terms of execution time, extrapolating again to the “infamous” 12 Million points dataset, this would be what we get:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Method
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+Maxdist
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Expected completion time (hours)
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+st_intersect
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+500
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     &#34;&gt;15&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+points_in_distance - serial
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+500
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     &#34;&gt;2.5&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+points_in_distance - parallel
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+500
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     &#34;&gt;0.57&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+st_intersect
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34; font-weight: bold;    color: red;&#34;&gt;85&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+points_in_distance - serial
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     &#34;&gt;15.2&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+points_in_distance - parallel
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2000
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     &#34;&gt;3.18&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;So, we get a 5-6X speed improvement already on the “serial” implementation, and another 5X thanks to parallelization over 6 cores! On themaxdist = 2000 case, this means going &lt;strong&gt;from more than 3 days to about 3 hours&lt;/strong&gt;. And if we had more cores and RAM to throw at it, it would finish in minutes!&lt;/p&gt;
+&lt;div id=&#34;nice&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;strong&gt;Nice!&lt;/strong&gt;&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div id=&#34;final-notes&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Final Notes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;The &lt;strong&gt;timings shown here are merely indicative&lt;/strong&gt;, and related to the particular test-dataset we built. On a less uniformly distributed dataset I would expect a lower speed improvement.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Some time is “wasted” because sf does not (yet) extend data.tables&lt;/strong&gt;, making it necessary to recreate sf objects from thedata.table subsets.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The parallel implementation is quick-and-dirty, and &lt;strong&gt;it is a bit of a memory-hog&lt;/strong&gt;! Be careful before throwing at it 25 processors!&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Speed is influenced in a non-trivial way by the number of “cuts”&lt;/strong&gt; used to subdivide the spatial extent. There may be a sweet-spot related to points distribution and maxdist allowing reaching maximum speed.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;A similar approach for parallelization could exploit repeatedly “cropping” the original sf points object over the extent of the chunk/extended chunk. The &lt;strong&gt;data.table approach seems however to be faster&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;That’s all! Hope you liked this (rather long) post!&lt;/strong&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
     </item>
     
     <item>
@@ -48,9 +570,46 @@ If you have a look at the thread, you will see that a simple solution based on c
       <pubDate>Wed, 16 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>/post/modistsp-1-3-3-is-out-speeding-things-up-and-squashing-some-bugs/</guid>
-      <description>A new version of MODIStsp (1.3.3) is on CRAN as of today ! Below, you can find a short description of the main improvements.
-Processing speed improvements Processing of MODIS layers after download (i.e., scale and offset calibration, computation of Spectral Indexes and Quality Indicators) is now much faster.
-As you can see in the figure, processing time was almost halved on my (not so fast) laptop. This was achieved by modifying all computation functions so to use raster::calc() and raster::overlay() (more on this in a later post).</description>
+      <description>
+
+&lt;p&gt;A new version of &lt;a href=&#34;http://lbusett.github.io/MODIStsp/&#34; target=&#34;_blank&#34;&gt;MODIStsp&lt;/a&gt; (1.3.3) is on &lt;a href=&#34;https://cran.r-project.org/web/packages/MODIStsp/index.html&#34; target=&#34;_blank&#34;&gt;CRAN&lt;/a&gt; as of today !
+Below, you can find a short description of the main improvements.&lt;/p&gt;
+
+&lt;h2 id=&#34;processing-speed-improvements&#34;&gt;Processing speed improvements&lt;/h2&gt;
+
+&lt;p&gt;Processing of MODIS layers after download (i.e., scale and offset calibration,
+computation of Spectral Indexes and Quality Indicators) &lt;strong&gt;is now much faster&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/boxplots.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As you can see in the figure, &lt;strong&gt;processing time was almost halved&lt;/strong&gt; on my (not so fast)
+laptop. This was achieved by &lt;strong&gt;modifying all computation functions so to use
+&lt;code&gt;raster::calc()&lt;/code&gt; and &lt;code&gt;raster::overlay()&lt;/code&gt;&lt;/strong&gt; (more on this in a later post).&lt;/p&gt;
+
+&lt;p&gt;Although speed is also limited by download speed and compression options, this
+will allow to &lt;strong&gt;save quite some time when working on large areas and with many
+MODIS layers&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;test-mode&#34;&gt;Test mode&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;MODIStsp 1.3.3&lt;/code&gt; also introduces a &lt;strong&gt;test mode&lt;/strong&gt;. Although it was mainly developed
+to facilitate &lt;a href=&#34;https://en.wikipedia.org/wiki/Unit_testing&#34; target=&#34;_blank&#34;&gt;unit testing&lt;/a&gt;, it is
+also available to the user. Running:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;MODIStsp(test = X)  # with X equal to a number between 0 and 6
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;will run &lt;code&gt;MODIStsp&lt;/code&gt; expoiting different sets of processing parameters (available
+as JSON files in the Test_files subfolder of &lt;code&gt;MODIStsp&lt;/code&gt; installation). We hope this
+will help us in more easily pinpoint and solve eventual problems signalled by users.&lt;/p&gt;
+
+&lt;h3 id=&#34;bug-fixes&#34;&gt;Bug fixes&lt;/h3&gt;
+
+&lt;p&gt;Several bugs discovered after v1.3.2 release were fixed. We thank &lt;code&gt;MODIStsp&lt;/code&gt; users
+&lt;a href=&#34;https://github.com/lbusett/MODIStsp/issues?q=is%3Aissue+is%3Aclosed&#34; target=&#34;_blank&#34;&gt;for their feedback&lt;/a&gt;
+and help in improving the package ! You can find a list of the main fixes in our
+&lt;a href=&#34;http://lbusett.github.io/MODIStsp/news/index.html&#34; target=&#34;_blank&#34;&gt;NEWS&lt;/a&gt; page.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -59,9 +618,339 @@ As you can see in the figure, processing time was almost halved on my (not so fa
       <pubDate>Tue, 01 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>/post/building-a-website-with-pkgdown-a-short-guide/</guid>
-      <description>As promised in my last post, here is a short guide with some tips and tricks for building a documentation website for an R package using pkgdown.
-In the end, this guide ended up way longer than I was expecting, but I hope you&amp;rsquo;ll find it useful, although it often replicates information already available in pkgdown documentation !
-Prerequisites To build a website using pkgdown, all you need to have is an R package hosted on Git Hub, with a file structure &amp;ldquo;tweaked&amp;rdquo; with some functionality provided by devtools.</description>
+      <description>
+
+&lt;p&gt;As promised in my &lt;a href=&#34;/post/the-new-modistsp-website-based-on-pkgdown-is-online&#34;&gt;last post&lt;/a&gt;,
+here is a short guide with some &lt;strong&gt;tips and tricks for building a documentation website&lt;/strong&gt;
+for an &lt;code&gt;R&lt;/code&gt; package using &lt;code&gt;pkgdown&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;In the end, this guide ended up way longer than I was expecting, but I hope you&amp;rsquo;ll
+find it useful, although it often replicates information already available in &lt;code&gt;pkgdown&lt;/code&gt; documentation !&lt;/p&gt;
+
+&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
+
+&lt;p&gt;To build a website using &lt;code&gt;pkgdown&lt;/code&gt;, all you need to have is an &lt;strong&gt;R&lt;/strong&gt; package
+&lt;strong&gt;hosted on Git Hub&lt;/strong&gt;, with a file structure &amp;ldquo;tweaked&amp;rdquo; with some functionality
+provided by &lt;strong&gt;devtools&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Assuming you are using RStudio, and that you didn&amp;rsquo;t already do this, open the
+project corresponding to your package and (as a minimum) run:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;require(devtools)
+use_readme_rmd()
+use_news_md()
+use_vignette(&amp;quot;test&amp;quot;)  #substitute with the name of your package
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Since to use &lt;code&gt;pkgdown&lt;/code&gt; your package must be on Git Hub, you may also want:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;use_github_links()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;, which will populate automatically some fields in the &lt;strong&gt;DESCRIPTION&lt;/strong&gt; file successively
+used to build the home page of your website.&lt;/p&gt;
+
+&lt;p&gt;Other possibly useful commands (depending on the status of your package) may be:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;use_travis()
+use_cran_badge()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(see &lt;code&gt;devtools&lt;/code&gt; documentation for further info)&lt;/p&gt;
+
+&lt;p&gt;At this point, within your package file structure you should have a &lt;strong&gt;README.Rmd&lt;/strong&gt;
+file (which is used also to create the &amp;ldquo;README.md&amp;rdquo; file for Git Hub), and a
+&lt;strong&gt;NEWS.md&lt;/strong&gt; file. You should also have a _**man **_subfolder containing the
+&lt;em&gt;.Rd&lt;/em&gt; files documenting your functions (usually auto-generated from roxygen
+comments using &lt;code&gt;devtools::document()&lt;/code&gt;). Finally, you should have a &lt;strong&gt;my_package.Rmd&lt;/strong&gt;
+file in the _vignettes _subfolder (which is used for example by &lt;code&gt;devtools::build_vignette()&lt;/code&gt;
+to automatically create a vignette for the package).&lt;/p&gt;
+
+&lt;h2 id=&#34;getting-started-creating-a-bare-bones-website&#34;&gt;Getting Started: creating a bare-bones website&lt;/h2&gt;
+
+&lt;p&gt;To create a standard &lt;code&gt;pkgdown&lt;/code&gt; site, just run:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;devtools::install_githb(&amp;quot;hadley/pkgdown&amp;quot;)
+library(pkgdown)
+build_site()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;build_site()&lt;/code&gt; will do several things:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;create a &amp;ldquo;docs&amp;rdquo; subfolder&lt;/strong&gt; in your file structure, where it will place all
+the material needed for rendering the website;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;knit README.Rmd&lt;/strong&gt; to &amp;ldquo;docs/index.html&amp;rdquo;. This will be the home page of your
+website;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;knit NEWS.md&lt;/strong&gt; to &amp;ldquo;docs/news/index.html&amp;rdquo; (in this way, any time you update
+NEWS.md, the news section of the website can be automatically updated;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;knit all your &amp;ldquo;Rd&amp;rdquo; files&lt;/strong&gt; to &amp;ldquo;docs/reference/&amp;rdquo; as html files inheriting
+the name of the function (e.g., &amp;ldquo;docs/reference/myfun_1.html&amp;rdquo; &amp;ldquo;docs/reference/myfun_2.html&amp;rdquo;,
+etc.). A &amp;ldquo;docs/reference/index.html&amp;rdquo; page is also created: this is a simple
+html page linking to the html documentation pages for the different functions. &lt;em&gt;By default, all functions will be included and listed in alphabetical order&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;knit any Rmd files in your &amp;ldquo;vignettes&amp;rdquo; subfolder&lt;/strong&gt; to &amp;ldquo;docs/articles&amp;rdquo; as
+single html files;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Scrape your package for various other info&lt;/strong&gt; (e.g., Authors, Git Hub address,
+License, Citation, badges, etc.) to create additional material on the right-hand
+side bar of the home page;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Put everything together&lt;/strong&gt; by some magic to build a working website, and open
+a preview in RStudio Viewer or your browser.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The resulting website will look more or less like this:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/website_basic_pkgdown.png&#34; alt=&#34;&#34; /&gt;&lt;strong&gt;&amp;ldquo;Standard&amp;rdquo; website built by pkgdown::build_site()&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;, with your main vignette linked in &lt;strong&gt;Getting Started&lt;/strong&gt;, and all the other Rmds
+found in &lt;em&gt;vignettes&lt;/em&gt; (if any) linked-to in the &lt;strong&gt;Articles&lt;/strong&gt; drop down menu.&lt;/p&gt;
+
+&lt;p&gt;Considering that &lt;strong&gt;all is needed is to run&lt;/strong&gt; &lt;strong&gt;&lt;code&gt;build_site()&lt;/code&gt;&lt;/strong&gt; (in particular if
+the package is already using &lt;code&gt;devtools&lt;/code&gt; tweaks), I&amp;rsquo;d say that this is already a nice
+result ! However, spending some time in better configuring the structure of the
+site and tweaking some small things allows to achieve a much nicer result, as
+explained below.&lt;/p&gt;
+
+&lt;h2 id=&#34;customizing-appearence-and-structure-of-the-website-the-pkgdown-yaml-file&#34;&gt;Customizing appearence and structure of the website: the &lt;em&gt;pkgdown.yaml&lt;/em&gt; file&lt;/h2&gt;
+
+&lt;p&gt;Your pkgdown website can be further customized by &lt;strong&gt;creating and customizing a
+text file named _&lt;em&gt;pkgdown.yaml&lt;/em&gt; in the root folder of your project&lt;/strong&gt;. The file
+needs to have three main sections, which I will describe here using the current
+&lt;em&gt;.yaml&lt;/em&gt; file used in the MODIStsp Website as an example (the complete file can
+be found &lt;a href=&#34;https://github.com/lbusett/MODIStsp/blob/devel/_pkgdown.yaml&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
+
+&lt;h3 id=&#34;the-preamble-section&#34;&gt;&lt;em&gt;The Preamble Section&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;This is quite straightforward: first of all, give a title to your website and
+provide its URL. Then, &lt;strong&gt;select a template to customize its appearance&lt;/strong&gt; from the
+ones available at &lt;a href=&#34;https://bootswatch.com/&#34; target=&#34;_blank&#34;&gt;bootswatch&lt;/a&gt;. Finally, add the
+GoogleAnalytics tracking code if you wish.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;title: MODIStsp  
+url: http://lbusett.github.io/MODIStsp  
+template:  
+  params:  
+    bootswatch: flatly  
+    ganalytics: UA-12345678-0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;the-reference-section&#34;&gt;&lt;em&gt;The Reference Section&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;Here, you can configure the page of the website **containing the index to the
+documentation of your functions **(&lt;em&gt;docs/reference/index.html&lt;/em&gt;). Instead than
+having a simple list in alphabetical order, you can &lt;strong&gt;define different groups
+and decide which functions to put in each group&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Each group is defined by a &lt;strong&gt;title&lt;/strong&gt;, a &lt;strong&gt;description&lt;/strong&gt; (use ~ for no description),
+and a &lt;strong&gt;contents section&lt;/strong&gt; containing an indented list of functions to be included
+in that group. Syntax and indentation rules &lt;strong&gt;must be strictly followed but are very
+simple.&lt;/strong&gt; Looking at the example below should suffice for understanding it. In this
+case I decided to use only two groups: one for exported functions, and one for
+everything else, but you can set-up as many groups as you need.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;reference:  
+  - title: Exported Functions  
+    desc: Functions exported by MODIStsp  
+    contents:  
+      - &#39;`MODIStsp`&#39;  
+      - &#39;`MODIStsp_extract`&#39;  
+      - &#39;`MODIStsp_addindex`&#39;  
+      - &#39;`install_MODIStsp_launcher`&#39;  
+  - title: Internals  
+    desc: Internal functions and helpers  
+    contents:  
+      - &#39;`MODIStsp_GUI`&#39;  
+      - &#39;`MODIStsp_process`&#39;  
+      - &#39;`MODIStsp_process_indexes`&#39;  
+      - &#39;`MODIStsp_process_QA_bits`&#39;  
+      - &#39;`MODIStsp_read_xml`&#39;  
+      - &#39;`lpdaac_getmod_dirs`&#39;  
+      - &#39;`lpdaac_getmod_dates`&#39;  
+      - &#39;`lpdaac_getmod_names`&#39;  
+      - &#39;`MODIStsp_check_files`&#39;  
+      - &#39;`MODIStsp_vrt_create`&#39;  
+      - &#39;`bbox_from_file`&#39;  
+      - &#39;`reproj_bbox`&#39;  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;the-navbar-section&#34;&gt;&lt;em&gt;The Navbar Section&lt;/em&gt;&lt;/h3&gt;
+
+&lt;p&gt;The last section of _&lt;em&gt;pkgdown.yaml&lt;/em&gt; is named &lt;strong&gt;navbar&lt;/strong&gt;, and is where most the
+customization occurs.&lt;/p&gt;
+
+&lt;p&gt;In the first line, you can choose if using a &lt;strong&gt;standard or inverse color scheme&lt;/strong&gt;
+for your boootstrap template. The only way to understand what this does is to try
+both and see which one you do prefer.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; navbar:  
+   type: inverse  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Next, you can define what content will be accessible through &lt;strong&gt;buttons or menus
+on the left side&lt;/strong&gt; of the top-menu of the website.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Buttons&lt;/strong&gt; linking to a single page are described by:
+
+&lt;ol&gt;
+&lt;li&gt;a &lt;strong&gt;title text or an icon name&lt;/strong&gt; (chosen from &lt;a href=&#34;http://fontawesome.io/icons/&#34; target=&#34;_blank&#34;&gt;http://fontawesome.io/icons/&lt;/a&gt;)
+that will be shown on the button;&lt;/li&gt;
+&lt;li&gt;a &lt;strong&gt;hyperlink&lt;/strong&gt; to the page that will be accessed through the button (Note
+that the hyperlinks are built relative to the root of the &amp;ldquo;docs&amp;rdquo; folder created
+by &lt;code&gt;pkgdown&lt;/code&gt; - no need to specify full paths !).&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dropdown menus&lt;/strong&gt; giving access to multiple pages are described by:
+
+&lt;ol&gt;
+&lt;li&gt;a &lt;strong&gt;title text or an icon name&lt;/strong&gt;;&lt;/li&gt;
+&lt;li&gt;a &amp;ldquo;menu:&amp;rdquo; line;&lt;/li&gt;
+&lt;li&gt;an indented &lt;strong&gt;list of the text entries&lt;/strong&gt; that will appear in the menu,
+&lt;em&gt;with the associated hyperlinks&lt;/em&gt;.&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the example below, you can see &lt;strong&gt;how the content should be indented and
+organized:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;left:
+  - icon: fa-home
+    href: index.html
+  - text: &amp;quot;How To&amp;quot;
+    menu: 
+    - text: Installation
+      href: articles/installation.html
+    - text: Interactive Execution - the MODIStsp GUI
+      href: articles/interactive_execution.html
+    - text: Non-Interactive Execution from within R
+      href: articles/noninteractive_execution.html
+    - text: Standalone Execution and Scheduled Processing
+      href: articles/standalone_execution.html
+    - text: Outputs Format and Naming Conventions
+      href: articles/output.html
+    - text: Accessing and Analyzing Processed Data from R
+      href: articles/analyze.html
+    - text: &amp;quot;Examples of Use&amp;quot;
+      href: articles/examples.html
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In the case of MODIStsp website, I decided to not provide a link to the &amp;ldquo;full&amp;rdquo;
+vignette (which was linked from &amp;ldquo;Getting Started&amp;rdquo; in the &amp;ldquo;bare-bones&amp;rdquo; website).
+Instead, I &lt;strong&gt;divided the contents of that vignette in six shorter articles accessible
+from the &amp;ldquo;How To&amp;rdquo; dropdown menu&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;To do that, I just had to &lt;strong&gt;create six separate Rmd files within the vignettes folder&lt;/strong&gt;.
+All Rmds within that folder are automatically knitted by pkgdown when launching
+either &lt;strong&gt;&lt;code&gt;build_site()&lt;/code&gt;&lt;/strong&gt; or &lt;strong&gt;&lt;code&gt;build_articles()&lt;/code&gt;&lt;/strong&gt;, and are therefore available
+for linking from the menu.&lt;/p&gt;
+
+&lt;p&gt;Finally, in the last section of _&lt;em&gt;pkgdown.yaml&lt;/em&gt; you can specify what content should
+be accessible from the &lt;strong&gt;right-hand side of the top menu&lt;/strong&gt;. Syntax and indentation
+are identical to what described above.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;right: 
+  - text: &amp;quot;faq&amp;quot;
+    icon: fa-question-circle-o
+    href: articles/faq.html
+  - icon: fa-newspaper-o
+    text: &amp;quot;news&amp;quot;
+    href: news/index.html
+  - icon: fa-file-code-o 
+    text: &amp;quot;functions&amp;quot;
+    href: reference/index.html
+  - icon: fa-github fa-lg
+    text: &amp;quot;github&amp;quot;
+    href: https://github.com/lbusett/MODIStsp/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In MODIStsp website, we are using the right side of the top menu bar to provide
+access to:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;a static page&lt;/strong&gt; containing a FAQ;&lt;/li&gt;
+&lt;li&gt;the &lt;strong&gt;auto-generated news page&lt;/strong&gt; (by linking to news/index.html);&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;the function documentation index page&lt;/strong&gt; (by linking to reference/index.html);&lt;/li&gt;
+&lt;li&gt;an icon linking to the MODIStsp repository on Git Hub.
+&lt;em&gt;(From the example, you can see that it is possible to associate the &amp;ldquo;buttons&amp;rdquo;
+with both an icon and a short title text. In that case, the icon and the text will
+be shown one after the other.)&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Once your .yaml file is complete, just** run &lt;code&gt;build_site()&lt;/code&gt; again **and check the
+results. Then iterate ad-libitum until you are satisfied by the resulting structure.&lt;/p&gt;
+
+&lt;h2 id=&#34;fine-tuning&#34;&gt;Fine tuning&lt;/h2&gt;
+
+&lt;p&gt;When you are satisfied with the structure of the website, you can start &lt;strong&gt;tweaking
+its contents&lt;/strong&gt; to achieve a better-looking final result. Here I&amp;rsquo;m just** sharing
+some tips and tricks** I learnt while building our website:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;If (like me) you wish to have &lt;strong&gt;a different &amp;ldquo;home page&amp;rdquo; in the website and in
+the main Git Hub page&lt;/strong&gt;, you can create a new &lt;em&gt;index.Rmd&lt;/em&gt; file in the root of the
+package. If &lt;em&gt;index.Rmd&lt;/em&gt; is found, it is used instead than _README.Rmd _to populate
+the home page;&lt;/li&gt;
+&lt;li&gt;Text in the &amp;ldquo;standard&amp;rdquo; output is &lt;strong&gt;a bit too &amp;ldquo;compressed&amp;rdquo;&lt;/strong&gt; for my taste. You
+can &lt;strong&gt;increase the spacing between the main sections&lt;/strong&gt; of an article by simply
+adding a &lt;br&gt; at the end of each main section;&lt;/li&gt;
+&lt;li&gt;Similarly, you can &lt;strong&gt;add line separators between section&lt;/strong&gt;s by simply adding
+a line of underscores under each section;&lt;/li&gt;
+&lt;li&gt;To reduce the &amp;ldquo;wall of text&amp;rdquo; effect, you can &lt;strong&gt;put any of the
+&lt;a href=&#34;http://fontawesome.io/icons/&#34; target=&#34;_blank&#34;&gt;http://fontawesome.io/icons/&lt;/a&gt; icons in an article&lt;/strong&gt; by inserting its &amp;ldquo;full html
+specification&amp;rdquo; in the text of the corresponding Rmd. (For example,&amp;ldquo;I want a github
+icon here: &lt;i&gt; class=&amp;ldquo;fa fa-github aria-hidden=&amp;ldquo;true&amp;rdquo;&amp;gt;&lt;/i&gt;&amp;rdquo; would render in the
+website with a &amp;ldquo;Git Hub octopus&amp;rdquo; icon at the end);&lt;/li&gt;
+&lt;li&gt;Of course, you can &lt;strong&gt;add any image/R plot by&lt;/strong&gt; linking/creating it in the &lt;em&gt;Rmds&lt;/em&gt;
+of the different articles or of the home page;&lt;/li&gt;
+&lt;li&gt;If you build the site using** **&lt;strong&gt;build_site(run_dont_run = TRUE)&lt;/strong&gt;, the examples
+with the &amp;ldquo;dont_run&amp;rdquo; specification in the roxygen comment will be run, and their
+results appear in the documentation page of each function. I find this really
+&lt;strong&gt;useful to illustrate the typical behaviour of functions;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;To &lt;strong&gt;provide modifiers to the standard pkgdown.css and pkgdown.js files&lt;/strong&gt;,
+create a new folder named &amp;ldquo;&lt;em&gt;pkgdown&lt;/em&gt;&amp;rdquo; in your project root. As described in &lt;code&gt;pkgdown&lt;/code&gt;
+documentation, &amp;ldquo;&lt;em&gt;the content of files &amp;ldquo;extra.css and &amp;ldquo;extra.js&amp;rdquo; placed in this
+folder will be copied to docs/ and inserted into the &lt;HEAD&gt; after the default
+&lt;code&gt;pkgdown&lt;/code&gt; CSS and JSS&lt;/em&gt;&amp;rdquo;. I for example added the following lines in &lt;em&gt;extra.css&lt;/em&gt;
+to have &lt;strong&gt;some additional syntax highlighting&lt;/strong&gt; in the code snippets:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code&gt;  {
+  .fl      {color: blue;}
+  .fu      {color: blue;} /* function */
+  .ch,.st  {color: orange;} /* string */
+  .kw      {color: black;} /* keyword */
+  .co      {color: green;} /* comment */
+  
+  .message { color: gray;   font-weight: bolder;}
+  .error   { color: red;  font-weight: bolder;}
+  .warning { color: purple; font-weight: bolder;
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;, but if you are more fluent than me in _css _and _js _you can probably tweak
+appearance a lot more.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;you &lt;strong&gt;don&amp;rsquo;t need to run the whole build_site() every time&lt;/strong&gt; you wish to adjust
+something and check the results. You can use &lt;strong&gt;build_reference()&lt;/strong&gt;, &lt;strong&gt;build_news()&lt;/strong&gt;,
+&lt;strong&gt;build_articles()&lt;/strong&gt; and &lt;strong&gt;build_home()&lt;/strong&gt; to update just some sections.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Below, you can see how the &lt;em&gt;.yaml&lt;/em&gt; file described before and the other small &amp;ldquo;tweaks&amp;rdquo; &lt;strong&gt;improved the appearance&lt;/strong&gt; of MODIStsp homepage :&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/MODIStsp_Website_end.png&#34; alt=&#34;&#34; /&gt;&lt;strong&gt;Final Home Page of the MODIStsp website&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;deploying-the-website-to-git-hub-and-the-web&#34;&gt;Deploying the website to Git Hub and the web&lt;/h2&gt;
+
+&lt;p&gt;Finally, it&amp;rsquo;s time to &lt;strong&gt;deploy the website&lt;/strong&gt;. To do that:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Commit and push&lt;/strong&gt; your changes to the remote;&lt;/li&gt;
+&lt;li&gt;Login on Git Hub, &lt;strong&gt;navigate to your repo and select &amp;ldquo;Settings&amp;rdquo;&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Scroll down to find the &lt;strong&gt;&amp;ldquo;Git Hub pages&amp;rdquo; subsection&lt;/strong&gt; and, under &amp;ldquo;Source&amp;rdquo;, select &amp;ldquo;**master branch/docs folder&amp;rdquo; **(from this, you can see that &lt;em&gt;it is fundamental that your website material is pushed to the master branch&lt;/em&gt;)&lt;/li&gt;
+&lt;li&gt;click on the link of your website and&amp;hellip; &lt;strong&gt;congratulations: you just published your new pkgdown website !&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;em&gt;(PS: if you find any errors in this guide, or you think additional clarification is needed, please leave a comment to this post !)&lt;/em&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -70,9 +959,29 @@ Prerequisites To build a website using pkgdown, all you need to have is an R pac
       <pubDate>Tue, 25 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>/post/the-new-modistsp-website-based-on-pkgdown-is-online/</guid>
-      <description>The MODIStsp website, which lay abandoned since several months on github pages, recently underwent a major overhaul thanks to pkgdown. The new site is now available at http://lbusett.github.io/MODIStsp/
-We hope that the revised website will allow to navigate MODIStsp-related material much more easily than either github or the standard CRAN documentation, and will therefore help users in better and more easily exploiting MODIStsp functionality.
-The restyling was possible thanks to the very nice &amp;ldquo;pkgdown&amp;rdquo; R package (http://hadley.</description>
+      <description>&lt;p&gt;The &lt;strong&gt;MODIStsp&lt;/strong&gt; website, which lay abandoned since several months on github
+pages, recently underwent a major overhaul thanks to &lt;strong&gt;&lt;a href=&#34;http://hadley.github.io/pkgdown&#34; target=&#34;_blank&#34;&gt;pkgdown&lt;/a&gt;&lt;/strong&gt;.
+The new site is now available at &lt;a href=&#34;http://lbusett.github.io/MODIStsp/&#34; target=&#34;_blank&#34;&gt;http://lbusett.github.io/MODIStsp/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/MODIStsp_Website.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;We hope that the revised website will allow to navigate MODIStsp-related material
+much more easily than either github or the standard CRAN documentation, and will
+therefore help users in better and more easily exploiting MODIStsp functionality.&lt;/p&gt;
+
+&lt;p&gt;The restyling was possible thanks to the very nice &amp;ldquo;&lt;strong&gt;pkgdown&lt;/strong&gt;&amp;rdquo; R package
+(&lt;a href=&#34;http://hadley.github.io/pkgdown&#34; target=&#34;_blank&#34;&gt;http://hadley.github.io/pkgdown&lt;/a&gt;), which allows to easily create a static documentation website.&lt;/p&gt;
+
+&lt;p&gt;Though pkgdown does already quite a good job in creating a bare-bones website
+exploiting &lt;strong&gt;just the material available in a standard devtools-based R package file
+structure&lt;/strong&gt;, I was surprised at &lt;strong&gt;how simply the standard website could be tweaked&lt;/strong&gt;
+to obtain a very nice (IMO) final result without needing any particular background
+on html, css, etc. !&lt;/p&gt;
+
+&lt;p&gt;(On that, I plan to soon post a short guide containing a few &lt;strong&gt;tips and tricks&lt;/strong&gt;
+I learnt in the last days for setting up and configuring a pkgdown website, so stay
+tuned !)&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -81,9 +990,41 @@ The restyling was possible thanks to the very nice &amp;ldquo;pkgdown&amp;rdquo;
       <pubDate>Tue, 18 Apr 2017 00:00:00 +0000</pubDate>
       
       <guid>/post/modistsp-v-1-3-2-is-on-cran/</guid>
-      <description>We are glad to report that MODIStsp is now also available on CRAN ! From now on, you can therefore install it by simply using:
-install.packages(&amp;quot;MODIStsp&amp;quot;)
-In v 1.3.2 we also added the functionality to automatically apply scale and offset coefficients on MODIS original values according with the specifications of single MODIS products. Setting the new &amp;ldquo;Scale output values&amp;rdquo; option to &amp;ldquo;Yes&amp;rdquo;, scale factors and offsets are applied (if existing).</description>
+      <description>&lt;p&gt;We are glad to report that &lt;strong&gt;MODIStsp is now also available on&lt;/strong&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/MODIStsp/index.html&#34; target=&#34;_blank&#34;&gt;CRAN&lt;/a&gt; ! From now on,
+you can therefore install it by simply using:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;install.packages(&amp;quot;MODIStsp&amp;quot;)&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;In v 1.3.2 we also added the functionality to automatically &lt;strong&gt;apply scale and offset&lt;/strong&gt;
+coefficients on MODIS original values according with the specifications of single
+MODIS products. Setting the new &lt;em&gt;&amp;ldquo;Scale output values&amp;rdquo;&lt;/em&gt; option to &amp;ldquo;Yes&amp;rdquo;, scale factors
+and offsets are applied (if existing).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/Figure_2_new_132.png&#34; alt=&#34;&#34; /&gt;&lt;strong&gt;The MODIStsp GUI&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;In this case, for example, Land Surface Temperature values in the output rasters
+will be in °K, and spectral indices will be floating point values (e.g., NDVI will
+be between -1 and 1 instead than between -10000 and 10000).&lt;/p&gt;
+
+&lt;p&gt;We also &lt;em&gt;corrected a few bugs&lt;/em&gt;, affecting in particular &lt;em&gt;ftp&lt;/em&gt; download, and
+&lt;strong&gt;modified the names of some output layers&lt;/strong&gt; to reduce the length and homogenize
+output file names, and correct a few errors.&lt;/p&gt;
+
+&lt;p&gt;The changelog for v1.3.2 can be found &lt;a href=&#34;https://github.com/lbusett/MODIStsp/releases/tag/v1.3.2&#34; target=&#34;_blank&#34;&gt;HERE&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;We hope you will find the new version useful and that we didn&amp;rsquo;t introduce too
+many bugs ! &lt;strong&gt;Please report any problems in our
+&lt;a href=&#34;https://github.com/lbusett/MODIStsp/issues&#34; target=&#34;_blank&#34;&gt;issues&lt;/a&gt; GitHub page.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The &lt;em&gt;development&lt;/em&gt; version of &lt;code&gt;MODIStsp&lt;/code&gt;, containing the latest updates and bug
+fixes, will still be available on GitHub. It can be installed using:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(devtools)
+install_github(&amp;quot;lbusett/MODIStsp&amp;quot;, ref = &amp;quot;master&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;MODIStsp&lt;/code&gt;  is a R package allowing automatic download and preprocessing of MODIS  Land Products time series - you can find additional information &lt;a href=&#34;/post/modistsp-a-new-r-package-for-modis-land-products-preprocessing&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -92,11 +1033,16 @@ In v 1.3.2 we also added the functionality to automatically apply scale and offs
       <pubDate>Mon, 13 Feb 2017 00:00:00 +0000</pubDate>
       
       <guid>/post/modistsp-v-1-3-1-released/</guid>
-      <description>MODIStsp is a R package allowing automatic download and preprocessing of MODIS Land Products time series, available at this https://github.com/lbusett/MODIStsp github page (See also here for additional information)
-v1.3.1 adds functionality for processing MODIS snow cover products, accelerated download, processing specified portions of years, plus various bug fixing and improvements.
-MODIStsp: the main processing GUI
-See here for a detailed description of introduced changes
-We hope you will find the new version useful and that we didn&amp;rsquo;t introduce too many bugs !</description>
+      <description>&lt;p&gt;&lt;code&gt;MODIStsp&lt;/code&gt; is a &lt;code&gt;R&lt;/code&gt; package allowing &lt;strong&gt;automatic download and preprocessing of MODIS Land Products time series&lt;/strong&gt;, available at this &lt;a href=&#34;https://github.com/lbusett/MODIStsp&#34; target=&#34;_blank&#34;&gt;https://github.com/lbusett/MODIStsp&lt;/a&gt; github page (See also &lt;a href=&#34;/post/modistsp-a-new-r-package-for-modis-land-products-preprocessing&#34;&gt;here&lt;/a&gt; for additional information)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;v1.3.1&lt;/strong&gt; adds functionality for processing &lt;strong&gt;MODIS snow cover products&lt;/strong&gt;, &lt;strong&gt;accelerated download&lt;/strong&gt;, processing &lt;strong&gt;specified portions of years&lt;/strong&gt;, plus various bug fixing and improvements.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/Figure_2_new.png&#34; alt=&#34;MODIStsp: the main processing GUI&#34; /&gt;&lt;strong&gt;MODIStsp: the main processing GUI&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;See &lt;a href=&#34;https://github.com/lbusett/MODIStsp/releases/tag/v1.3.1&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for a detailed description of introduced changes&lt;/p&gt;
+
+&lt;p&gt;We hope you will find the new version useful and that we didn&amp;rsquo;t introduce too many bugs ! &lt;strong&gt;Please report any problems in our &lt;a href=&#34;https://github.com/lbusett/MODIStsp/issues&#34; target=&#34;_blank&#34;&gt;issues&lt;/a&gt; GitHub page !&lt;/strong&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -105,9 +1051,25 @@ We hope you will find the new version useful and that we didn&amp;rsquo;t introd
       <pubDate>Mon, 07 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>/post/modistsp-v1-3-0-released-adds-support-for-collection-6-datasets/</guid>
-      <description>MODIStsp v1.3.0 has been finally released !
-It adds the much-needed functionality for downloading and preprocessing MODIS Collection 006 datasets. Off-line preprocessing of already downloaded hdf images was also improved, and the GUI was a bit revamped to improve user-friendliness (A detailed changelog can be found here).
-More detailed usage instructions were also added to the main github page, and a FAQ section addressing common issues with the package (e.g., installation problems, etc) was added.</description>
+      <description>&lt;p&gt;&lt;strong&gt;MODIStsp v1.3.0 has been finally released !&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;It adds the much-needed functionality for downloading and preprocessing &lt;strong&gt;MODIS
+Collection 006 datasets&lt;/strong&gt;. Off-line preprocessing of already downloaded hdf images
+was also improved, and the GUI was a bit revamped to improve user-friendliness
+(A detailed changelog can be found &lt;a href=&#34;https://github.com/lbusett/MODIStsp/releases/tag/v1.3.0&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;More detailed usage instructions were also added to the
+&lt;a href=&#34;https://github.com/lbusett/MODIStsp&#34; target=&#34;_blank&#34;&gt;main github page&lt;/a&gt;, and a
+&lt;a href=&#34;https://github.com/lbusett/MODIStsp/wiki&#34; target=&#34;_blank&#34;&gt;FAQ section&lt;/a&gt; addressing common issues
+with the package (e.g., installation problems, etc) was added.&lt;/p&gt;
+
+&lt;p&gt;We hope you will find the new version useful and that we didn&amp;rsquo;t introduce too
+many bugs ! &lt;strong&gt;Please report any problems in our &lt;a href=&#34;https://github.com/lbusett/MODIStsp/issues&#34; target=&#34;_blank&#34;&gt;issues&lt;/a&gt;
+GitHub page.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&amp;ldquo;MODIStsp&amp;rdquo; is a R package allowing automatic download and preprocessing of MODIS
+Land Products time series - you can find additional information &lt;a href=&#34;https://spartially.000webhostapp.com/2016/09/modistsp-a-new-r-package-for-modis-land-products-preprocessing&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -116,9 +1078,125 @@ More detailed usage instructions were also added to the main github page, and a 
       <pubDate>Fri, 16 Sep 2016 00:00:00 +0000</pubDate>
       
       <guid>/post/modistsp-a-new-r-package-for-modis-land-products-preprocessing/</guid>
-      <description>In this post, we are introducing MODIStsp a new &amp;ldquo;R&amp;rdquo; package allowing to automatize the creation of time series of rasters derived from Land Products data derived from MODIS satellite data (; www.sciencedirect.com/science/article/pii/S0098300416303107).
-Development of MODIStsp started from modifications of the ModisDownload &amp;ldquo;R&amp;rdquo; script by Thomas Hengl (spatial-analyst.net/wiki/index.php?title=Download_and_resampling_of_MODIS_images), and successive adaptations by Babak Naimi (r-gis.net/?q=ModisDownload). Their functionalities were gradually incremented with the aim of:
- Developing a standalone application allowing to perform several preprocessing steps (e.</description>
+      <description>
+
+&lt;p&gt;In this post, we are introducing &lt;strong&gt;&lt;a href=&#34;http://github.com/lbusett/MODIStsp&#34; target=&#34;_blank&#34;&gt;MODIStsp&lt;/a&gt;&lt;/strong&gt;
+a new &amp;ldquo;R&amp;rdquo; package allowing to automatize the creation of time series of rasters
+derived from Land Products data derived from MODIS satellite data (; &lt;a href=&#34;http://www.sciencedirect.com/science/article/pii/S0098300416303107&#34; target=&#34;_blank&#34;&gt;www.sciencedirect.com/science/article/pii/S0098300416303107&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;Development of &lt;code&gt;MODIStsp&lt;/code&gt; started from modifications of the &lt;em&gt;ModisDownload&lt;/em&gt; &amp;ldquo;R&amp;rdquo;
+script by Thomas Hengl (&lt;a href=&#34;http://spatial-analyst.net/wiki/index.php?title=Download_and_resampling_of_MODIS_images&#34; target=&#34;_blank&#34;&gt;spatial-analyst.net/wiki/index.php?title=Download_and_resampling_of_MODIS_images&lt;/a&gt;), and successive
+adaptations by Babak Naimi (&lt;a href=&#34;http://r-gis.net/?q=ModisDownload&#34; target=&#34;_blank&#34;&gt;r-gis.net/?q=ModisDownload&lt;/a&gt;).
+Their functionalities were gradually incremented with the aim of:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Developing a &lt;strong&gt;standalone application&lt;/strong&gt; allowing to perform several preprocessing steps (e.g., download, mosaicking, reprojection and resize) on all available MODIS land products by exploiting a &lt;strong&gt;powerful and user-friendly GUI front-end&lt;/strong&gt;;&lt;/li&gt;
+&lt;li&gt;Allowing the &lt;strong&gt;creation of time series of both MODIS original layers and additional Quality Indicators&lt;/strong&gt; (e.g., data acquisition quality, cloud/snow presence, algorithm used for data production, etc. ) extracted from the aggregated bit-field QA layers&lt;/li&gt;
+&lt;li&gt;Allowing the &lt;strong&gt;automatic calculation and creation of time series of several additional Spectral Indexes&lt;/strong&gt; starting form MODIS surface reflectance products&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;installation-and-usage&#34;&gt;Installation and usage&lt;/h2&gt;
+
+&lt;p&gt;Detailed installation instructions and notes on use of the package, can be found
+in the main github page of the package (&lt;a href=&#34;https://github.com/lbusett/MODIStsp&#34; target=&#34;_blank&#34;&gt;github.com/lbusett/MODIStsp&lt;/a&gt;)
+and in the package&amp;rsquo;s &lt;a href=&#34;https://github.com/lbusett/MODIStsp/blob/devel/inst/doc/MODIStsp.pdf&#34; target=&#34;_blank&#34;&gt;vignette&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;basic-interactive-usage&#34;&gt;Basic interactive usage&lt;/h2&gt;
+
+&lt;p&gt;After installing and loading the package, launching the &lt;code&gt;MODIStsp&lt;/code&gt; function without
+additional parameters opens a user-friendly GUI for the selection of processing
+options required for the creation of the desired MODIS time series (e.g., start
+and end dates, geographic extent, type of product and parameters of interest, etc.).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://spartially.000webhostapp.com/wp-content/uploads/2016/09/snapshot2.png&#34; alt=&#34;The main GUI of MODIStsp&#34; /&gt;&lt;em&gt;The main GUI of MODIStsp&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;After selecting the product, the user can select the MODIS original, QI and SI
+layers to be processed by pressing the &lt;strong&gt;Select Layers&lt;/strong&gt; button, which opens a
+separate layers&amp;rsquo; selection panel. Although some of the most common SIs available
+for computation by default users can add custom ones without modifying &lt;em&gt;&lt;strong&gt;MODIStsp&lt;/strong&gt;&lt;/em&gt;
+source code by clicking on the &lt;em&gt;Add Custom Index&lt;/em&gt; button, which allows specifying
+the formula of the additional desired SI using a simple GUI interface.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://spartially.000webhostapp.com/wp-content/uploads/2016/09/snapshot3.png&#34; alt=&#34;Example of the GUI for selection of the layers to be processed for product M*D13Q1&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Upon clicking the &amp;ldquo;Start&amp;rdquo; button in the main GUI, required MODIS HDF files are
+automatically downloaded from NASA  servers and resized, reprojected, resampled
+and processed according to  user&amp;rsquo;s choices.&lt;/p&gt;
+
+&lt;h3 id=&#34;non-interactive-execution-and-scheduled-processing&#34;&gt;Non-interactive execution and scheduled processing&lt;/h3&gt;
+
+&lt;p&gt;Non-interactive execution exploiting a previously created Options File is also
+possible, as well as stand-alone execution outside an &amp;ldquo;R&amp;rdquo; environment. This allows
+to use scheduled execution of MODIStsp to automatically update time series related
+to a MODIS product and extent whenever a new image is available. &lt;strong&gt;For additional details see the main &lt;a href=&#34;http://github.com/lbusett/MODIStsp&#34; target=&#34;_blank&#34;&gt;github&lt;/a&gt; page !&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;output-format&#34;&gt;Output format&lt;/h3&gt;
+
+&lt;p&gt;For each desired output layer, outputs are saved as &lt;strong&gt;single-band rasters&lt;/strong&gt;
+corresponding to each acquisition date available for the selected MODIS product
+within the specified time period.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;R&lt;/code&gt; &lt;em&gt;RasterStack&lt;/em&gt; objects with temporal information as well as Virtual  raster
+files (GDAL vrt and/or ENVI META files) facilitating access to the entire time
+series can be also created.&lt;/p&gt;
+
+&lt;h3 id=&#34;accessing-and-analyzing-the-processed-time-series-from-r&#34;&gt;Accessing and analyzing the processed time series from R&lt;/h3&gt;
+
+&lt;p&gt;Preprocessed MODIS data can be retrieved within R scripts either by accessing the
+single-date raster files, or by loading the saved &lt;em&gt;RasterStack&lt;/em&gt; objects. This second
+option allows accessing the complete data stack and analyzing it using the
+functionalities for raster/raster time series analysis, extraction and plotting
+provided for example by the &lt;code&gt;raster&lt;/code&gt; or &lt;code&gt;rasterVis&lt;/code&gt; packages.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;MODIStsp&lt;/strong&gt;&lt;/em&gt; provides however also an efficient function (&lt;code&gt;MODIStsp_extract()&lt;/code&gt;)
+for extracting time series data at specific locations. The function takes as input
+a &lt;code&gt;rasterStack&lt;/code&gt; object with temporal information created by &lt;em&gt;&lt;strong&gt;MODIStsp&lt;/strong&gt;&lt;/em&gt;, the
+starting and ending dates for the extraction and a standard R &lt;code&gt;Sp*&lt;/code&gt; object (or an
+ESRI shapefile name) specifying the locations (points, lines or polygons) of interest,
+and provides as output a R &lt;em&gt;xts&lt;/em&gt; object or &lt;em&gt;data.frame&lt;/em&gt; containing time series for
+those locations. As an example the following code:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;#Set the input paths to raster and shape file
+infile &amp;lt;- &#39;in_path/MOD13Q1_MYD13Q1_NDVI_49_2000_353_2015_RData.RData&#39;
+shp_name &amp;lt;- &#39;path_to_file/rois.shp&#39;
+#Set the start/end dates for extraction
+start_date &amp;lt;- as.Date(&amp;quot;2010-01-01&amp;quot;)
+end_date &amp;lt;- as.Date(&amp;quot;2014-12-31&amp;quot;)
+#Load the RasterStack
+inrts &amp;lt;- get(load(infile))
+
+# Compute average and St.dev
+dataavg &amp;lt;- MODIStsp_extract(inrts, shp_name, start_date, end_date, FUN = &#39;mean&#39;, na.rm = T)
+datasd &amp;lt;- MODIStsp_extract(inrts, shp_name, start_date, end_date, FUN = &#39;sd&#39;, na.rm = T)
+# Plot average time series for the polygons
+plot.xts(dataavg)
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;, loads a &lt;code&gt;RasterStack&lt;/code&gt; object containing 8-days 250 m resolution time series for
+the 2000-2015 period and extracts time series of average and standard deviation
+values over the different polygons of a user&amp;rsquo;s selected shapefile on the 2010-2014
+period. The function exploits rasterization of the input &lt;code&gt;Sp*&lt;/code&gt; object and fast
+summarization based on the use of _data.table _objects to greatly increase the
+speed of data extraction with respect to standard R functions.&lt;/p&gt;
+
+&lt;h3 id=&#34;authors&#34;&gt;Authors&lt;/h3&gt;
+
+&lt;p&gt;The package is developed and maintained by Lorenzo Busetto and Luigi Ranghetti (Institute for
+Remote Sensing of Environment - National Research Council of Italy).&lt;/p&gt;
+
+&lt;h3 id=&#34;problems-and-issues&#34;&gt;Problems and issues&lt;/h3&gt;
+
+&lt;p&gt;Any problems/issues can be reported at: &lt;a href=&#34;https://github.com/lbusett/MODIStsp/issues&#34; target=&#34;_blank&#34;&gt;github.com/lbusett/MODIStsp/issues&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;publication-and-citation&#34;&gt;Publication and citation&lt;/h3&gt;
+
+&lt;p&gt;A paper on MODIStsp was recently published in the &amp;ldquo;Computers &amp;amp; Geosciences&amp;rdquo; journal &lt;a href=&#34;http://www.sciencedirect.com/science/article/pii/S0098300416303107&#34; target=&#34;_blank&#34;&gt;www.sciencedirect.com/science/article/pii/S0098300416303107&lt;/a&gt;.To cite MODIStsp please use:&lt;/p&gt;
+
+&lt;p&gt;L. Busetto, L. Ranghetti (2016) MODIStsp: An R package for automatic preprocessing of MODIS
+Land Products time series, Computers &amp;amp; Geosciences, Volume 97, Pages
+40-48, ISSN 0098-3004, &lt;a href=&#34;http://dx.doi.org/10.1016/j.cageo.2016.08.020&#34; target=&#34;_blank&#34;&gt;http://dx.doi.org/10.1016/j.cageo.2016.08.020&lt;/a&gt;.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -127,10 +1205,16 @@ Development of MODIStsp started from modifications of the ModisDownload &amp;ldq
       <pubDate>Thu, 15 Sep 2016 00:00:00 +0000</pubDate>
       
       <guid>/post/welcome-to-this-blog/</guid>
-      <description>Hi all,
-I&amp;rsquo;ll use this blog to share posts mostly related to tips and tricks about Spatial Processing and satellite image analysis in &amp;ldquo;R&amp;rdquo;, as well as to share interesting resources concerning &amp;ldquo;R&amp;rdquo; programming in general.
-HTH,
-Lorenzo</description>
+      <description>&lt;p&gt;Hi all,&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;ll use this blog to share posts mostly related to tips and tricks about
+Spatial Processing and satellite image analysis in &amp;ldquo;R&amp;rdquo;, as well as to share
+interesting resources concerning &amp;ldquo;R&amp;rdquo; programming in general.&lt;/p&gt;
+
+&lt;p&gt;HTH,&lt;/p&gt;
+
+&lt;p&gt;Lorenzo&lt;/p&gt;
+</description>
     </item>
     
   </channel>

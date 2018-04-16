@@ -630,7 +630,7 @@
     
     <url>
     
-      <loc>/categories/blogdown/</loc>
+      <loc>/tags/blogdown/</loc>
       <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -640,7 +640,7 @@
     
     <url>
     
-      <loc>/tags/blogdown/</loc>
+      <loc>/categories/blogdown/</loc>
       <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -690,16 +690,6 @@
     
     <url>
     
-      <loc>/categories/modis/</loc>
-      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/tags/modis/</loc>
       <lastmod>2016-04-27T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -710,7 +700,7 @@
     
     <url>
     
-      <loc>/categories/modistsp/</loc>
+      <loc>/categories/modis/</loc>
       <lastmod>2017-08-16T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -730,7 +720,7 @@
     
     <url>
     
-      <loc>/categories/pkgdown/</loc>
+      <loc>/categories/modistsp/</loc>
       <lastmod>2017-08-16T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -742,6 +732,16 @@
     
       <loc>/tags/pkgdown/</loc>
       <lastmod>2017-08-01T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/categories/pkgdown/</loc>
+      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -780,7 +780,7 @@
     
     <url>
     
-      <loc>/categories/r/</loc>
+      <loc>/tags/r/</loc>
       <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -790,7 +790,7 @@
     
     <url>
     
-      <loc>/tags/r/</loc>
+      <loc>/categories/r/</loc>
       <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>

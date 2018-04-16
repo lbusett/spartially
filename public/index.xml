@@ -67,7 +67,7 @@ devtools::install_github(&amp;quot;lbusett/insert_table&amp;quot;)&lt;/code&gt;&
 &lt;/div&gt;
 &lt;/div&gt;
 </description>
-    </item>
+      </item>
     
     <item>
       <title>Automatically importing publications from bibtex to a hugo-academic blog</title>
@@ -278,7 +278,7 @@ caption = &amp;quot;&amp;quot;
 &lt;/ul&gt;
 &lt;/div&gt;
 </description>
-    </item>
+      </item>
     
     <item>
       <title>Speeding up spatial analyses by integrating `sf` and `data.table`: a test case</title>
@@ -562,7 +562,7 @@ points_in_distance - parallel
 &lt;/div&gt;
 &lt;/div&gt;
 </description>
-    </item>
+      </item>
     
     <item>
       <title>Assessment of Water Management Changes in the Italian Rice Paddies from 2000 to 2016 Using Satellite Data: A Contribution to Agro-Ecological Studies</title>
@@ -571,7 +571,7 @@ points_in_distance - parallel
       
       <guid>/publication/2018-01-01_assessment_of_water_/</guid>
       <description></description>
-    </item>
+      </item>
     
     <item>
       <title>Early season weed mapping in rice crops using multi-spectral UAV data</title>
@@ -580,7 +580,7 @@ points_in_distance - parallel
       
       <guid>/publication/2018-01-01_early_season_weed_ma/</guid>
       <description></description>
-    </item>
+      </item>
     
     <item>
       <title>Spatial rice yield estimation based on MODIS and Sentinel-1 SAR data and ORYZA crop growth model</title>
@@ -589,7 +589,7 @@ points_in_distance - parallel
       
       <guid>/publication/2018-01-01_spatial_rice_yield_e/</guid>
       <description></description>
-    </item>
+      </item>
     
     <item>
       <title>MODIStsp 1.3.3 is out - Speeding things up and squashing some bugs !</title>
@@ -637,7 +637,7 @@ will help us in more easily pinpoint and solve eventual problems signalled by us
 and help in improving the package ! You can find a list of the main fixes in our
 &lt;a href=&#34;http://lbusett.github.io/MODIStsp/news/index.html&#34; target=&#34;_blank&#34;&gt;NEWS&lt;/a&gt; page.&lt;/p&gt;
 </description>
-    </item>
+      </item>
     
     <item>
       <title>Building a website with `pkgdown`: a short guide</title>
@@ -978,7 +978,7 @@ something and check the results. You can use &lt;strong&gt;build_reference()&lt;
 
 &lt;p&gt;&lt;em&gt;(PS: if you find any errors in this guide, or you think additional clarification is needed, please leave a comment to this post !)&lt;/em&gt;&lt;/p&gt;
 </description>
-    </item>
+      </item>
     
     <item>
       <title>The new MODIStsp website (based on pkgdown) is online !</title>
@@ -1009,7 +1009,7 @@ on html, css, etc. !&lt;/p&gt;
 I learnt in the last days for setting up and configuring a pkgdown website, so stay
 tuned !)&lt;/p&gt;
 </description>
-    </item>
+      </item>
     
     <item>
       <title>MODIStsp (v 1.3.2) is on CRAN !</title>
@@ -1052,7 +1052,7 @@ install_github(&amp;quot;lbusett/MODIStsp&amp;quot;, ref = &amp;quot;master&amp;
 
 &lt;p&gt;&lt;code&gt;MODIStsp&lt;/code&gt;  is a R package allowing automatic download and preprocessing of MODIS  Land Products time series - you can find additional information &lt;a href=&#34;/post/modistsp-a-new-r-package-for-modis-land-products-preprocessing&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
+      </item>
     
     <item>
       <title>MODIStsp v.1.3.1 released !</title>
@@ -1070,7 +1070,7 @@ install_github(&amp;quot;lbusett/MODIStsp&amp;quot;, ref = &amp;quot;master&amp;
 
 &lt;p&gt;We hope you will find the new version useful and that we didn&amp;rsquo;t introduce too many bugs ! &lt;strong&gt;Please report any problems in our &lt;a href=&#34;https://github.com/lbusett/MODIStsp/issues&#34; target=&#34;_blank&#34;&gt;issues&lt;/a&gt; GitHub page !&lt;/strong&gt;&lt;/p&gt;
 </description>
-    </item>
+      </item>
     
     <item>
       <title>A weekly indicator of surface moisture status from satellite data for operational monitoring of crop conditions</title>
@@ -1079,7 +1079,7 @@ install_github(&amp;quot;lbusett/MODIStsp&amp;quot;, ref = &amp;quot;master&amp;
       
       <guid>/publication/2017-01-01_a_weekly_indicator_o/</guid>
       <description></description>
-    </item>
+      </item>
     
     <item>
       <title>Conceptual architecture and service-oriented implementation of a regional geoportal for rice monitoring</title>
@@ -1088,7 +1088,7 @@ install_github(&amp;quot;lbusett/MODIStsp&amp;quot;, ref = &amp;quot;master&amp;
       
       <guid>/publication/2017-01-01_conceptual_architect/</guid>
       <description></description>
-    </item>
+      </item>
     
     <item>
       <title>Downstream Services for Rice Crop Monitoring in Europe: From Regional to Local Scale</title>
@@ -1097,7 +1097,7 @@ install_github(&amp;quot;lbusett/MODIStsp&amp;quot;, ref = &amp;quot;master&amp;
       
       <guid>/publication/2017-01-01_downstream_services_/</guid>
       <description></description>
-    </item>
+      </item>
     
     <item>
       <title>Estimating inter-annual variability in winter wheat sowing dates from satellite time series in Camargue, France</title>
@@ -1106,7 +1106,7 @@ install_github(&amp;quot;lbusett/MODIStsp&amp;quot;, ref = &amp;quot;master&amp;
       
       <guid>/publication/2017-01-01_estimating_inter-ann/</guid>
       <description></description>
-    </item>
+      </item>
     
   </channel>
 </rss>
