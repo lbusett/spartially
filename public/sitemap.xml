@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>/post/modistsp-v-1-3-4-is-out-now-allowing-interactive-definition-of-processing-extent/</loc>
+      <lastmod>2018-06-11T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/a-new-rstudio-addin-to-facilitate-inserting-tables-in-rmarkdown-documents/</loc>
       <lastmod>2018-04-01T00:00:00+00:00</lastmod>
     </url>
@@ -25,6 +34,24 @@
     
       <loc>/post/speeding-up-spatial-analyses-by-integrating-sf-and-data-table-a-test-case/</loc>
       <lastmod>2018-02-20T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/publication/2018-01-01_a-critical_comparison/</loc>
+      <lastmod>2018-01-01T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/publication/2018-01-01_a-high-resolution/</loc>
+      <lastmod>2018-01-01T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -630,7 +657,7 @@
     
     <url>
     
-      <loc>/categories/blogdown/</loc>
+      <loc>/tags/blogdown/</loc>
       <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -640,7 +667,7 @@
     
     <url>
     
-      <loc>/tags/blogdown/</loc>
+      <loc>/categories/blogdown/</loc>
       <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -690,16 +717,6 @@
     
     <url>
     
-      <loc>/categories/modis/</loc>
-      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/tags/modis/</loc>
       <lastmod>2016-04-27T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -710,8 +727,8 @@
     
     <url>
     
-      <loc>/categories/modistsp/</loc>
-      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
+      <loc>/categories/modis/</loc>
+      <lastmod>2018-06-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -721,7 +738,7 @@
     <url>
     
       <loc>/tags/modistsp/</loc>
-      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
+      <lastmod>2018-06-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -730,8 +747,8 @@
     
     <url>
     
-      <loc>/categories/pkgdown/</loc>
-      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
+      <loc>/categories/modistsp/</loc>
+      <lastmod>2018-06-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -750,8 +767,18 @@
     
     <url>
     
+      <loc>/categories/pkgdown/</loc>
+      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/categories/preprocessing/</loc>
-      <lastmod>2017-04-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-06-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -780,8 +807,8 @@
     
     <url>
     
-      <loc>/categories/r/</loc>
-      <lastmod>2018-04-01T00:00:00+00:00</lastmod>
+      <loc>/tags/r/</loc>
+      <lastmod>2018-06-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -790,8 +817,8 @@
     
     <url>
     
-      <loc>/tags/r/</loc>
-      <lastmod>2018-04-01T00:00:00+00:00</lastmod>
+      <loc>/categories/r/</loc>
+      <lastmod>2018-06-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -871,7 +898,7 @@
     <url>
     
       <loc>/categories/time-series/</loc>
-      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
+      <lastmod>2018-06-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -881,7 +908,7 @@
     <url>
     
       <loc>/categories/vegetation-indexes/</loc>
-      <lastmod>2017-08-16T00:00:00+00:00</lastmod>
+      <lastmod>2018-06-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     

@@ -11,6 +11,38 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>MODIStsp v. 1.3.4 is out ! Now allowing interactive definition of processing extent!</title>
+      <link>/post/modistsp-v-1-3-4-is-out-now-allowing-interactive-definition-of-processing-extent/</link>
+      <pubDate>Mon, 11 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/modistsp-v-1-3-4-is-out-now-allowing-interactive-definition-of-processing-extent/</guid>
+      <description>&lt;p&gt;We are happy to report that a new version of &lt;a href=&#34;http://lbusett.github.io/MODIStsp/&#34;&gt;MODIStsp&lt;/a&gt; (1.3.4) is on &lt;a href=&#34;https://cran.r-project.org/web/packages/MODIStsp/index.html&#34;&gt;CRAN&lt;/a&gt; as of today !&lt;/p&gt;
+&lt;p&gt;The new version introduces a &lt;strong&gt;strongly improved GUI&lt;/strong&gt; (thanks mainly to &lt;span class=&#34;citation&#34;&gt;@lwasser&lt;/span&gt;
+comments in her &lt;a href=&#34;https://github.com/ropensci/onboarding/issues/184&#34;&gt;review for MODIStsp onboarding on ropensci&lt;/a&gt;). The new GUI facilitates
+the selection of layers to be processed, and allows interactive selection of
+the processing spatial extent over a map (thanks to &lt;span class=&#34;citation&#34;&gt;@timsalabim&lt;/span&gt; and &lt;span class=&#34;citation&#34;&gt;@timelyportfolio&lt;/span&gt;
+for implementing some changes on mapview to allow this!). The main changes introduced in the GUI are
+&lt;strong&gt;highlighted in the image and animation below&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-06-11-modistsp-v-1-3-4-is-out-now-allowing-interactive-definition-of-processing-extent_files/MODIStsp_newgui.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-06-11-modistsp-v-1-3-4-is-out-now-allowing-interactive-definition-of-processing-extent_files/animation_1.gif&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Besides this, the &lt;strong&gt;main changes with respect to version 1.3.3&lt;/strong&gt; are related to:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;Inclusion of some &lt;strong&gt;new MODIS products&lt;/strong&gt;;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Removal of almost all v005 products&lt;/strong&gt;, which were recently deprecated by NASA;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Removal of FTP download&lt;/strong&gt; functionality again due to deprecation from NASA;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Improvement in functionality for dealing with NoData&lt;/strong&gt; for products with multiple
+fill-values. If “Change NoData” is set to “Yes”, then in case a layer
+has multiple Nodata values all those values are set to NA in the output;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Miscellaneous bug fixing&lt;/strong&gt; and code refactoring.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The full changelog for v1.3.4 can be found &lt;a href=&#34;https://github.com/lbusett/MODIStsp/releases/tag/v1.3.4&#34;&gt;HERE&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;We hope you will find the new version useful and that we didn’t introduce too
+many bugs ! &lt;strong&gt;Please report any problems in our
+&lt;a href=&#34;https://github.com/lbusett/MODIStsp/issues&#34;&gt;issues&lt;/a&gt; GitHub page.&lt;/strong&gt;&lt;/p&gt;
+</description>
+      </item>
+    
+    <item>
       <title>A new RStudio addin to facilitate inserting tables in Rmarkdown documents</title>
       <link>/post/a-new-rstudio-addin-to-facilitate-inserting-tables-in-rmarkdown-documents/</link>
       <pubDate>Sun, 01 Apr 2018 00:00:00 +0000</pubDate>
@@ -67,7 +99,7 @@ devtools::install_github(&amp;quot;lbusett/insert_table&amp;quot;)&lt;/code&gt;&
 &lt;/div&gt;
 &lt;/div&gt;
 </description>
-    </item>
+      </item>
     
     <item>
       <title>Automatically importing publications from bibtex to a hugo-academic blog</title>
@@ -278,7 +310,7 @@ caption = &amp;quot;&amp;quot;
 &lt;/ul&gt;
 &lt;/div&gt;
 </description>
-    </item>
+      </item>
     
     <item>
       <title>Speeding up spatial analyses by integrating `sf` and `data.table`: a test case</title>
@@ -562,7 +594,25 @@ points_in_distance - parallel
 &lt;/div&gt;
 &lt;/div&gt;
 </description>
-    </item>
+      </item>
+    
+    <item>
+      <title>A Critical Comparison of Remote Sensing Leaf Area Index Estimates over Rice-Cultivated Areas: From Sentinel-2 and Landsat-7/8 to MODIS, GEOV1 and EUMETSAT Polar System</title>
+      <link>/publication/2018-01-01_a-critical_comparison/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/2018-01-01_a-critical_comparison/</guid>
+      <description></description>
+      </item>
+    
+    <item>
+      <title>A high-resolution, integrated system for rice yield forecasting at district level</title>
+      <link>/publication/2018-01-01_a-high-resolution/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/2018-01-01_a-high-resolution/</guid>
+      <description></description>
+      </item>
     
     <item>
       <title>Assessment of Water Management Changes in the Italian Rice Paddies from 2000 to 2016 Using Satellite Data: A Contribution to Agro-Ecological Studies</title>
@@ -571,7 +621,7 @@ points_in_distance - parallel
       
       <guid>/publication/2018-01-01_assessment_of_water_/</guid>
       <description></description>
-    </item>
+      </item>
     
     <item>
       <title>Early season weed mapping in rice crops using multi-spectral UAV data</title>
@@ -580,7 +630,7 @@ points_in_distance - parallel
       
       <guid>/publication/2018-01-01_early_season_weed_ma/</guid>
       <description></description>
-    </item>
+      </item>
     
     <item>
       <title>Spatial rice yield estimation based on MODIS and Sentinel-1 SAR data and ORYZA crop growth model</title>
@@ -589,7 +639,7 @@ points_in_distance - parallel
       
       <guid>/publication/2018-01-01_spatial_rice_yield_e/</guid>
       <description></description>
-    </item>
+      </item>
     
     <item>
       <title>MODIStsp 1.3.3 is out - Speeding things up and squashing some bugs !</title>
@@ -637,7 +687,7 @@ will help us in more easily pinpoint and solve eventual problems signalled by us
 and help in improving the package ! You can find a list of the main fixes in our
 &lt;a href=&#34;http://lbusett.github.io/MODIStsp/news/index.html&#34; target=&#34;_blank&#34;&gt;NEWS&lt;/a&gt; page.&lt;/p&gt;
 </description>
-    </item>
+      </item>
     
     <item>
       <title>Building a website with `pkgdown`: a short guide</title>
@@ -978,7 +1028,7 @@ something and check the results. You can use &lt;strong&gt;build_reference()&lt;
 
 &lt;p&gt;&lt;em&gt;(PS: if you find any errors in this guide, or you think additional clarification is needed, please leave a comment to this post !)&lt;/em&gt;&lt;/p&gt;
 </description>
-    </item>
+      </item>
     
     <item>
       <title>The new MODIStsp website (based on pkgdown) is online !</title>
@@ -1009,7 +1059,7 @@ on html, css, etc. !&lt;/p&gt;
 I learnt in the last days for setting up and configuring a pkgdown website, so stay
 tuned !)&lt;/p&gt;
 </description>
-    </item>
+      </item>
     
     <item>
       <title>MODIStsp (v 1.3.2) is on CRAN !</title>
@@ -1052,7 +1102,7 @@ install_github(&amp;quot;lbusett/MODIStsp&amp;quot;, ref = &amp;quot;master&amp;
 
 &lt;p&gt;&lt;code&gt;MODIStsp&lt;/code&gt;  is a R package allowing automatic download and preprocessing of MODIS  Land Products time series - you can find additional information &lt;a href=&#34;/post/modistsp-a-new-r-package-for-modis-land-products-preprocessing&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
+      </item>
     
     <item>
       <title>MODIStsp v.1.3.1 released !</title>
@@ -1070,7 +1120,7 @@ install_github(&amp;quot;lbusett/MODIStsp&amp;quot;, ref = &amp;quot;master&amp;
 
 &lt;p&gt;We hope you will find the new version useful and that we didn&amp;rsquo;t introduce too many bugs ! &lt;strong&gt;Please report any problems in our &lt;a href=&#34;https://github.com/lbusett/MODIStsp/issues&#34; target=&#34;_blank&#34;&gt;issues&lt;/a&gt; GitHub page !&lt;/strong&gt;&lt;/p&gt;
 </description>
-    </item>
+      </item>
     
     <item>
       <title>A weekly indicator of surface moisture status from satellite data for operational monitoring of crop conditions</title>
@@ -1079,34 +1129,7 @@ install_github(&amp;quot;lbusett/MODIStsp&amp;quot;, ref = &amp;quot;master&amp;
       
       <guid>/publication/2017-01-01_a_weekly_indicator_o/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>Conceptual architecture and service-oriented implementation of a regional geoportal for rice monitoring</title>
-      <link>/publication/2017-01-01_conceptual_architect/</link>
-      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/publication/2017-01-01_conceptual_architect/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Downstream Services for Rice Crop Monitoring in Europe: From Regional to Local Scale</title>
-      <link>/publication/2017-01-01_downstream_services_/</link>
-      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/publication/2017-01-01_downstream_services_/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Estimating inter-annual variability in winter wheat sowing dates from satellite time series in Camargue, France</title>
-      <link>/publication/2017-01-01_estimating_inter-ann/</link>
-      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/publication/2017-01-01_estimating_inter-ann/</guid>
-      <description></description>
-    </item>
+      </item>
     
   </channel>
 </rss>
