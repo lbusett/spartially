@@ -6,10 +6,10 @@ active = true
 date = "2016-04-20T00:00:00"
 
 title = "Recent Posts"
-subtitle = ""
+subtitle = "Featured on [![](/img/rbloggers.png)](https://www.r-bloggers.com)"
 
 # Order that this section will appear in.
-weight = 40
+weight = 10
 
 # Filter posts by tag.
 #  By default, show all recent posts.
