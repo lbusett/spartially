@@ -37,18 +37,18 @@ We also *corrected a few bugs*, affecting in particular _ftp_ download, and
 **modified the names of some output layers** to reduce the length and homogenize 
 output file names, and correct a few errors.
 
-The changelog for v1.3.2 can be found [HERE](https://github.com/lbusett/MODIStsp/releases/tag/v1.3.2)
+The changelog for v1.3.2 can be found [HERE](https://github.com/ropensci/MODIStsp/releases/tag/v1.3.2)
 
 We hope you will find the new version useful and that we didn't introduce too
 many bugs ! **Please report any problems in our 
-[issues](https://github.com/lbusett/MODIStsp/issues) GitHub page.**
+[issues](https://github.com/ropensci/MODIStsp/issues) GitHub page.**
 
 The _development_ version of `MODIStsp`, containing the latest updates and bug 
 fixes, will still be available on GitHub. It can be installed using:
 
 ``` r
 library(devtools)
-install_github("lbusett/MODIStsp", ref = "master")
+install_github("ropensci/MODIStsp", ref = "master")
 ```
 
 `MODIStsp`  is a R package allowing automatic download and preprocessing of MODIS  Land Products time series - you can find additional information [here](/post/modistsp-a-new-r-package-for-modis-land-products-preprocessing)

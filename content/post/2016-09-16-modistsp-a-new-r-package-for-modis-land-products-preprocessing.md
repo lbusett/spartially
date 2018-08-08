@@ -15,7 +15,7 @@ header:
   image: ''
 ---
 
-In this post, we are introducing **[MODIStsp](http://github.com/lbusett/MODIStsp)** 
+In this post, we are introducing **[MODIStsp](http://github.com/ropensci/MODIStsp)** 
 a new "R" package allowing to automatize the creation of time series of rasters 
 derived from Land Products data derived from MODIS satellite data (; [www.sciencedirect.com/science/article/pii/S0098300416303107](http://www.sciencedirect.com/science/article/pii/S0098300416303107)).
 
@@ -31,8 +31,8 @@ Their functionalities were gradually incremented with the aim of:
 ## Installation and usage
 
 Detailed installation instructions and notes on use of the package, can be found
-in the main github page of the package ([github.com/lbusett/MODIStsp](https://github.com/lbusett/MODIStsp))
-and in the package's [vignette](https://github.com/lbusett/MODIStsp/blob/devel/inst/doc/MODIStsp.pdf).
+in the main github page of the package ([github.com/ropensci/MODIStsp](https://github.com/ropensci/MODIStsp))
+and in the package's [vignette](https://github.com/ropensci/MODIStsp/blob/devel/inst/doc/MODIStsp.pdf).
 
 ## Basic interactive usage
 
@@ -61,7 +61,7 @@ and processed according to  user's choices.
 Non-interactive execution exploiting a previously created Options File is also
 possible, as well as stand-alone execution outside an "R" environment. This allows 
 to use scheduled execution of MODIStsp to automatically update time series related 
-to a MODIS product and extent whenever a new image is available. **For additional details see the main [github](http://github.com/lbusett/MODIStsp) page !**
+to a MODIS product and extent whenever a new image is available. **For additional details see the main [github](http://github.com/ropensci/MODIStsp) page !**
 
 ### Output format
 
@@ -123,7 +123,7 @@ Remote Sensing of Environment - National Research Council of Italy).
 
 ### Problems and issues
 
-Any problems/issues can be reported at: [github.com/lbusett/MODIStsp/issues](https://github.com/lbusett/MODIStsp/issues)
+Any problems/issues can be reported at: [github.com/ropensci/MODIStsp/issues](https://github.com/ropensci/MODIStsp/issues)
 
 ### Publication and citation
 

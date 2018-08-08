@@ -22,15 +22,15 @@ header:
 It adds the much-needed functionality for downloading and preprocessing **MODIS
 Collection 006 datasets**. Off-line preprocessing of already downloaded hdf images
 was also improved, and the GUI was a bit revamped to improve user-friendliness 
-(A detailed changelog can be found [here](https://github.com/lbusett/MODIStsp/releases/tag/v1.3.0)).
+(A detailed changelog can be found [here](https://github.com/ropensci/MODIStsp/releases/tag/v1.3.0)).
 
 More detailed usage instructions were also added to the 
-[main github page](https://github.com/lbusett/MODIStsp), and a
-[FAQ section](https://github.com/lbusett/MODIStsp/wiki) addressing common issues
+[main github page](https://github.com/ropensci/MODIStsp), and a
+[FAQ section](https://github.com/ropensci/MODIStsp/wiki) addressing common issues
 with the package (e.g., installation problems, etc) was added.
 
 We hope you will find the new version useful and that we didn't introduce too 
-many bugs ! **Please report any problems in our [issues](https://github.com/lbusett/MODIStsp/issues)
+many bugs ! **Please report any problems in our [issues](https://github.com/ropensci/MODIStsp/issues)
 GitHub page.**
 
 _"MODIStsp" is a R package allowing automatic download and preprocessing of MODIS 

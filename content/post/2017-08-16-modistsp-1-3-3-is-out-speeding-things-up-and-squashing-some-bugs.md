@@ -17,7 +17,7 @@ header:
   caption: ''
   image: ''
 ---
-A new version of [MODIStsp](http://lbusett.github.io/MODIStsp/) (1.3.3) is on [CRAN](https://cran.r-project.org/web/packages/MODIStsp/index.html) as of today ! 
+A new version of [MODIStsp](http://ropensci.github.io/MODIStsp/) (1.3.3) is on [CRAN](https://cran.r-project.org/web/packages/MODIStsp/index.html) as of today ! 
 Below, you can find a short description of the main improvements.
 
 ## Processing speed improvements
@@ -52,6 +52,6 @@ will help us in more easily pinpoint and solve eventual problems signalled by us
 ### Bug fixes
 
 Several bugs discovered after v1.3.2 release were fixed. We thank `MODIStsp` users 
-[for their feedback](https://github.com/lbusett/MODIStsp/issues?q=is%3Aissue+is%3Aclosed)
+[for their feedback](https://github.com/ropensci/MODIStsp/issues?q=is%3Aissue+is%3Aclosed)
 and help in improving the package ! You can find a list of the main fixes in our
-[NEWS](http://lbusett.github.io/MODIStsp/news/index.html) page.
+[NEWS](http://ropensci.github.io/MODIStsp/news/index.html) page.

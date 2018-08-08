@@ -16,7 +16,7 @@ image_preview = "logo_modistsp.png"
 tags = ["r-package", "Remote Sensing", "MODIS"]
 
 # Optional external URL for project (replaces project detail page).
-external_link = "http://lbusett.github.io/MODIStsp/"
+external_link = "http://ropensci.github.io/MODIStsp/"
 
 # Does the project detail page use math formatting?
 math = false

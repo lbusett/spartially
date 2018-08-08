@@ -114,7 +114,7 @@ Your pkgdown website can be further customized by **creating and customizing a
 text file named __pkgdown.yaml_ in the root folder of your project**. The file
 needs to have three main sections, which I will describe here using the current 
 _.yaml_ file used in the MODIStsp Website as an example (the complete file can
-be found [here](https://github.com/lbusett/MODIStsp/blob/devel/_pkgdown.yaml)).
+be found [here](https://github.com/ropensci/MODIStsp/blob/devel/_pkgdown.yaml)).
 
 ### _The Preamble Section_
 
@@ -125,7 +125,7 @@ GoogleAnalytics tracking code if you wish.
 
 ```
 title: MODIStsp  
-url: http://lbusett.github.io/MODIStsp  
+url: http://ropensci.github.io/MODIStsp  
 template:  
   params:  
     bootswatch: flatly  
@@ -253,7 +253,7 @@ right:
     href: reference/index.html
   - icon: fa-github fa-lg
     text: "github"
-    href: https://github.com/lbusett/MODIStsp/
+    href: https://github.com/ropensci/MODIStsp/
 ```
 
 In MODIStsp website, we are using the right side of the top menu bar to provide 

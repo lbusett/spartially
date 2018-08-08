@@ -18,7 +18,7 @@ header:
 ---
 The **MODIStsp** website, which lay abandoned since several months on github 
 pages, recently underwent a major overhaul thanks to **[pkgdown](http://hadley.github.io/pkgdown)**.
-The new site is now available at <http://lbusett.github.io/MODIStsp/>
+The new site is now available at <http://ropensci.github.io/MODIStsp/>
 
 ![](/img/MODIStsp_Website.png)
 
