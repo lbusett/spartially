@@ -11,6 +11,22 @@
     <atom:link href="/post/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>MODIStsp approved on rOpenSci!</title>
+      <link>/post/modistsp-approved-on-ropensci/</link>
+      <pubDate>Wed, 08 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/modistsp-approved-on-ropensci/</guid>
+      <description>&lt;p&gt;We are happy to report that our &lt;a href=&#34;https://github.com/ropensci/MODIStsp&#34;&gt;MODIStsp&lt;/a&gt; package for
+automatic preprocessing of &lt;strong&gt;MODIS time series&lt;/strong&gt; has been recently approved for being included in the &lt;a href=&#34;https://ropensci.org/packages/&#34;&gt;rOpenSci&lt;/a&gt; ecosystem of &lt;code&gt;R&lt;/code&gt; packages for reproducible science!&lt;/p&gt;
+&lt;p&gt;We wish to thank reviewers &lt;a href=&#34;https://github.com/lwasser&#34;&gt;&lt;strong&gt;Leah Wasser&lt;/strong&gt;&lt;/a&gt; and &lt;a href=&#34;https://github.com/jeffreyhanson&#34;&gt;&lt;strong&gt;Jeffrey Hanson&lt;/strong&gt;&lt;/a&gt; for providing really valuable insights during
+the &lt;a href=&#34;https://github.com/ropensci/onboarding/issues/184&#34;&gt;onboarding review process&lt;/a&gt;. We think their
+contribution really helped in improving the package!&lt;/p&gt;
+&lt;p&gt;Please also note that &lt;strong&gt;MODIStsp website was also migrated&lt;/strong&gt;, and is now available
+at &lt;a href=&#34;http://ropensci.github.io/MODIStsp/&#34; class=&#34;uri&#34;&gt;http://ropensci.github.io/MODIStsp/&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>MODIStsp v. 1.3.4 is out ! Now allowing interactive definition of processing extent!</title>
       <link>/post/modistsp-v-1-3-4-is-out-now-allowing-interactive-definition-of-processing-extent/</link>
       <pubDate>Mon, 11 Jun 2018 00:00:00 +0000</pubDate>

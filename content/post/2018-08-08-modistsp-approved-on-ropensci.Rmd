@@ -1,0 +1,26 @@
+---
+title: MODIStsp approved on rOpenSci!
+author: Lorenzo Busetto
+date: '2018-08-08'
+slug: modistsp-approved-on-ropensci
+categories:
+  - MODIStsp
+  - R
+  - ropensci
+tags:
+  - MODIStsp
+  - R
+header:
+  caption: ''
+  image: ''
+---
+
+We are happy to report that our [MODIStsp](https://github.com/ropensci/MODIStsp) package for 
+automatic preprocessing of **MODIS time series** has been recently approved for being included in the [rOpenSci](https://ropensci.org/packages/) ecosystem of `R` packages for reproducible science!
+
+We wish to thank reviewers [**Leah Wasser**](https://github.com/lwasser) and [**Jeffrey Hanson**](https://github.com/jeffreyhanson) for providing really valuable insights during
+the [onboarding review process](https://github.com/ropensci/onboarding/issues/184). We think their 
+contribution really helped in improving the package!
+
+Please also note that **MODIStsp website was also migrated**, and is now available 
+at http://ropensci.github.io/MODIStsp/
