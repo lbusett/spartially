@@ -17,8 +17,15 @@ tags:
 
 <div id="the-problem" class="section level2">
 <h2>The problem</h2>
-<p>Last week, I replied to <a href="https://stackoverflow.com/questions/48650274/spatial-efficient-way-of-finding-all-points-within-x-meters-of-a-point">this interesting question</a> posted by <span class="citation">@Tim_K</span> over stackoverflow. He was seeking efficient solutions to identify all points falling within a maximum distance of xx meters with respect to each single point in a spatial points dataset.</p>
-<p>If you have a look at the thread, you will see that a simple solution based on creating a “buffered” polygon dataset beforehand and then intersecting it with the original points is quite fast for “reasonably sized” datasets, thanks to sf spatial indexing capabilities which reduce the number of the required comparisons to be done (See <a href="http://r-spatial.org/r/2017/06/22/spatial-index.html" class="uri">http://r-spatial.org/r/2017/06/22/spatial-index.html</a>). In practice, something like this:</p>
+<p>Last week, I replied to <a href="https://stackoverflow.com/questions/48650274/spatial-efficient-way-of-finding-all-points-within-x-meters-of-a-point">this interesting question</a> posted by <span class="citation">@Tim_K</span> over stackoverflow. He was seeking
+efficient solutions to identify all points falling within a maximum distance of
+xx meters with respect to each single point in a spatial points dataset.</p>
+<p>If you have a look at the thread, you will see that a simple solution based on
+creating a “buffered” polygon dataset beforehand and then intersecting it with
+the original points is quite fast for “reasonably sized” datasets, thanks to sf
+spatial indexing capabilities which reduce the number of the required comparisons
+to be done (See <a href="http://r-spatial.org/r/2017/06/22/spatial-index.html" class="uri">http://r-spatial.org/r/2017/06/22/spatial-index.html</a>). In practice,
+something like this:</p>
 <pre class="r"><code># create test data: 50000 uniformly distributed points on a &quot;square&quot; of 100000
 # metres
 maxdist &lt;- 500
@@ -33,39 +40,48 @@ int &lt;- sf::st_intersects(pts_buf, pts)
 int</code></pre>
 <pre><code>## Sparse geometry binary predicate list of length 50000, where the predicate was `intersects&#39;
 ## first 10 elements:
-##  1: 1, 9543, 10064, 14233, 31485
-##  2: 2, 12003, 40923
-##  3: 3, 18913
-##  4: 4, 28268, 28505, 42893, 45560
-##  5: 5, 2570, 4287, 32016, 37806
-##  6: 6, 39270, 41583, 49216
-##  7: 7, 27386, 29567, 29691, 42336
-##  8: 8, 2426, 11947, 20024, 24667, 28285
-##  9: 9
-##  10: 10, 1192, 10159, 11710, 12641, 26826, 28568, 30524, 30840, 36171, ...</code></pre>
-<p>However, this starts to have problems over really large datasets, because the total number of comparisons to be done still rapidly increase besides the use of spatial indexes. A test done by changing the number of points in the above example in the range 25000 - 475000 shows for example this kind of behavior, for two different values of maxdist (500 and 2000 m):</p>
-<div class="figure">
-<img src="/img/speeding_up/Rplot01.png" />
-
-</div>
-<p>On the test dataset, the relationships are almost perfectly quadratic (due to the uniform distribution of points). Extrapolating them to the 12 Million points dataset of the OP, we would get an execution time of about 14 hours for maxdist = 500, and a staggering 3.5 days formaxdist = 2000. Still doable, but not ideal…</p>
-<p>My suggestion to the OP was therefore to “split” the points in chunks based on the x-coordinate and then work on a per-split basis, eventually assigning each chunk to a different core within a parallellized cycle.</p>
-<p>In the end, I got curious and decided to give it a go to see what kind of performance improvement it was possible to obtain with that kind of approach. You can find results of some tests below.</p>
+##  1: 1, 16857, 30186, 35952
+##  2: 2, 3833, 6006, 6792, 24586
+##  3: 3, 25178, 36435, 37555
+##  4: 4, 11231, 17967, 33838, 40441, 44319
+##  5: 5, 12516, 17882, 23242, 37462, 37535
+##  6: 6, 3039, 30743
+##  7: 7, 5893, 12535, 23811, 35649, 47521
+##  8: 8, 2212, 14472, 31921, 42748, 47108, 47304, 48843
+##  9: 9, 1256, 14885, 41467
+##  10: 10, 13911, 16156, 48514</code></pre>
+<p>However, this starts to have problems over really large datasets, because the total
+number of comparisons to be done still rapidly increase besides the use of spatial
+indexes. A test done by changing the number of points in the above example in the
+range 25000 - 475000 shows for example this kind of behavior, for two different
+values of maxdist (500 and 2000 m):</p>
+<p><img src="/img/speeding_up/Rplot01.png" /></p>
+<p>On the test dataset, the relationships are almost perfectly quadratic (due to the
+uniform distribution of points). Extrapolating them to the 12 Million points dataset
+of the OP, we would get an execution time of about 14 hours for maxdist = 500, and
+a staggering 3.5 days formaxdist = 2000. Still doable, but not ideal…</p>
+<p>My suggestion to the OP was therefore to “split” the points in chunks based on the
+x-coordinate and then work on a per-split basis, eventually assigning each chunk
+to a different core within a parallellized cycle.</p>
+<p>In the end, I got curious and decided to give it a go to see what kind of performance
+improvement it was possible to obtain with that kind of approach. You can find results
+of some tests below.</p>
 </div>
 <div id="a-possible-solution-speeding-up-computation-by-combining-data.table-and-sf_intersect" class="section level1">
 <h1>A (possible) solution: Speeding up computation by combining <code>data.table</code> and <code>sf_intersect</code></h1>
-<p><br> The idea here is to use a simple divide-and-conquer approach.</p>
+<p><br>
+The idea here is to use a simple divide-and-conquer approach.</p>
 <p>We first split the total spatial extent of the dataset in a certain number of regular quadrants. We then iterate over the quadrants and for each one we:</p>
 <ul>
 <li>Extract the points contained into the quadrant and apply a buffer to them;</li>
-<li>Extract the points contained in a slightly larger area, computed by expanding the quadrant by an amount equal to the maximum distance for which we want to identify the “neighbors”;</li>
-<li>Compute and save the intersection between the buffered points and the points contained in the “expanded” quadrant.</li>
+<li>Extract the points contained in a slightly larger area, computed by expanding
+the quadrant by an amount equal to the maximum distance for which we want to
+identify the “neighbors”;</li>
+<li>Compute and save the intersection between the buffered points and the points
+contained in the “expanded” quadrant.</li>
 </ul>
 <p>“Graphically”, this translates to exploring the dataset like this:</p>
-<div class="figure">
-<img src="/img/speeding_up/animation2.gif" />
-
-</div>
+<p><img src="/img/speeding_up/animation2.gif" /></p>
 <p>, where the points included in the current “quadrant” are shown in green and the additional points needed to perform the analysis for that quadrant are shown in red.</p>
 <p>Provided that the subsetting operations do not introduce an excessive overhead (i.e., they are fast enough…) this should provide a performance boost, because it should consistently reduce the total number of comparisons to be done.</p>
 <p>Now, every “R” expert will tell you that if you need to perform fast subsetting over large datasets the way to go is to use properly indexeddata.tables, which provide lightning-speed subsetting capabilities.</p>
@@ -150,13 +166,13 @@ int</code></pre>
 maxdist &lt;- 2000
 out &lt;- points_in_distance(pts, maxdist = maxdist, ncut = 10)
 head(out)</code></pre>
-<pre><code>##       id                              int_ids
-## 1:  1140  1140,  229, 6899,15301, 6474,10746,
-## 2:   229  1140,  229, 2353, 4980,10746,12784,
-## 3: 10552 10552, 7674,15723,13406, 6899,15301,
-## 4: 17942 17942,13624,16956,18266, 4662, 8173,
-## 5: 13624 17942,13624,16956,18266, 4662, 8173,
-## 6: 16956 17942,13624,16956,18266, 4662, 8173,</code></pre>
+<pre><code>##       id                                 int_ids
+## 1:  5024  5024,13076,12603,12039, 8541, 2324,...
+## 2: 13076  5024,13076,12603,12039, 8541, 2324,...
+## 3: 16933 16933, 5673,12976,12603,15570, 7233,...
+## 4:  5673 18832,16933, 5673,12976,15570, 6037,...
+## 5: 12976 16933, 5673,12976,15570, 6037, 7233,...
+## 6: 10652 10652, 1006, 8541,18751,13731, 7366,...</code></pre>
 <pre class="r"><code># get a random point
 sel_id  &lt;- sample(pts$id,1)
 pt_sel  &lt;- pts[sel_id, ]
@@ -177,20 +193,22 @@ plot &lt;- ggplot(pt_buff)  + theme_light() +
                  length(id_inters)))
 plot</code></pre>
 <p><img src="/post/2018-02-20-speeding-up-spatial-analyses-by-integrating-sf-and-data-table-a-test-case_files/figure-html/unnamed-chunk-4-1.png" width="336" /></p>
-<p><strong>So far, so good</strong>. Now, let’s do the same exercise with varying number of points to see how it behaves in term of speed:</p>
-<div class="figure">
-<img src="/img/speeding_up/Rplot3.png" />
-
-</div>
-<p>Already not bad! In particular for the maxdist = 2000 case, we get a quite large speed improvement!</p>
-<p>However, a nice thing about the points_in_distance approach is that <strong>it is easily parallelizable</strong>. All is needed is to change some lines of the function <em>so that the outer loop over the x “chunks” exploits a parallel backend</em> of some kind. (You can find an example implementation exploiting foreach in <a href="https://gist.github.com/lbusett/247dc9b0b6bed04ac1b45c03999be348">this gist</a>)</p>
+<p><strong>So far, so good</strong>. Now, let’s do the same exercise with varying number of points
+to see how it behaves in term of speed:</p>
+<p><img src="/img/speeding_up/Rplot3.png" /></p>
+<p>Already not bad! In particular for the maxdist = 2000 case, we get a quite large
+speed improvement!</p>
+<p>However, a nice thing about the points_in_distance approach is that <strong>it is easily
+parallelizable</strong>. All is needed is to change some lines of the function <em>so that the
+outer loop over the x “chunks” exploits a parallel backend</em> of some kind. (You can
+find an example implementation exploiting foreach in <a href="https://gist.github.com/lbusett/247dc9b0b6bed04ac1b45c03999be348">this gist</a>)</p>
 <p>On a not-particularly-fast PC, using a 6-cores parallelization leads to this:</p>
-<div class="figure">
-<img src="/img/speeding_up/Rplot4.png" />
-
-</div>
-<p>Looking good! Some more skilled programmer could probably squeeze out even more speed from it by some additional data.table magic, but the improvement is very noticeable.</p>
-<p>In terms of execution time, extrapolating again to the “infamous” 12 Million points dataset, this would be what we get:</p>
+<p><img src="/img/speeding_up/Rplot4.png" /></p>
+<p>Looking good! Some more skilled programmer could probably squeeze out even more
+speed from it by some additional data.table magic, but the improvement is very
+noticeable.</p>
+<p>In terms of execution time, extrapolating again to the “infamous” 12 Million
+points dataset, this would be what we get:</p>
 <table>
 <thead>
 <tr>
@@ -274,19 +292,26 @@ points_in_distance - parallel
 </tr>
 </tbody>
 </table>
-<p>So, we get a 5-6X speed improvement already on the “serial” implementation, and another 5X thanks to parallelization over 6 cores! On themaxdist = 2000 case, this means going <strong>from more than 3 days to about 3 hours</strong>. And if we had more cores and RAM to throw at it, it would finish in minutes!</p>
-<div id="nice" class="section level3">
-<h3><strong>Nice!</strong></h3>
-</div>
-<div id="final-notes" class="section level2">
-<h2>Final Notes</h2>
+<p>So, we get a 5-6X speed improvement already on the “serial” implementation, and
+another 5X thanks to parallelization over 6 cores! On themaxdist = 2000 case,
+this means going <strong>from more than 3 days to about 3 hours</strong>. And if we had more cores
+and RAM to throw at it, it would finish in minutes!</p>
+<p>###<strong>Nice!</strong></p>
+<p>##Final Notes</p>
 <ul>
-<li><p>The <strong>timings shown here are merely indicative</strong>, and related to the particular test-dataset we built. On a less uniformly distributed dataset I would expect a lower speed improvement.</p></li>
-<li><p><strong>Some time is “wasted” because sf does not (yet) extend data.tables</strong>, making it necessary to recreate sf objects from thedata.table subsets.</p></li>
-<li><p>The parallel implementation is quick-and-dirty, and <strong>it is a bit of a memory-hog</strong>! Be careful before throwing at it 25 processors!</p></li>
-<li><p><strong>Speed is influenced in a non-trivial way by the number of “cuts”</strong> used to subdivide the spatial extent. There may be a sweet-spot related to points distribution and maxdist allowing reaching maximum speed.</p></li>
-<li><p>A similar approach for parallelization could exploit repeatedly “cropping” the original sf points object over the extent of the chunk/extended chunk. The <strong>data.table approach seems however to be faster</strong>.</p></li>
+<li><p>The <strong>timings shown here are merely indicative</strong>, and related to the particular
+test-dataset we built. On a less uniformly distributed dataset I would expect a
+lower speed improvement.</p></li>
+<li><p><strong>Some time is “wasted” because sf does not (yet) extend data.tables</strong>, making it
+necessary to recreate sf objects from thedata.table subsets.</p></li>
+<li><p>The parallel implementation is quick-and-dirty, and <strong>it is a bit of a memory-hog</strong>!
+Be careful before throwing at it 25 processors!</p></li>
+<li><p><strong>Speed is influenced in a non-trivial way by the number of “cuts”</strong> used to
+subdivide the spatial extent. There may be a sweet-spot related to points
+distribution and maxdist allowing reaching maximum speed.</p></li>
+<li><p>A similar approach for parallelization could exploit repeatedly “cropping” the
+original sf points object over the extent of the chunk/extended chunk. The
+<strong>data.table approach seems however to be faster</strong>.</p></li>
 </ul>
 <p><strong>That’s all! Hope you liked this (rather long) post!</strong></p>
-</div>
 </div>

@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>/post/modistsp-bug/</loc>
+      <lastmod>2018-08-08T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/modistsp-approved-on-ropensci/</loc>
       <lastmod>2018-08-08T00:00:00+00:00</lastmod>
     </url>
@@ -60,6 +69,24 @@
     <url>
     
       <loc>/publication/2018-01-01_a-high-resolution/</loc>
+      <lastmod>2018-01-01T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/publication/2016-01-01_modis_time_series/</loc>
+      <lastmod>2018-01-01T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/publication/2018-01-01_analysing_spatial_temp/</loc>
       <lastmod>2018-01-01T00:00:00+00:00</lastmod>
     </url>
     
@@ -666,7 +693,7 @@
     
     <url>
     
-      <loc>/tags/blogdown/</loc>
+      <loc>/categories/blogdown/</loc>
       <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -676,7 +703,7 @@
     
     <url>
     
-      <loc>/categories/blogdown/</loc>
+      <loc>/tags/blogdown/</loc>
       <lastmod>2018-04-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -726,16 +753,6 @@
     
     <url>
     
-      <loc>/tags/modis/</loc>
-      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>/categories/modis/</loc>
       <lastmod>2018-06-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -746,8 +763,8 @@
     
     <url>
     
-      <loc>/tags/modistsp/</loc>
-      <lastmod>2018-08-08T00:00:00+00:00</lastmod>
+      <loc>/tags/modis/</loc>
+      <lastmod>2016-04-27T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -766,8 +783,8 @@
     
     <url>
     
-      <loc>/tags/pkgdown/</loc>
-      <lastmod>2017-08-01T00:00:00+00:00</lastmod>
+      <loc>/tags/modistsp/</loc>
+      <lastmod>2018-08-08T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -778,6 +795,16 @@
     
       <loc>/categories/pkgdown/</loc>
       <lastmod>2017-08-16T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/tags/pkgdown/</loc>
+      <lastmod>2017-08-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -816,7 +843,7 @@
     
     <url>
     
-      <loc>/tags/r/</loc>
+      <loc>/categories/r/</loc>
       <lastmod>2018-08-08T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -826,7 +853,7 @@
     
     <url>
     
-      <loc>/categories/r/</loc>
+      <loc>/tags/r/</loc>
       <lastmod>2018-08-08T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>

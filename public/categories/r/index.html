@@ -242,6 +242,17 @@
   
   
   <div>
+    <h2><a href="/post/modistsp-bug/">Bug discovered in MODIStsp!</a></h2>
+    <div class="article-style">
+      
+      We are sorry to report that we recently discovered a nasty bug (or rather, a stupid mistake…) in the MODIStsp package.
+The bug led to improper computation of custom spectral indices in the case that their formula included addition or subtraction operations on reflectance values (e.g., something like (\frac{(\rho<em>{NIR}+0.1)}{\rho</em>{Red}}), with (\rho) indicating a reflectance).
+What is affected  Values of the following Additional Spectral Indices selectable using the MODIStsp GUI:
+      
+    </div>
+  </div>
+  
+  <div>
     <h2><a href="/post/modistsp-approved-on-ropensci/">MODIStsp approved on rOpenSci!</a></h2>
     <div class="article-style">
       
@@ -275,7 +286,8 @@ The new version introduces a strongly improved GUI (thanks mainly to @lwasser co
     <h2><a href="/post/automatically-importing-publications-from-bibtex-to-a-hugo-academic-blog/">Automatically importing publications from bibtex to a hugo-academic blog</a></h2>
     <div class="article-style">
       
-      The problem I am in the process of migrating my (rather ugly) small blog from “Bloggers” to blogdown and, as several others, I choose to use the hugo-academic theme due to its good looks, simplicity, and “focus” towards researchers.
+      ##The problem
+I am in the process of migrating my (rather ugly) small blog from “Bloggers” to blogdown and, as several others, I choose to use the hugo-academic theme due to its good looks, simplicity, and “focus” towards researchers.
 One nice feature of hugo-academic is that it includes out-of-the-box a “Publications” section, allowing researchers to easily create a list of their publication as a section of the website.
 Unfortunately, in order to populate that list, users have to manually create one different .
       
@@ -332,19 +344,6 @@ The restyling was possible thanks to the very nice &ldquo;pkgdown&rdquo; R packa
       We are glad to report that MODIStsp is now also available on CRAN ! From now on, you can therefore install it by simply using:
 install.packages(&quot;MODIStsp&quot;)
 In v 1.3.2 we also added the functionality to automatically apply scale and offset coefficients on MODIS original values according with the specifications of single MODIS products. Setting the new &ldquo;Scale output values&rdquo; option to &ldquo;Yes&rdquo;, scale factors and offsets are applied (if existing).
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/modistsp-v-1-3-1-released/">MODIStsp v.1.3.1 released !</a></h2>
-    <div class="article-style">
-      
-      MODIStsp is a R package allowing automatic download and preprocessing of MODIS Land Products time series, available at this <a href="https://github.com/ropensci/MODIStsp" target="_blank">https://github.com/ropensci/MODIStsp</a> github page (See also here for additional information)
-v1.3.1 adds functionality for processing MODIS snow cover products, accelerated download, processing specified portions of years, plus various bug fixing and improvements.
-MODIStsp: the main processing GUI
-See here for a detailed description of introduced changes
-We hope you will find the new version useful and that we didn&rsquo;t introduce too many bugs !
       
     </div>
   </div>

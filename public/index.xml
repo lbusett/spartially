@@ -11,6 +11,55 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Bug discovered in MODIStsp!</title>
+      <link>/post/modistsp-bug/</link>
+      <pubDate>Wed, 08 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/modistsp-bug/</guid>
+      <description>&lt;p&gt;We are sorry to report that we recently discovered a nasty bug (or rather, a stupid mistake…) in the &lt;a href=&#34;https://github.com/ropensci/MODIStsp&#34;&gt;MODIStsp&lt;/a&gt; package.&lt;/p&gt;
+&lt;p&gt;The bug led to improper computation of custom spectral indices in the case that their formula included addition or subtraction operations on reflectance values (e.g., something like &lt;span class=&#34;math inline&#34;&gt;\(\frac{(\rho_{NIR}+0.1)}{\rho_{Red}}\)&lt;/span&gt;, with &lt;span class=&#34;math inline&#34;&gt;\(\rho\)&lt;/span&gt; indicating a reflectance).&lt;/p&gt;
+&lt;div id=&#34;what-is-affected&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;What is affected&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Values of the following &lt;em&gt;Additional Spectral Indices&lt;/em&gt; selectable using the MODIStsp GUI:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;EVI&lt;/li&gt;
+&lt;li&gt;SAVI&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;, &lt;em&gt;in the case that the &lt;strong&gt;Apply Scale/Offset&lt;/strong&gt; option was set to “No”&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Values of any &lt;em&gt;custom spectral indexes&lt;/em&gt; added by the user, in case they included additive or subtractive coefficients.&lt;/p&gt;
+&lt;p&gt;, &lt;em&gt;in the case that the &lt;strong&gt;Apply Scale/Offset&lt;/strong&gt; option was set to “No”&lt;/em&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;what-is-not-affected&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;What is NOT affected&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Values of spectral indexes available in MODIS HDF images as original sds layers (e.g., EVI in MOD13Q1)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Values of any additional / custom spectral indexes in case they did not include additive or
+subtractive coefficients, or the &lt;strong&gt;Apply Scale/Offset&lt;/strong&gt; option was set to “Yes”&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;what-to-do-if-you-are-affected&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;What to do if you are affected&lt;/h2&gt;
+&lt;p&gt;The bug is now fixed on the GitHub version. A patched release will be made available on CRAN as soon as possible.&lt;/p&gt;
+&lt;p&gt;Unfortunately, if you have
+time series processed with the old version falling in the “What is affected” category, there’s nothing you can do, save for reprocessing them.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;We are truly sorry for the problem&lt;/strong&gt;, which somehow managed to slip under the radar until now.
+We hope it will not bring you too much trouble!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;what-exactly-was-the-problem&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;What exactly was the problem?&lt;/h2&gt;
+&lt;p&gt;This is &lt;strong&gt;so basic that can easily go unnoticed.&lt;/strong&gt; So it’s better to document it…&lt;/p&gt;
+&lt;p&gt;MODIS reflectances are stored in HDF layers as integers with a 10000 scale factor (e.g., a 0.1 reflectance is stored as 1000). If you need to “manually” compute an index such as SAVI:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(SAVI = \frac{(\rho_{NIR} - \rho_{Red})}{(\rho_{NIR} + \rho_{Red} + 0.5)} * (1 + 0.5)\)&lt;/span&gt;).&lt;/p&gt;
+&lt;p&gt;starting from MODIS reflectances, you must take care of multiplying the MODIS data by 10E-4 beforehand. Your formula then becomes:&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(SAVI = \frac{(0.0001 * b2_{NIR} - 0.0001 * b1_{Red})}{0.0001 * b2_{NIR} + 0.0001 * b1_{Red} + 0.5} * (1 + 0.5)\)&lt;/span&gt;).&lt;/p&gt;
+&lt;p&gt;, otherwise the additive constants (in this case, the &lt;span class=&#34;math inline&#34;&gt;\(+ 0.5\)&lt;/span&gt; in the denominator) would be made practically irrelevant.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+      </item>
+    
+    <item>
       <title>MODIStsp approved on rOpenSci!</title>
       <link>/post/modistsp-approved-on-ropensci/</link>
       <pubDate>Wed, 08 Aug 2018 00:00:00 +0000</pubDate>
@@ -74,45 +123,42 @@ devtools::install_github(&amp;quot;lbusett/insert_table&amp;quot;)&lt;/code&gt;&
 &lt;/div&gt;
 &lt;div id=&#34;usage&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Usage&lt;/h2&gt;
-&lt;p&gt;Upon installing, &lt;code&gt;inserttable&lt;/code&gt; registers a new RStudio Addin (&lt;strong&gt;Insert Table&lt;/strong&gt;) that can be used to easily insert a table in a &lt;code&gt;Rmd&lt;/code&gt; document. To use it, open a &lt;code&gt;Rmd&lt;/code&gt; document and, with the cursor within a &lt;code&gt;r&lt;/code&gt; chunk and select “Addins –&amp;gt; Insert Table”.&lt;/p&gt;
+&lt;p&gt;Upon installing, &lt;code&gt;inserttable&lt;/code&gt; registers a new RStudio Addin (&lt;strong&gt;Insert Table&lt;/strong&gt;)
+that can be used to easily insert a table in a &lt;code&gt;Rmd&lt;/code&gt; document. To use it, open a &lt;code&gt;Rmd&lt;/code&gt; document and, with the cursor within a &lt;code&gt;r&lt;/code&gt; chunk and select “Addins –&amp;gt; Insert Table”.&lt;/p&gt;
 &lt;p&gt;There are two main &lt;strong&gt;use modes&lt;/strong&gt;:&lt;/p&gt;
 &lt;div id=&#34;launch-the-addin-while-the-cursor-is-on-a-empty-line&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Launch the addin while the cursor is on a empty line&lt;/h3&gt;
-&lt;p&gt;In this case, a GUI will open allowing you to &lt;strong&gt;select the desired output format&lt;/strong&gt; ( &lt;code&gt;kableExtra&lt;/code&gt;, &lt;code&gt;DT&lt;/code&gt; and &lt;code&gt;rhandsontable&lt;/code&gt; are currently implemented), and to &lt;strong&gt;edit the content of the table&lt;/strong&gt;. After clicking &lt;strong&gt;Done&lt;/strong&gt; the Addin will add in the &lt;code&gt;Rmd&lt;/code&gt; document the code needed to generate the table in a nice &lt;code&gt;tribble&lt;/code&gt; format (thanks to Miles McBain’s &lt;a href=&#34;https://github.com/milesmcbain/datapasta&#34;&gt;&lt;code&gt;datapasta&lt;/code&gt;&lt;/a&gt; package!) to allow easier editing, and also the code needed to render it with the selected output format using some default options, as can be seen below:&lt;/p&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/img/inserttable/animation_1.gif&#34; /&gt;
-
-&lt;/div&gt;
+&lt;p&gt;In this case, a GUI will open allowing you to &lt;strong&gt;select the desired output format&lt;/strong&gt; (
+&lt;code&gt;kableExtra&lt;/code&gt;, &lt;code&gt;DT&lt;/code&gt; and &lt;code&gt;rhandsontable&lt;/code&gt; are currently implemented), and to &lt;strong&gt;edit the content of the table&lt;/strong&gt;. After clicking &lt;strong&gt;Done&lt;/strong&gt; the Addin will add in the &lt;code&gt;Rmd&lt;/code&gt;
+document the code needed to generate the table in a nice &lt;code&gt;tribble&lt;/code&gt; format (thanks to Miles McBain’s &lt;a href=&#34;https://github.com/milesmcbain/datapasta&#34;&gt;&lt;code&gt;datapasta&lt;/code&gt;&lt;/a&gt; package!) to allow easier editing, and also the code needed to render it with the selected output format using some
+default options, as can be seen below:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/img/inserttable/animation_1.gif&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;A useful feature is that, for larger tables, you can also &lt;strong&gt;cut and paste content from a spreadsheet&lt;/strong&gt; :&lt;/p&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/img/inserttable/animation_2.gif&#34; /&gt;
-
-&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;/img/inserttable/animation_2.gif&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Obviously, rendering of the table can be tweaked further by changing/adding arguments of the rendering functions in the automatically generated code.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;launch-the-addin-while-selecting-the-name-of-a-variable&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Launch the addin while selecting the name of a variable&lt;/h3&gt;
-&lt;p&gt;In this case, the GUI allows you to select &lt;strong&gt;only the desired output format&lt;/strong&gt; ( it is assumed that the variable you select corresponds to a &lt;code&gt;data frame&lt;/code&gt; or similar object containing the data you wish to show as table). After clicking &lt;strong&gt;Done&lt;/strong&gt; the Addin will add in the &lt;code&gt;Rmd&lt;/code&gt; document the code needed to render the selected variable as a table with the selected output format. The code will be added at the first empty line below that containing the name of the selected variable.&lt;/p&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/img/inserttable/animation_3.gif&#34; /&gt;
-
-&lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;IMPORTANT NOTE&lt;/strong&gt;: &lt;code&gt;inserttable&lt;/code&gt; will make no effort to guarantee that the variable you select is a &lt;code&gt;data.frame&lt;/code&gt;. It is up to you to select a meaningful variable!&lt;/p&gt;
+&lt;p&gt;In this case, the GUI allows you to select &lt;strong&gt;only the desired output format&lt;/strong&gt; (
+it is assumed that the variable you select corresponds to a &lt;code&gt;data frame&lt;/code&gt; or similar
+object containing the data you wish to show as table). After clicking &lt;strong&gt;Done&lt;/strong&gt;
+the Addin will add in the &lt;code&gt;Rmd&lt;/code&gt; document the code needed to render the selected variable as a table with the selected output format. The code will be added at the first empty line below that containing the name of the selected variable.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/img/inserttable/animation_3.gif&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;IMPORTANT NOTE&lt;/strong&gt;: &lt;code&gt;inserttable&lt;/code&gt; will make no effort to guarantee that the
+variable you select is a &lt;code&gt;data.frame&lt;/code&gt;. It is up to you to select a meaningful
+variable!&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;usage-from-the-console&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Usage from the console&lt;/h2&gt;
-&lt;p&gt;You can also use (part of) &lt;code&gt;inserttable&lt;/code&gt; functionality from the console by calling function &lt;code&gt;insert_table()&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;You can also use (part of) &lt;code&gt;inserttable&lt;/code&gt; functionality from the console by calling
+function &lt;code&gt;insert_table()&lt;/code&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;&amp;gt; insert_table(tbl_name = &amp;quot;table_1&amp;quot;, nrows = 4, ncols = 4, tbl_format = &amp;quot;DT&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The function will return &lt;strong&gt;to the console&lt;/strong&gt; the code needed to create a empty table of the specified dimensions and render it with the selected format:&lt;/p&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/img/inserttable/animation_4.gif&#34; /&gt;
-
-&lt;/div&gt;
-&lt;div id=&#34;thats-all.&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;&lt;strong&gt;That’s all&lt;/strong&gt;!.&lt;/h4&gt;
+&lt;p&gt;The function will return &lt;strong&gt;to the console&lt;/strong&gt; the code needed to create a empty
+table of the specified dimensions and render it with the selected format:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/img/inserttable/animation_4.gif&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;####&lt;strong&gt;That’s all&lt;/strong&gt;!.&lt;/p&gt;
 &lt;p&gt;I hope someone else will find this useful!&lt;/p&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 </description>
       </item>
@@ -123,24 +169,35 @@ devtools::install_github(&amp;quot;lbusett/insert_table&amp;quot;)&lt;/code&gt;&
       <pubDate>Tue, 13 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/automatically-importing-publications-from-bibtex-to-a-hugo-academic-blog/</guid>
-      <description>&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;The problem&lt;/h2&gt;
-&lt;p&gt;I am in the process of migrating my (rather ugly) &lt;a href=&#34;https://www.blogger.com/blogger.g?blogID=4683863749820351779#allposts&#34;&gt;small blog&lt;/a&gt; from “Bloggers” to blogdown and, as several others, I choose to use the &lt;a href=&#34;https://github.com/gcushen/hugo-academic&#34;&gt;hugo-academic theme&lt;/a&gt; due to its good looks, simplicity, and “focus” towards researchers.&lt;/p&gt;
-&lt;p&gt;One nice feature of &lt;code&gt;hugo-academic&lt;/code&gt; is that it includes out-of-the-box a “Publications” section, allowing researchers to easily create a list of their publication as a section of the website.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Unfortunately&lt;/strong&gt;, in order to populate that list, users have to manually create one different &lt;code&gt;.md&lt;/code&gt; file for each publication, by cutting and pasting several different info (e.g., title, authors, etc.) in a “simple”&amp;quot; template like &lt;a href=&#34;https://github.com/gcushen/hugo-academic/blob/master/archetypes/publication.md&#34;&gt;this one&lt;/a&gt;.&lt;/p&gt;
+      <description>&lt;p&gt;##The problem&lt;/p&gt;
+&lt;p&gt;I am in the process of migrating my (rather ugly) &lt;a href=&#34;https://www.blogger.com/blogger.g?blogID=4683863749820351779#allposts&#34;&gt;small blog&lt;/a&gt; from
+“Bloggers” to blogdown and, as several others, I choose to use the &lt;a href=&#34;https://github.com/gcushen/hugo-academic&#34;&gt;hugo-academic theme&lt;/a&gt; due to its good looks,
+simplicity, and “focus” towards researchers.&lt;/p&gt;
+&lt;p&gt;One nice feature of &lt;code&gt;hugo-academic&lt;/code&gt; is that it includes out-of-the-box a “Publications”
+section, allowing researchers to easily create a list of their publication as a
+section of the website.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Unfortunately&lt;/strong&gt;, in order to populate that list, users have to manually create one
+different &lt;code&gt;.md&lt;/code&gt; file for each publication, by cutting and pasting several different
+info (e.g., title, authors, etc.) in a “simple”&amp;quot; template like &lt;a href=&#34;https://github.com/gcushen/hugo-academic/blob/master/archetypes/publication.md&#34;&gt;this one&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;THIS IS BORING!&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Since I was not in the mood of doing that, and no automatic solutions could be found (well, there appears to be a &lt;code&gt;python&lt;/code&gt; one, but we are speaking &lt;code&gt;R&lt;/code&gt;, here…), I decided to try and develop some script to automatically create the required &lt;code&gt;md&lt;/code&gt; files starting from a &lt;code&gt;BibTex&lt;/code&gt; list of my publications. Here are the results of that effort.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;a-possible-solution&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;A possible solution&lt;/h2&gt;
-&lt;div id=&#34;preparing-the-bibtex-file&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Preparing the &lt;code&gt;BibTex&lt;/code&gt; file&lt;/h3&gt;
-&lt;p&gt;To automatically create the publications &lt;code&gt;md&lt;/code&gt; files, all you need is a (properly formatted) &lt;code&gt;BibTex&lt;/code&gt; file. Since I did not have one ready, I created mine by exporting my publications list from &lt;a href=&#34;https://www.scopus.com/authid/detail.uri?authorId=23003461400&#34;&gt;Scopus&lt;/a&gt;, but you could use any valid BibTeX file.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;One important thing, though, is that you have to be sure that the file is saved with UTF-8 encoding&lt;/strong&gt;. If you are not sure, you can open it in RStudio (or any decent text editor), and then re-save it with a forced encoding (in RStudio, you can use &lt;code&gt;File--&amp;gt;Save with Encoding&lt;/code&gt;)&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;creating-an-import-script&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Creating an import script&lt;/h3&gt;
-&lt;p&gt;Now, you need a script that reads the &lt;code&gt;BibTex&lt;/code&gt; entries and use the data to populate one different &lt;code&gt;md&lt;/code&gt; file for each publication. Below you can find my attempt at this.&lt;/p&gt;
+&lt;p&gt;Since I was not in the mood of doing that, and no automatic solutions could be
+found (well, there appears to be a &lt;code&gt;python&lt;/code&gt; one, but we are speaking &lt;code&gt;R&lt;/code&gt;, here…), I
+decided to try and develop some script to automatically create the required &lt;code&gt;md&lt;/code&gt;
+files starting from a &lt;code&gt;BibTex&lt;/code&gt; list of my publications. Here are the results of
+that effort.&lt;/p&gt;
+&lt;p&gt;##A possible solution&lt;/p&gt;
+&lt;p&gt;###Preparing the &lt;code&gt;BibTex&lt;/code&gt; file&lt;/p&gt;
+&lt;p&gt;To automatically create the publications &lt;code&gt;md&lt;/code&gt; files, all you need is a (properly formatted)
+&lt;code&gt;BibTex&lt;/code&gt; file. Since I did not have one ready, I created mine by exporting my
+publications list from &lt;a href=&#34;https://www.scopus.com/authid/detail.uri?authorId=23003461400&#34;&gt;Scopus&lt;/a&gt;, but you
+could use any valid BibTeX file.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;One important thing, though, is that you have to be sure that the file is saved
+with UTF-8 encoding&lt;/strong&gt;. If you are not sure, you can open it in RStudio (or any decent
+text editor), and then re-save it with a forced encoding (in RStudio, you can use
+&lt;code&gt;File--&amp;gt;Save with Encoding&lt;/code&gt;)&lt;/p&gt;
+&lt;p&gt;###Creating an import script&lt;/p&gt;
+&lt;p&gt;Now, you need a script that reads the &lt;code&gt;BibTex&lt;/code&gt; entries and use the data to populate
+one different &lt;code&gt;md&lt;/code&gt; file for each publication. Below you can find my attempt at this.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bibtex_2academic &amp;lt;- function(bibfile,
                              outfold,
                              abstract = FALSE, 
@@ -266,10 +323,10 @@ devtools::install_github(&amp;quot;lbusett/insert_table&amp;quot;)&lt;/code&gt;&
   
   apply(mypubs, FUN = function(x) create_md(x), MARGIN = 1)
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Nothing fancy, here: I just use the &lt;a href=&#34;https://cran.r-project.org/web/packages/RefManageR/index.html&#34;&gt;&lt;code&gt;RefManageR&lt;/code&gt;&lt;/a&gt; package to read the BibTeX file, and then cycle over publications to create files properly formatted for &lt;code&gt;hugo-academic&lt;/code&gt; use.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;running-the-script&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Running the script&lt;/h3&gt;
+&lt;p&gt;Nothing fancy, here: I just use the &lt;a href=&#34;https://cran.r-project.org/web/packages/RefManageR/index.html&#34;&gt;&lt;code&gt;RefManageR&lt;/code&gt;&lt;/a&gt;
+package to read the BibTeX file, and then cycle over publications to create
+files properly formatted for &lt;code&gt;hugo-academic&lt;/code&gt; use.&lt;/p&gt;
+&lt;p&gt;###Running the script&lt;/p&gt;
 &lt;p&gt;All is left is to run the script:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_bibfile &amp;lt;- &amp;quot;/path/to/mybibtex.bib&amp;quot;
 out_fold   &amp;lt;- &amp;quot;/path/to/myoutfolder&amp;quot;
@@ -278,8 +335,12 @@ bibtex_2academic(bibffile  = my_bibfile,
                  outfold   = out_fold, 
                  abstract  = FALSE)&lt;/code&gt;&lt;/pre&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;The &lt;code&gt;outfold&lt;/code&gt; argument allows specifying where the generated &lt;code&gt;md&lt;/code&gt; files will be saved. Though in the end they will have to be moved to folder &lt;code&gt;content/publication&lt;/code&gt; you may want to save them at first in a different folder to be able to check them before trying to deploy.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;The &lt;code&gt;abstract&lt;/code&gt; argument specifies whether to include the abstract in the &lt;code&gt;md&lt;/code&gt; or not.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The &lt;code&gt;outfold&lt;/code&gt; argument allows specifying where the generated &lt;code&gt;md&lt;/code&gt; files will be
+saved. Though in the end they will have to be moved to folder &lt;code&gt;content/publication&lt;/code&gt; you
+may want to save them at first in a different folder to be able to check them
+before trying to deploy.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The &lt;code&gt;abstract&lt;/code&gt; argument specifies whether to include the abstract in the &lt;code&gt;md&lt;/code&gt; or
+not.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Running the script will give you files like this one:&lt;/p&gt;
 &lt;pre class=&#34;yml&#34;&gt;&lt;code&gt;+++
@@ -309,22 +370,27 @@ highlight = true
 image = &amp;quot;&amp;quot;
 caption = &amp;quot;&amp;quot;
 +++&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;, where I tweaked a bit the hugo-academic format to include bibliographic info such as volume, number, pages and doi link. The files can then be further customized to include, for example, links to pdfs, images, etcetera.&lt;/p&gt;
-&lt;p&gt;After moving all the &lt;code&gt;md&lt;/code&gt; files to &lt;code&gt;content/publication&lt;/code&gt;, the publications section of your &lt;code&gt;hugo-academic&lt;/code&gt; site will be auto-populated, and should look more or less like this:&lt;/p&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/img/publications/publications.png&#34; /&gt;
-
-&lt;/div&gt;
+&lt;p&gt;, where I tweaked a bit the hugo-academic format to include bibliographic
+info such as volume, number, pages and doi link. The files can then be further customized
+to include, for example, links to pdfs, images, etcetera.&lt;/p&gt;
+&lt;p&gt;After moving all the &lt;code&gt;md&lt;/code&gt; files to &lt;code&gt;content/publication&lt;/code&gt;, the publications section
+of your &lt;code&gt;hugo-academic&lt;/code&gt; site will be auto-populated, and should look more or less
+like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/img/publications/publications.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;You can have a look at the final results on my (under construction) website &lt;a href=&#34;https://lbusett.netlify.com/publication/&#34;&gt;here&lt;/a&gt;. I think it’s quite nice!&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;final-notes&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Final Notes&lt;/h2&gt;
+&lt;p&gt;##Final Notes&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;My importing script is quite “quick and dirty”. It &lt;strong&gt;does not attempt to deal with special characters, and even substitutes accented letters with “bare” letters to avoid rendering problems&lt;/strong&gt;. If someone more knowledgeable about encoding issues wants to try and improve it, I put it in &lt;a href=&#34;https://gist.github.com/lbusett/da7b1fba4345e03192a450226a17636e&#34;&gt;this gist&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;It may happen that your site will stop rendering when you put the new &lt;code&gt;md&lt;/code&gt; files in &lt;code&gt;content/publication&lt;/code&gt;. If so, the reason is probably that you have some “strange” formatting in some of the files. Usual suspects would be unproperly recognized &lt;strong&gt;accents&lt;/strong&gt;, &lt;strong&gt;math formulas&lt;/strong&gt; or other special characters in the &lt;strong&gt;authors&lt;/strong&gt; and &lt;strong&gt;abstract&lt;/strong&gt; fields. You will have to look into each file and remove any offending areas. (It happened to me a lot before properly saving to UTF-8)&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;My importing script is quite “quick and dirty”. It &lt;strong&gt;does not attempt to deal
+with special characters, and even substitutes accented letters with “bare”
+letters to avoid rendering problems&lt;/strong&gt;. If someone more knowledgeable about encoding
+issues wants to try and improve it, I put it in &lt;a href=&#34;https://gist.github.com/lbusett/da7b1fba4345e03192a450226a17636e&#34;&gt;this gist&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;It may happen that your site will stop rendering when you put the new &lt;code&gt;md&lt;/code&gt; files
+in &lt;code&gt;content/publication&lt;/code&gt;. If so, the reason is probably that you have some “strange”
+formatting in some of the files. Usual suspects would be unproperly recognized &lt;strong&gt;accents&lt;/strong&gt;,
+&lt;strong&gt;math formulas&lt;/strong&gt; or other special characters in the &lt;strong&gt;authors&lt;/strong&gt; and &lt;strong&gt;abstract&lt;/strong&gt;
+fields. You will have to look into each file and remove any offending areas.
+(It happened to me a lot before properly saving to UTF-8)&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/div&gt;
 </description>
       </item>
     
@@ -336,8 +402,15 @@ caption = &amp;quot;&amp;quot;
       <guid>/post/speeding-up-spatial-analyses-by-integrating-sf-and-data-table-a-test-case/</guid>
       <description>&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;The problem&lt;/h2&gt;
-&lt;p&gt;Last week, I replied to &lt;a href=&#34;https://stackoverflow.com/questions/48650274/spatial-efficient-way-of-finding-all-points-within-x-meters-of-a-point&#34;&gt;this interesting question&lt;/a&gt; posted by &lt;span class=&#34;citation&#34;&gt;@Tim_K&lt;/span&gt; over stackoverflow. He was seeking efficient solutions to identify all points falling within a maximum distance of xx meters with respect to each single point in a spatial points dataset.&lt;/p&gt;
-&lt;p&gt;If you have a look at the thread, you will see that a simple solution based on creating a “buffered” polygon dataset beforehand and then intersecting it with the original points is quite fast for “reasonably sized” datasets, thanks to sf spatial indexing capabilities which reduce the number of the required comparisons to be done (See &lt;a href=&#34;http://r-spatial.org/r/2017/06/22/spatial-index.html&#34; class=&#34;uri&#34;&gt;http://r-spatial.org/r/2017/06/22/spatial-index.html&lt;/a&gt;). In practice, something like this:&lt;/p&gt;
+&lt;p&gt;Last week, I replied to &lt;a href=&#34;https://stackoverflow.com/questions/48650274/spatial-efficient-way-of-finding-all-points-within-x-meters-of-a-point&#34;&gt;this interesting question&lt;/a&gt; posted by &lt;span class=&#34;citation&#34;&gt;@Tim_K&lt;/span&gt; over stackoverflow. He was seeking
+efficient solutions to identify all points falling within a maximum distance of
+xx meters with respect to each single point in a spatial points dataset.&lt;/p&gt;
+&lt;p&gt;If you have a look at the thread, you will see that a simple solution based on
+creating a “buffered” polygon dataset beforehand and then intersecting it with
+the original points is quite fast for “reasonably sized” datasets, thanks to sf
+spatial indexing capabilities which reduce the number of the required comparisons
+to be done (See &lt;a href=&#34;http://r-spatial.org/r/2017/06/22/spatial-index.html&#34; class=&#34;uri&#34;&gt;http://r-spatial.org/r/2017/06/22/spatial-index.html&lt;/a&gt;). In practice,
+something like this:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# create test data: 50000 uniformly distributed points on a &amp;quot;square&amp;quot; of 100000
 # metres
 maxdist &amp;lt;- 500
@@ -352,39 +425,48 @@ int &amp;lt;- sf::st_intersects(pts_buf, pts)
 int&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Sparse geometry binary predicate list of length 50000, where the predicate was `intersects&amp;#39;
 ## first 10 elements:
-##  1: 1, 9543, 10064, 14233, 31485
-##  2: 2, 12003, 40923
-##  3: 3, 18913
-##  4: 4, 28268, 28505, 42893, 45560
-##  5: 5, 2570, 4287, 32016, 37806
-##  6: 6, 39270, 41583, 49216
-##  7: 7, 27386, 29567, 29691, 42336
-##  8: 8, 2426, 11947, 20024, 24667, 28285
-##  9: 9
-##  10: 10, 1192, 10159, 11710, 12641, 26826, 28568, 30524, 30840, 36171, ...&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;However, this starts to have problems over really large datasets, because the total number of comparisons to be done still rapidly increase besides the use of spatial indexes. A test done by changing the number of points in the above example in the range 25000 - 475000 shows for example this kind of behavior, for two different values of maxdist (500 and 2000 m):&lt;/p&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/img/speeding_up/Rplot01.png&#34; /&gt;
-
-&lt;/div&gt;
-&lt;p&gt;On the test dataset, the relationships are almost perfectly quadratic (due to the uniform distribution of points). Extrapolating them to the 12 Million points dataset of the OP, we would get an execution time of about 14 hours for maxdist = 500, and a staggering 3.5 days formaxdist = 2000. Still doable, but not ideal…&lt;/p&gt;
-&lt;p&gt;My suggestion to the OP was therefore to “split” the points in chunks based on the x-coordinate and then work on a per-split basis, eventually assigning each chunk to a different core within a parallellized cycle.&lt;/p&gt;
-&lt;p&gt;In the end, I got curious and decided to give it a go to see what kind of performance improvement it was possible to obtain with that kind of approach. You can find results of some tests below.&lt;/p&gt;
+##  1: 1, 16857, 30186, 35952
+##  2: 2, 3833, 6006, 6792, 24586
+##  3: 3, 25178, 36435, 37555
+##  4: 4, 11231, 17967, 33838, 40441, 44319
+##  5: 5, 12516, 17882, 23242, 37462, 37535
+##  6: 6, 3039, 30743
+##  7: 7, 5893, 12535, 23811, 35649, 47521
+##  8: 8, 2212, 14472, 31921, 42748, 47108, 47304, 48843
+##  9: 9, 1256, 14885, 41467
+##  10: 10, 13911, 16156, 48514&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;However, this starts to have problems over really large datasets, because the total
+number of comparisons to be done still rapidly increase besides the use of spatial
+indexes. A test done by changing the number of points in the above example in the
+range 25000 - 475000 shows for example this kind of behavior, for two different
+values of maxdist (500 and 2000 m):&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/img/speeding_up/Rplot01.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;On the test dataset, the relationships are almost perfectly quadratic (due to the
+uniform distribution of points). Extrapolating them to the 12 Million points dataset
+of the OP, we would get an execution time of about 14 hours for maxdist = 500, and
+a staggering 3.5 days formaxdist = 2000. Still doable, but not ideal…&lt;/p&gt;
+&lt;p&gt;My suggestion to the OP was therefore to “split” the points in chunks based on the
+x-coordinate and then work on a per-split basis, eventually assigning each chunk
+to a different core within a parallellized cycle.&lt;/p&gt;
+&lt;p&gt;In the end, I got curious and decided to give it a go to see what kind of performance
+improvement it was possible to obtain with that kind of approach. You can find results
+of some tests below.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;a-possible-solution-speeding-up-computation-by-combining-data.table-and-sf_intersect&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;A (possible) solution: Speeding up computation by combining &lt;code&gt;data.table&lt;/code&gt; and &lt;code&gt;sf_intersect&lt;/code&gt;&lt;/h1&gt;
-&lt;p&gt;&lt;br&gt; The idea here is to use a simple divide-and-conquer approach.&lt;/p&gt;
+&lt;p&gt;&lt;br&gt;
+The idea here is to use a simple divide-and-conquer approach.&lt;/p&gt;
 &lt;p&gt;We first split the total spatial extent of the dataset in a certain number of regular quadrants. We then iterate over the quadrants and for each one we:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Extract the points contained into the quadrant and apply a buffer to them;&lt;/li&gt;
-&lt;li&gt;Extract the points contained in a slightly larger area, computed by expanding the quadrant by an amount equal to the maximum distance for which we want to identify the “neighbors”;&lt;/li&gt;
-&lt;li&gt;Compute and save the intersection between the buffered points and the points contained in the “expanded” quadrant.&lt;/li&gt;
+&lt;li&gt;Extract the points contained in a slightly larger area, computed by expanding
+the quadrant by an amount equal to the maximum distance for which we want to
+identify the “neighbors”;&lt;/li&gt;
+&lt;li&gt;Compute and save the intersection between the buffered points and the points
+contained in the “expanded” quadrant.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;“Graphically”, this translates to exploring the dataset like this:&lt;/p&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/img/speeding_up/animation2.gif&#34; /&gt;
-
-&lt;/div&gt;
+&lt;p&gt;&lt;img src=&#34;/img/speeding_up/animation2.gif&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;, where the points included in the current “quadrant” are shown in green and the additional points needed to perform the analysis for that quadrant are shown in red.&lt;/p&gt;
 &lt;p&gt;Provided that the subsetting operations do not introduce an excessive overhead (i.e., they are fast enough…) this should provide a performance boost, because it should consistently reduce the total number of comparisons to be done.&lt;/p&gt;
 &lt;p&gt;Now, every “R” expert will tell you that if you need to perform fast subsetting over large datasets the way to go is to use properly indexeddata.tables, which provide lightning-speed subsetting capabilities.&lt;/p&gt;
@@ -469,13 +551,13 @@ int&lt;/code&gt;&lt;/pre&gt;
 maxdist &amp;lt;- 2000
 out &amp;lt;- points_in_distance(pts, maxdist = maxdist, ncut = 10)
 head(out)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##       id                              int_ids
-## 1:  1140  1140,  229, 6899,15301, 6474,10746,
-## 2:   229  1140,  229, 2353, 4980,10746,12784,
-## 3: 10552 10552, 7674,15723,13406, 6899,15301,
-## 4: 17942 17942,13624,16956,18266, 4662, 8173,
-## 5: 13624 17942,13624,16956,18266, 4662, 8173,
-## 6: 16956 17942,13624,16956,18266, 4662, 8173,&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##       id                                 int_ids
+## 1:  5024  5024,13076,12603,12039, 8541, 2324,...
+## 2: 13076  5024,13076,12603,12039, 8541, 2324,...
+## 3: 16933 16933, 5673,12976,12603,15570, 7233,...
+## 4:  5673 18832,16933, 5673,12976,15570, 6037,...
+## 5: 12976 16933, 5673,12976,15570, 6037, 7233,...
+## 6: 10652 10652, 1006, 8541,18751,13731, 7366,...&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# get a random point
 sel_id  &amp;lt;- sample(pts$id,1)
 pt_sel  &amp;lt;- pts[sel_id, ]
@@ -496,20 +578,22 @@ plot &amp;lt;- ggplot(pt_buff)  + theme_light() +
                  length(id_inters)))
 plot&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;/post/2018-02-20-speeding-up-spatial-analyses-by-integrating-sf-and-data-table-a-test-case_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;336&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;So far, so good&lt;/strong&gt;. Now, let’s do the same exercise with varying number of points to see how it behaves in term of speed:&lt;/p&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/img/speeding_up/Rplot3.png&#34; /&gt;
-
-&lt;/div&gt;
-&lt;p&gt;Already not bad! In particular for the maxdist = 2000 case, we get a quite large speed improvement!&lt;/p&gt;
-&lt;p&gt;However, a nice thing about the points_in_distance approach is that &lt;strong&gt;it is easily parallelizable&lt;/strong&gt;. All is needed is to change some lines of the function &lt;em&gt;so that the outer loop over the x “chunks” exploits a parallel backend&lt;/em&gt; of some kind. (You can find an example implementation exploiting foreach in &lt;a href=&#34;https://gist.github.com/lbusett/247dc9b0b6bed04ac1b45c03999be348&#34;&gt;this gist&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;So far, so good&lt;/strong&gt;. Now, let’s do the same exercise with varying number of points
+to see how it behaves in term of speed:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/img/speeding_up/Rplot3.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Already not bad! In particular for the maxdist = 2000 case, we get a quite large
+speed improvement!&lt;/p&gt;
+&lt;p&gt;However, a nice thing about the points_in_distance approach is that &lt;strong&gt;it is easily
+parallelizable&lt;/strong&gt;. All is needed is to change some lines of the function &lt;em&gt;so that the
+outer loop over the x “chunks” exploits a parallel backend&lt;/em&gt; of some kind. (You can
+find an example implementation exploiting foreach in &lt;a href=&#34;https://gist.github.com/lbusett/247dc9b0b6bed04ac1b45c03999be348&#34;&gt;this gist&lt;/a&gt;)&lt;/p&gt;
 &lt;p&gt;On a not-particularly-fast PC, using a 6-cores parallelization leads to this:&lt;/p&gt;
-&lt;div class=&#34;figure&#34;&gt;
-&lt;img src=&#34;/img/speeding_up/Rplot4.png&#34; /&gt;
-
-&lt;/div&gt;
-&lt;p&gt;Looking good! Some more skilled programmer could probably squeeze out even more speed from it by some additional data.table magic, but the improvement is very noticeable.&lt;/p&gt;
-&lt;p&gt;In terms of execution time, extrapolating again to the “infamous” 12 Million points dataset, this would be what we get:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/img/speeding_up/Rplot4.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Looking good! Some more skilled programmer could probably squeeze out even more
+speed from it by some additional data.table magic, but the improvement is very
+noticeable.&lt;/p&gt;
+&lt;p&gt;In terms of execution time, extrapolating again to the “infamous” 12 Million
+points dataset, this would be what we get:&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -593,21 +677,28 @@ points_in_distance - parallel
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;So, we get a 5-6X speed improvement already on the “serial” implementation, and another 5X thanks to parallelization over 6 cores! On themaxdist = 2000 case, this means going &lt;strong&gt;from more than 3 days to about 3 hours&lt;/strong&gt;. And if we had more cores and RAM to throw at it, it would finish in minutes!&lt;/p&gt;
-&lt;div id=&#34;nice&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;&lt;strong&gt;Nice!&lt;/strong&gt;&lt;/h3&gt;
-&lt;/div&gt;
-&lt;div id=&#34;final-notes&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Final Notes&lt;/h2&gt;
+&lt;p&gt;So, we get a 5-6X speed improvement already on the “serial” implementation, and
+another 5X thanks to parallelization over 6 cores! On themaxdist = 2000 case,
+this means going &lt;strong&gt;from more than 3 days to about 3 hours&lt;/strong&gt;. And if we had more cores
+and RAM to throw at it, it would finish in minutes!&lt;/p&gt;
+&lt;p&gt;###&lt;strong&gt;Nice!&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;##Final Notes&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;The &lt;strong&gt;timings shown here are merely indicative&lt;/strong&gt;, and related to the particular test-dataset we built. On a less uniformly distributed dataset I would expect a lower speed improvement.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Some time is “wasted” because sf does not (yet) extend data.tables&lt;/strong&gt;, making it necessary to recreate sf objects from thedata.table subsets.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;The parallel implementation is quick-and-dirty, and &lt;strong&gt;it is a bit of a memory-hog&lt;/strong&gt;! Be careful before throwing at it 25 processors!&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;strong&gt;Speed is influenced in a non-trivial way by the number of “cuts”&lt;/strong&gt; used to subdivide the spatial extent. There may be a sweet-spot related to points distribution and maxdist allowing reaching maximum speed.&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;A similar approach for parallelization could exploit repeatedly “cropping” the original sf points object over the extent of the chunk/extended chunk. The &lt;strong&gt;data.table approach seems however to be faster&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The &lt;strong&gt;timings shown here are merely indicative&lt;/strong&gt;, and related to the particular
+test-dataset we built. On a less uniformly distributed dataset I would expect a
+lower speed improvement.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Some time is “wasted” because sf does not (yet) extend data.tables&lt;/strong&gt;, making it
+necessary to recreate sf objects from thedata.table subsets.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The parallel implementation is quick-and-dirty, and &lt;strong&gt;it is a bit of a memory-hog&lt;/strong&gt;!
+Be careful before throwing at it 25 processors!&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Speed is influenced in a non-trivial way by the number of “cuts”&lt;/strong&gt; used to
+subdivide the spatial extent. There may be a sweet-spot related to points
+distribution and maxdist allowing reaching maximum speed.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;A similar approach for parallelization could exploit repeatedly “cropping” the
+original sf points object over the extent of the chunk/extended chunk. The
+&lt;strong&gt;data.table approach seems however to be faster&lt;/strong&gt;.&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;That’s all! Hope you liked this (rather long) post!&lt;/strong&gt;&lt;/p&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 </description>
       </item>
@@ -627,6 +718,24 @@ points_in_distance - parallel
       <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>/publication/2018-01-01_a-high-resolution/</guid>
+      <description></description>
+      </item>
+    
+    <item>
+      <title>Analysing spatial–temporal changes in rice cultivation practices in the Senegal River Valley using MODIS time-series and the PhenoRice algorithm</title>
+      <link>/publication/2016-01-01_modis_time_series/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/2016-01-01_modis_time_series/</guid>
+      <description></description>
+      </item>
+    
+    <item>
+      <title>Analysing spatial–temporal changes in rice cultivation practices in the Senegal River Valley using MODIS time-series and the PhenoRice algorithm</title>
+      <link>/publication/2018-01-01_analysing_spatial_temp/</link>
+      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/2018-01-01_analysing_spatial_temp/</guid>
       <description></description>
       </item>
     
@@ -1043,98 +1152,6 @@ something and check the results. You can use &lt;strong&gt;build_reference()&lt;
 &lt;/ol&gt;
 
 &lt;p&gt;&lt;em&gt;(PS: if you find any errors in this guide, or you think additional clarification is needed, please leave a comment to this post !)&lt;/em&gt;&lt;/p&gt;
-</description>
-      </item>
-    
-    <item>
-      <title>The new MODIStsp website (based on pkgdown) is online !</title>
-      <link>/post/the-new-modistsp-website-based-on-pkgdown-is-online/</link>
-      <pubDate>Tue, 25 Jul 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/post/the-new-modistsp-website-based-on-pkgdown-is-online/</guid>
-      <description>&lt;p&gt;The &lt;strong&gt;MODIStsp&lt;/strong&gt; website, which lay abandoned since several months on github
-pages, recently underwent a major overhaul thanks to &lt;strong&gt;&lt;a href=&#34;http://hadley.github.io/pkgdown&#34; target=&#34;_blank&#34;&gt;pkgdown&lt;/a&gt;&lt;/strong&gt;.
-The new site is now available at &lt;a href=&#34;http://ropensci.github.io/MODIStsp/&#34; target=&#34;_blank&#34;&gt;http://ropensci.github.io/MODIStsp/&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;/img/MODIStsp_Website.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;We hope that the revised website will allow to navigate MODIStsp-related material
-much more easily than either github or the standard CRAN documentation, and will
-therefore help users in better and more easily exploiting MODIStsp functionality.&lt;/p&gt;
-
-&lt;p&gt;The restyling was possible thanks to the very nice &amp;ldquo;&lt;strong&gt;pkgdown&lt;/strong&gt;&amp;rdquo; R package
-(&lt;a href=&#34;http://hadley.github.io/pkgdown&#34; target=&#34;_blank&#34;&gt;http://hadley.github.io/pkgdown&lt;/a&gt;), which allows to easily create a static documentation website.&lt;/p&gt;
-
-&lt;p&gt;Though pkgdown does already quite a good job in creating a bare-bones website
-exploiting &lt;strong&gt;just the material available in a standard devtools-based R package file
-structure&lt;/strong&gt;, I was surprised at &lt;strong&gt;how simply the standard website could be tweaked&lt;/strong&gt;
-to obtain a very nice (IMO) final result without needing any particular background
-on html, css, etc. !&lt;/p&gt;
-
-&lt;p&gt;(On that, I plan to soon post a short guide containing a few &lt;strong&gt;tips and tricks&lt;/strong&gt;
-I learnt in the last days for setting up and configuring a pkgdown website, so stay
-tuned !)&lt;/p&gt;
-</description>
-      </item>
-    
-    <item>
-      <title>MODIStsp (v 1.3.2) is on CRAN !</title>
-      <link>/post/modistsp-v-1-3-2-is-on-cran/</link>
-      <pubDate>Tue, 18 Apr 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/post/modistsp-v-1-3-2-is-on-cran/</guid>
-      <description>&lt;p&gt;We are glad to report that &lt;strong&gt;MODIStsp is now also available on&lt;/strong&gt; &lt;a href=&#34;https://cran.r-project.org/web/packages/MODIStsp/index.html&#34; target=&#34;_blank&#34;&gt;CRAN&lt;/a&gt; ! From now on,
-you can therefore install it by simply using:&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;&lt;code&gt;install.packages(&amp;quot;MODIStsp&amp;quot;)&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;In v 1.3.2 we also added the functionality to automatically &lt;strong&gt;apply scale and offset&lt;/strong&gt;
-coefficients on MODIS original values according with the specifications of single
-MODIS products. Setting the new &lt;em&gt;&amp;ldquo;Scale output values&amp;rdquo;&lt;/em&gt; option to &amp;ldquo;Yes&amp;rdquo;, scale factors
-and offsets are applied (if existing).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;/img/Figure_2_new_132.png&#34; alt=&#34;&#34; /&gt;&lt;strong&gt;The MODIStsp GUI&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;In this case, for example, Land Surface Temperature values in the output rasters
-will be in °K, and spectral indices will be floating point values (e.g., NDVI will
-be between -1 and 1 instead than between -10000 and 10000).&lt;/p&gt;
-
-&lt;p&gt;We also &lt;em&gt;corrected a few bugs&lt;/em&gt;, affecting in particular &lt;em&gt;ftp&lt;/em&gt; download, and
-&lt;strong&gt;modified the names of some output layers&lt;/strong&gt; to reduce the length and homogenize
-output file names, and correct a few errors.&lt;/p&gt;
-
-&lt;p&gt;The changelog for v1.3.2 can be found &lt;a href=&#34;https://github.com/ropensci/MODIStsp/releases/tag/v1.3.2&#34; target=&#34;_blank&#34;&gt;HERE&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;We hope you will find the new version useful and that we didn&amp;rsquo;t introduce too
-many bugs ! &lt;strong&gt;Please report any problems in our
-&lt;a href=&#34;https://github.com/ropensci/MODIStsp/issues&#34; target=&#34;_blank&#34;&gt;issues&lt;/a&gt; GitHub page.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;The &lt;em&gt;development&lt;/em&gt; version of &lt;code&gt;MODIStsp&lt;/code&gt;, containing the latest updates and bug
-fixes, will still be available on GitHub. It can be installed using:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(devtools)
-install_github(&amp;quot;ropensci/MODIStsp&amp;quot;, ref = &amp;quot;master&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;MODIStsp&lt;/code&gt;  is a R package allowing automatic download and preprocessing of MODIS  Land Products time series - you can find additional information &lt;a href=&#34;/post/modistsp-a-new-r-package-for-modis-land-products-preprocessing&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
-</description>
-      </item>
-    
-    <item>
-      <title>MODIStsp v.1.3.1 released !</title>
-      <link>/post/modistsp-v-1-3-1-released/</link>
-      <pubDate>Mon, 13 Feb 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/post/modistsp-v-1-3-1-released/</guid>
-      <description>&lt;p&gt;&lt;code&gt;MODIStsp&lt;/code&gt; is a &lt;code&gt;R&lt;/code&gt; package allowing &lt;strong&gt;automatic download and preprocessing of MODIS Land Products time series&lt;/strong&gt;, available at this &lt;a href=&#34;https://github.com/ropensci/MODIStsp&#34; target=&#34;_blank&#34;&gt;https://github.com/ropensci/MODIStsp&lt;/a&gt; github page (See also &lt;a href=&#34;/post/modistsp-a-new-r-package-for-modis-land-products-preprocessing&#34;&gt;here&lt;/a&gt; for additional information)&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;v1.3.1&lt;/strong&gt; adds functionality for processing &lt;strong&gt;MODIS snow cover products&lt;/strong&gt;, &lt;strong&gt;accelerated download&lt;/strong&gt;, processing &lt;strong&gt;specified portions of years&lt;/strong&gt;, plus various bug fixing and improvements.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;/img/Figure_2_new.png&#34; alt=&#34;MODIStsp: the main processing GUI&#34; /&gt;&lt;strong&gt;MODIStsp: the main processing GUI&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;See &lt;a href=&#34;https://github.com/ropensci/MODIStsp/releases/tag/v1.3.1&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for a detailed description of introduced changes&lt;/p&gt;
-
-&lt;p&gt;We hope you will find the new version useful and that we didn&amp;rsquo;t introduce too many bugs ! &lt;strong&gt;Please report any problems in our &lt;a href=&#34;https://github.com/ropensci/MODIStsp/issues&#34; target=&#34;_blank&#34;&gt;issues&lt;/a&gt; GitHub page !&lt;/strong&gt;&lt;/p&gt;
 </description>
       </item>
     
