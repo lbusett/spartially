@@ -30,15 +30,6 @@
     
     <item>
       <title>Analysing spatial–temporal changes in rice cultivation practices in the Senegal River Valley using MODIS time-series and the PhenoRice algorithm</title>
-      <link>/publication/2016-01-01_modis_time_series/</link>
-      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/publication/2016-01-01_modis_time_series/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Analysing spatial–temporal changes in rice cultivation practices in the Senegal River Valley using MODIS time-series and the PhenoRice algorithm</title>
       <link>/publication/2018-01-01_analysing_spatial_temp/</link>
       <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
       
@@ -142,6 +133,15 @@
       <pubDate>Fri, 01 Jan 2016 00:00:00 +0000</pubDate>
       
       <guid>/publication/2016-01-01_multitemporal_monito/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Testing estimation of water surface in Italian rice district from MODIS satellite data</title>
+      <link>/publication/2016-01-01_testing_estimation_o/</link>
+      <pubDate>Fri, 01 Jan 2016 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/2016-01-01_testing_estimation_o/</guid>
       <description></description>
     </item>
     
