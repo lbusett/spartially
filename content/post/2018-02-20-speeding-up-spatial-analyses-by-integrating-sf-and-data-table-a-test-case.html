@@ -40,16 +40,16 @@ int &lt;- sf::st_intersects(pts_buf, pts)
 int</code></pre>
 <pre><code>## Sparse geometry binary predicate list of length 50000, where the predicate was `intersects&#39;
 ## first 10 elements:
-##  1: 1, 2424, 11769, 45414, 49448
-##  2: 2, 3596, 12005, 17540, 20451, 44501
-##  3: 3, 40817
-##  4: 4, 5200, 44151
-##  5: 5, 16331, 22913, 24404, 40849, 45165
-##  6: 6, 14713, 18451, 24754, 33842
-##  7: 7, 14759, 17261, 23432, 29531, 32548, 42882, 43324
-##  8: 8, 6805, 25593, 33728, 43094
-##  9: 9, 21271, 28217, 41093
-##  10: 10, 9095, 9332</code></pre>
+##  1: 1, 39364, 43452
+##  2: 2, 24400, 26773, 27460
+##  3: 3, 26700, 32063, 38651, 40326
+##  4: 4, 5351, 6136, 12632, 25758, 29705
+##  5: 5, 6423, 7148, 40104
+##  6: 6, 677, 1603, 10881, 14026, 16526, 25497, 29151
+##  7: 7, 3291, 6757, 23374, 26785, 38543
+##  8: 8, 1473, 28511, 31698
+##  9: 9, 11200, 18048, 20814, 32992
+##  10: 10, 1763, 15291, 31088, 37014</code></pre>
 <p>However, this starts to have problems over really large datasets, because the total
 number of comparisons to be done still rapidly increase besides the use of spatial
 indexes. A test done by changing the number of points in the above example in the
@@ -167,12 +167,12 @@ maxdist &lt;- 2000
 out &lt;- points_in_distance(pts, maxdist = maxdist, ncut = 10)
 head(out)</code></pre>
 <pre><code>##       id                                 int_ids
-## 1: 10455 10455,19631,15877, 5247, 7857,11316,...
-## 2:  9116  9116,15877, 5072, 5105,10763,18214,...
-## 3: 19837 19020,19837, 9711, 5072, 4654, 5105,...
-## 4: 19631 10455,19631,16377, 5247,11316, 9161,...
-## 5: 16377 19631,16377, 5247,18106,15353,  140,...
-## 6: 15877 10455, 9116,15877, 7857,11316,10763,...</code></pre>
+## 1:  5830  5830, 9068,10102, 5782,10062, 1188,...
+## 2:  9068  5830, 9068,10102, 5782, 1188,15701,...
+## 3: 10102  5830, 9068,10102, 5782,10062, 1188,...
+## 4:  5989  5989, 7085,18143,  209, 5751, 5130,...
+## 5:  5782  5830, 9068,10102, 5782,10062, 1188,...
+## 6: 10062  5830,10102, 5782,10062,17566,15701,...</code></pre>
 <pre class="r"><code># get a random point
 sel_id  &lt;- sample(pts$id,1)
 pt_sel  &lt;- pts[sel_id, ]
@@ -265,7 +265,7 @@ st_intersect
 2000
 </td>
 <td style="text-align:left;">
-<span style=" font-weight: bold;    color: red;">85</span>
+<span style=" font-weight: bold;    color: red !important;">85</span>
 </td>
 </tr>
 <tr>

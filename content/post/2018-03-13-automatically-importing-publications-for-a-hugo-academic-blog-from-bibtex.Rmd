@@ -13,7 +13,7 @@ header:
   image: ''
 ---
 
-##The problem 
+## The problem 
 
 I am in the process of migrating my (rather ugly) [small blog](https://www.blogger.com/blogger.g?blogID=4683863749820351779#allposts) from 
 "Bloggers" to blogdown and, as several others, I choose to use the [hugo-academic theme](https://github.com/gcushen/hugo-academic) due to its good looks, 
@@ -35,9 +35,9 @@ decided to try and develop some script to automatically create the required `md`
 files starting from a `BibTex` list of my publications. Here are the results of 
 that effort. 
 
-##A possible solution
+## A possible solution
 
-###Preparing the `BibTex` file 
+### Preparing the `BibTex` file 
 
 To automatically create the publications `md` files, all you need is a (properly formatted)
 `BibTex` file. Since I did not have one ready, I created mine by exporting my
@@ -49,7 +49,7 @@ with UTF-8 encoding**. If you are not sure, you can open it in RStudio (or any d
 text editor), and then re-save it with a forced encoding (in RStudio, you can use 
 `File-->Save with Encoding`)
 
-###Creating an import script
+### Creating an import script
 
 Now, you need a script that reads the `BibTex` entries and use the data to populate
 one different `md` file for each publication. Below you can find my attempt at this. 
@@ -187,7 +187,7 @@ Nothing fancy, here: I just use the [`RefManageR`](https://cran.r-project.org/we
 package to read the BibTeX file, and then cycle over publications to create 
 files properly formatted for `hugo-academic` use. 
 
-###Running the script
+### Running the script
 
 All is left is to run the script:
 
@@ -254,7 +254,7 @@ like this:
 
 You can have a look at the final results on my (under construction) website [here](https://lbusett.netlify.com/publication/). I think it's quite nice!
 
-##Final Notes
+## Final Notes
 
 * My importing script is quite "quick and dirty". It __does not attempt to deal 
 with special characters, and even substitutes accented letters with "bare"

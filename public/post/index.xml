@@ -11,6 +11,22 @@
     <atom:link href="/post/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>MODIStsp v. 1.3.9 is out !</title>
+      <link>/post/modistsp-v-1-3-9-is-out/</link>
+      <pubDate>Mon, 24 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/modistsp-v-1-3-9-is-out/</guid>
+      <description>&lt;p&gt;A new version of &lt;a href=&#34;http://ropensci.github.io/MODIStsp/&#34;&gt;MODIStsp&lt;/a&gt; (1.3.9) is on &lt;a href=&#34;https://cran.r-project.org/web/packages/MODIStsp/index.html&#34;&gt;CRAN&lt;/a&gt; as of today !&lt;/p&gt;
+&lt;p&gt;This version:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Introduces support for the new MCD12Q2 v006 product and removes support for some v005 product no longer available (&lt;a href=&#34;https://github.com/ropensci/MODIStsp/issues/170&#34; class=&#34;uri&#34;&gt;https://github.com/ropensci/MODIStsp/issues/170&lt;/a&gt;);&lt;/li&gt;
+&lt;li&gt;Fixes a bug preventing correct processing of product MOD14A1 (&lt;a href=&#34;https://github.com/ropensci/MODIStsp/issues/170&#34; class=&#34;uri&#34;&gt;https://github.com/ropensci/MODIStsp/issues/170&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Updates all links to the MODIS products’ description web pages&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>MODIStsp v. 1.3.8 is out !</title>
       <link>/post/modistsp-v-1-3-8-is-out/</link>
       <pubDate>Thu, 07 Mar 2019 00:00:00 +0000</pubDate>
@@ -189,7 +205,8 @@ table of the specified dimensions and render it with the selected format:&lt;/p&
       <pubDate>Tue, 13 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/automatically-importing-publications-from-bibtex-to-a-hugo-academic-blog/</guid>
-      <description>&lt;p&gt;##The problem&lt;/p&gt;
+      <description>&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The problem&lt;/h2&gt;
 &lt;p&gt;I am in the process of migrating my (rather ugly) &lt;a href=&#34;https://www.blogger.com/blogger.g?blogID=4683863749820351779#allposts&#34;&gt;small blog&lt;/a&gt; from
 “Bloggers” to blogdown and, as several others, I choose to use the &lt;a href=&#34;https://github.com/gcushen/hugo-academic&#34;&gt;hugo-academic theme&lt;/a&gt; due to its good looks,
 simplicity, and “focus” towards researchers.&lt;/p&gt;
@@ -205,8 +222,11 @@ found (well, there appears to be a &lt;code&gt;python&lt;/code&gt; one, but we a
 decided to try and develop some script to automatically create the required &lt;code&gt;md&lt;/code&gt;
 files starting from a &lt;code&gt;BibTex&lt;/code&gt; list of my publications. Here are the results of
 that effort.&lt;/p&gt;
-&lt;p&gt;##A possible solution&lt;/p&gt;
-&lt;p&gt;###Preparing the &lt;code&gt;BibTex&lt;/code&gt; file&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-possible-solution&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;A possible solution&lt;/h2&gt;
+&lt;div id=&#34;preparing-the-bibtex-file&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Preparing the &lt;code&gt;BibTex&lt;/code&gt; file&lt;/h3&gt;
 &lt;p&gt;To automatically create the publications &lt;code&gt;md&lt;/code&gt; files, all you need is a (properly formatted)
 &lt;code&gt;BibTex&lt;/code&gt; file. Since I did not have one ready, I created mine by exporting my
 publications list from &lt;a href=&#34;https://www.scopus.com/authid/detail.uri?authorId=23003461400&#34;&gt;Scopus&lt;/a&gt;, but you
@@ -215,7 +235,9 @@ could use any valid BibTeX file.&lt;/p&gt;
 with UTF-8 encoding&lt;/strong&gt;. If you are not sure, you can open it in RStudio (or any decent
 text editor), and then re-save it with a forced encoding (in RStudio, you can use
 &lt;code&gt;File--&amp;gt;Save with Encoding&lt;/code&gt;)&lt;/p&gt;
-&lt;p&gt;###Creating an import script&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;creating-an-import-script&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Creating an import script&lt;/h3&gt;
 &lt;p&gt;Now, you need a script that reads the &lt;code&gt;BibTex&lt;/code&gt; entries and use the data to populate
 one different &lt;code&gt;md&lt;/code&gt; file for each publication. Below you can find my attempt at this.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bibtex_2academic &amp;lt;- function(bibfile,
@@ -346,7 +368,9 @@ one different &lt;code&gt;md&lt;/code&gt; file for each publication. Below you c
 &lt;p&gt;Nothing fancy, here: I just use the &lt;a href=&#34;https://cran.r-project.org/web/packages/RefManageR/index.html&#34;&gt;&lt;code&gt;RefManageR&lt;/code&gt;&lt;/a&gt;
 package to read the BibTeX file, and then cycle over publications to create
 files properly formatted for &lt;code&gt;hugo-academic&lt;/code&gt; use.&lt;/p&gt;
-&lt;p&gt;###Running the script&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;running-the-script&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Running the script&lt;/h3&gt;
 &lt;p&gt;All is left is to run the script:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_bibfile &amp;lt;- &amp;quot;/path/to/mybibtex.bib&amp;quot;
 out_fold   &amp;lt;- &amp;quot;/path/to/myoutfolder&amp;quot;
@@ -398,7 +422,10 @@ of your &lt;code&gt;hugo-academic&lt;/code&gt; site will be auto-populated, and 
 like this:&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/img/publications/publications.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;You can have a look at the final results on my (under construction) website &lt;a href=&#34;https://lbusett.netlify.com/publication/&#34;&gt;here&lt;/a&gt;. I think it’s quite nice!&lt;/p&gt;
-&lt;p&gt;##Final Notes&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;final-notes&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Final Notes&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;My importing script is quite “quick and dirty”. It &lt;strong&gt;does not attempt to deal
 with special characters, and even substitutes accented letters with “bare”
@@ -411,6 +438,7 @@ formatting in some of the files. Usual suspects would be unproperly recognized &
 fields. You will have to look into each file and remove any offending areas.
 (It happened to me a lot before properly saving to UTF-8)&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;/div&gt;
 </description>
     </item>
     
@@ -445,16 +473,16 @@ int &amp;lt;- sf::st_intersects(pts_buf, pts)
 int&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Sparse geometry binary predicate list of length 50000, where the predicate was `intersects&amp;#39;
 ## first 10 elements:
-##  1: 1, 2424, 11769, 45414, 49448
-##  2: 2, 3596, 12005, 17540, 20451, 44501
-##  3: 3, 40817
-##  4: 4, 5200, 44151
-##  5: 5, 16331, 22913, 24404, 40849, 45165
-##  6: 6, 14713, 18451, 24754, 33842
-##  7: 7, 14759, 17261, 23432, 29531, 32548, 42882, 43324
-##  8: 8, 6805, 25593, 33728, 43094
-##  9: 9, 21271, 28217, 41093
-##  10: 10, 9095, 9332&lt;/code&gt;&lt;/pre&gt;
+##  1: 1, 39364, 43452
+##  2: 2, 24400, 26773, 27460
+##  3: 3, 26700, 32063, 38651, 40326
+##  4: 4, 5351, 6136, 12632, 25758, 29705
+##  5: 5, 6423, 7148, 40104
+##  6: 6, 677, 1603, 10881, 14026, 16526, 25497, 29151
+##  7: 7, 3291, 6757, 23374, 26785, 38543
+##  8: 8, 1473, 28511, 31698
+##  9: 9, 11200, 18048, 20814, 32992
+##  10: 10, 1763, 15291, 31088, 37014&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;However, this starts to have problems over really large datasets, because the total
 number of comparisons to be done still rapidly increase besides the use of spatial
 indexes. A test done by changing the number of points in the above example in the
@@ -572,12 +600,12 @@ maxdist &amp;lt;- 2000
 out &amp;lt;- points_in_distance(pts, maxdist = maxdist, ncut = 10)
 head(out)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##       id                                 int_ids
-## 1: 10455 10455,19631,15877, 5247, 7857,11316,...
-## 2:  9116  9116,15877, 5072, 5105,10763,18214,...
-## 3: 19837 19020,19837, 9711, 5072, 4654, 5105,...
-## 4: 19631 10455,19631,16377, 5247,11316, 9161,...
-## 5: 16377 19631,16377, 5247,18106,15353,  140,...
-## 6: 15877 10455, 9116,15877, 7857,11316,10763,...&lt;/code&gt;&lt;/pre&gt;
+## 1:  5830  5830, 9068,10102, 5782,10062, 1188,...
+## 2:  9068  5830, 9068,10102, 5782, 1188,15701,...
+## 3: 10102  5830, 9068,10102, 5782,10062, 1188,...
+## 4:  5989  5989, 7085,18143,  209, 5751, 5130,...
+## 5:  5782  5830, 9068,10102, 5782,10062, 1188,...
+## 6: 10062  5830,10102, 5782,10062,17566,15701,...&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# get a random point
 sel_id  &amp;lt;- sample(pts$id,1)
 pt_sel  &amp;lt;- pts[sel_id, ]
@@ -670,7 +698,7 @@ st_intersect
 2000
 &lt;/td&gt;
 &lt;td style=&#34;text-align:left;&#34;&gt;
-&lt;span style=&#34; font-weight: bold;    color: red;&#34;&gt;85&lt;/span&gt;
+&lt;span style=&#34; font-weight: bold;    color: red !important;&#34;&gt;85&lt;/span&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -1355,24 +1383,6 @@ Remote Sensing of Environment - National Research Council of Italy).&lt;/p&gt;
 &lt;p&gt;L. Busetto, L. Ranghetti (2016) MODIStsp: An R package for automatic preprocessing of MODIS
 Land Products time series, Computers &amp;amp; Geosciences, Volume 97, Pages
 40-48, ISSN 0098-3004, &lt;a href=&#34;http://dx.doi.org/10.1016/j.cageo.2016.08.020&#34; target=&#34;_blank&#34;&gt;http://dx.doi.org/10.1016/j.cageo.2016.08.020&lt;/a&gt;.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Welcome to this Blog</title>
-      <link>/post/welcome-to-this-blog/</link>
-      <pubDate>Thu, 15 Sep 2016 00:00:00 +0000</pubDate>
-      
-      <guid>/post/welcome-to-this-blog/</guid>
-      <description>&lt;p&gt;Hi all,&lt;/p&gt;
-
-&lt;p&gt;I&amp;rsquo;ll use this blog to share posts mostly related to tips and tricks about
-Spatial Processing and satellite image analysis in &amp;ldquo;R&amp;rdquo;, as well as to share
-interesting resources concerning &amp;ldquo;R&amp;rdquo; programming in general.&lt;/p&gt;
-
-&lt;p&gt;HTH,&lt;/p&gt;
-
-&lt;p&gt;Lorenzo&lt;/p&gt;
 </description>
     </item>
     

@@ -11,6 +11,22 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>MODIStsp v. 1.3.9 is out !</title>
+      <link>/post/modistsp-v-1-3-9-is-out/</link>
+      <pubDate>Mon, 24 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/modistsp-v-1-3-9-is-out/</guid>
+      <description>&lt;p&gt;A new version of &lt;a href=&#34;http://ropensci.github.io/MODIStsp/&#34;&gt;MODIStsp&lt;/a&gt; (1.3.9) is on &lt;a href=&#34;https://cran.r-project.org/web/packages/MODIStsp/index.html&#34;&gt;CRAN&lt;/a&gt; as of today !&lt;/p&gt;
+&lt;p&gt;This version:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Introduces support for the new MCD12Q2 v006 product and removes support for some v005 product no longer available (&lt;a href=&#34;https://github.com/ropensci/MODIStsp/issues/170&#34; class=&#34;uri&#34;&gt;https://github.com/ropensci/MODIStsp/issues/170&lt;/a&gt;);&lt;/li&gt;
+&lt;li&gt;Fixes a bug preventing correct processing of product MOD14A1 (&lt;a href=&#34;https://github.com/ropensci/MODIStsp/issues/170&#34; class=&#34;uri&#34;&gt;https://github.com/ropensci/MODIStsp/issues/170&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Updates all links to the MODIS products’ description web pages&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      </item>
+    
+    <item>
       <title>MODIStsp v. 1.3.8 is out !</title>
       <link>/post/modistsp-v-1-3-8-is-out/</link>
       <pubDate>Thu, 07 Mar 2019 00:00:00 +0000</pubDate>
@@ -189,7 +205,8 @@ table of the specified dimensions and render it with the selected format:&lt;/p&
       <pubDate>Tue, 13 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/automatically-importing-publications-from-bibtex-to-a-hugo-academic-blog/</guid>
-      <description>&lt;p&gt;##The problem&lt;/p&gt;
+      <description>&lt;div id=&#34;the-problem&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;The problem&lt;/h2&gt;
 &lt;p&gt;I am in the process of migrating my (rather ugly) &lt;a href=&#34;https://www.blogger.com/blogger.g?blogID=4683863749820351779#allposts&#34;&gt;small blog&lt;/a&gt; from
 “Bloggers” to blogdown and, as several others, I choose to use the &lt;a href=&#34;https://github.com/gcushen/hugo-academic&#34;&gt;hugo-academic theme&lt;/a&gt; due to its good looks,
 simplicity, and “focus” towards researchers.&lt;/p&gt;
@@ -205,8 +222,11 @@ found (well, there appears to be a &lt;code&gt;python&lt;/code&gt; one, but we a
 decided to try and develop some script to automatically create the required &lt;code&gt;md&lt;/code&gt;
 files starting from a &lt;code&gt;BibTex&lt;/code&gt; list of my publications. Here are the results of
 that effort.&lt;/p&gt;
-&lt;p&gt;##A possible solution&lt;/p&gt;
-&lt;p&gt;###Preparing the &lt;code&gt;BibTex&lt;/code&gt; file&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;a-possible-solution&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;A possible solution&lt;/h2&gt;
+&lt;div id=&#34;preparing-the-bibtex-file&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Preparing the &lt;code&gt;BibTex&lt;/code&gt; file&lt;/h3&gt;
 &lt;p&gt;To automatically create the publications &lt;code&gt;md&lt;/code&gt; files, all you need is a (properly formatted)
 &lt;code&gt;BibTex&lt;/code&gt; file. Since I did not have one ready, I created mine by exporting my
 publications list from &lt;a href=&#34;https://www.scopus.com/authid/detail.uri?authorId=23003461400&#34;&gt;Scopus&lt;/a&gt;, but you
@@ -215,7 +235,9 @@ could use any valid BibTeX file.&lt;/p&gt;
 with UTF-8 encoding&lt;/strong&gt;. If you are not sure, you can open it in RStudio (or any decent
 text editor), and then re-save it with a forced encoding (in RStudio, you can use
 &lt;code&gt;File--&amp;gt;Save with Encoding&lt;/code&gt;)&lt;/p&gt;
-&lt;p&gt;###Creating an import script&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;creating-an-import-script&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Creating an import script&lt;/h3&gt;
 &lt;p&gt;Now, you need a script that reads the &lt;code&gt;BibTex&lt;/code&gt; entries and use the data to populate
 one different &lt;code&gt;md&lt;/code&gt; file for each publication. Below you can find my attempt at this.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bibtex_2academic &amp;lt;- function(bibfile,
@@ -346,7 +368,9 @@ one different &lt;code&gt;md&lt;/code&gt; file for each publication. Below you c
 &lt;p&gt;Nothing fancy, here: I just use the &lt;a href=&#34;https://cran.r-project.org/web/packages/RefManageR/index.html&#34;&gt;&lt;code&gt;RefManageR&lt;/code&gt;&lt;/a&gt;
 package to read the BibTeX file, and then cycle over publications to create
 files properly formatted for &lt;code&gt;hugo-academic&lt;/code&gt; use.&lt;/p&gt;
-&lt;p&gt;###Running the script&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;running-the-script&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Running the script&lt;/h3&gt;
 &lt;p&gt;All is left is to run the script:&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_bibfile &amp;lt;- &amp;quot;/path/to/mybibtex.bib&amp;quot;
 out_fold   &amp;lt;- &amp;quot;/path/to/myoutfolder&amp;quot;
@@ -398,7 +422,10 @@ of your &lt;code&gt;hugo-academic&lt;/code&gt; site will be auto-populated, and 
 like this:&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;/img/publications/publications.png&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;You can have a look at the final results on my (under construction) website &lt;a href=&#34;https://lbusett.netlify.com/publication/&#34;&gt;here&lt;/a&gt;. I think it’s quite nice!&lt;/p&gt;
-&lt;p&gt;##Final Notes&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;final-notes&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Final Notes&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;p&gt;My importing script is quite “quick and dirty”. It &lt;strong&gt;does not attempt to deal
 with special characters, and even substitutes accented letters with “bare”
@@ -411,6 +438,7 @@ formatting in some of the files. Usual suspects would be unproperly recognized &
 fields. You will have to look into each file and remove any offending areas.
 (It happened to me a lot before properly saving to UTF-8)&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;/div&gt;
 </description>
       </item>
     
@@ -445,16 +473,16 @@ int &amp;lt;- sf::st_intersects(pts_buf, pts)
 int&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Sparse geometry binary predicate list of length 50000, where the predicate was `intersects&amp;#39;
 ## first 10 elements:
-##  1: 1, 2424, 11769, 45414, 49448
-##  2: 2, 3596, 12005, 17540, 20451, 44501
-##  3: 3, 40817
-##  4: 4, 5200, 44151
-##  5: 5, 16331, 22913, 24404, 40849, 45165
-##  6: 6, 14713, 18451, 24754, 33842
-##  7: 7, 14759, 17261, 23432, 29531, 32548, 42882, 43324
-##  8: 8, 6805, 25593, 33728, 43094
-##  9: 9, 21271, 28217, 41093
-##  10: 10, 9095, 9332&lt;/code&gt;&lt;/pre&gt;
+##  1: 1, 39364, 43452
+##  2: 2, 24400, 26773, 27460
+##  3: 3, 26700, 32063, 38651, 40326
+##  4: 4, 5351, 6136, 12632, 25758, 29705
+##  5: 5, 6423, 7148, 40104
+##  6: 6, 677, 1603, 10881, 14026, 16526, 25497, 29151
+##  7: 7, 3291, 6757, 23374, 26785, 38543
+##  8: 8, 1473, 28511, 31698
+##  9: 9, 11200, 18048, 20814, 32992
+##  10: 10, 1763, 15291, 31088, 37014&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;However, this starts to have problems over really large datasets, because the total
 number of comparisons to be done still rapidly increase besides the use of spatial
 indexes. A test done by changing the number of points in the above example in the
@@ -572,12 +600,12 @@ maxdist &amp;lt;- 2000
 out &amp;lt;- points_in_distance(pts, maxdist = maxdist, ncut = 10)
 head(out)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##       id                                 int_ids
-## 1: 10455 10455,19631,15877, 5247, 7857,11316,...
-## 2:  9116  9116,15877, 5072, 5105,10763,18214,...
-## 3: 19837 19020,19837, 9711, 5072, 4654, 5105,...
-## 4: 19631 10455,19631,16377, 5247,11316, 9161,...
-## 5: 16377 19631,16377, 5247,18106,15353,  140,...
-## 6: 15877 10455, 9116,15877, 7857,11316,10763,...&lt;/code&gt;&lt;/pre&gt;
+## 1:  5830  5830, 9068,10102, 5782,10062, 1188,...
+## 2:  9068  5830, 9068,10102, 5782, 1188,15701,...
+## 3: 10102  5830, 9068,10102, 5782,10062, 1188,...
+## 4:  5989  5989, 7085,18143,  209, 5751, 5130,...
+## 5:  5782  5830, 9068,10102, 5782,10062, 1188,...
+## 6: 10062  5830,10102, 5782,10062,17566,15701,...&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# get a random point
 sel_id  &amp;lt;- sample(pts$id,1)
 pt_sel  &amp;lt;- pts[sel_id, ]
@@ -670,7 +698,7 @@ st_intersect
 2000
 &lt;/td&gt;
 &lt;td style=&#34;text-align:left;&#34;&gt;
-&lt;span style=&#34; font-weight: bold;    color: red;&#34;&gt;85&lt;/span&gt;
+&lt;span style=&#34; font-weight: bold;    color: red !important;&#34;&gt;85&lt;/span&gt;
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
@@ -822,347 +850,6 @@ will help us in more easily pinpoint and solve eventual problems signalled by us
 &lt;a href=&#34;https://github.com/ropensci/MODIStsp/issues?q=is%3Aissue+is%3Aclosed&#34; target=&#34;_blank&#34;&gt;for their feedback&lt;/a&gt;
 and help in improving the package ! You can find a list of the main fixes in our
 &lt;a href=&#34;http://ropensci.github.io/MODIStsp/news/index.html&#34; target=&#34;_blank&#34;&gt;NEWS&lt;/a&gt; page.&lt;/p&gt;
-</description>
-      </item>
-    
-    <item>
-      <title>Building a website with `pkgdown`: a short guide</title>
-      <link>/post/building-a-website-with-pkgdown-a-short-guide/</link>
-      <pubDate>Tue, 01 Aug 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/post/building-a-website-with-pkgdown-a-short-guide/</guid>
-      <description>
-
-&lt;p&gt;As promised in my &lt;a href=&#34;/post/the-new-modistsp-website-based-on-pkgdown-is-online&#34;&gt;last post&lt;/a&gt;,
-here is a short guide with some &lt;strong&gt;tips and tricks for building a documentation website&lt;/strong&gt;
-for an &lt;code&gt;R&lt;/code&gt; package using &lt;code&gt;pkgdown&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;In the end, this guide ended up way longer than I was expecting, but I hope you&amp;rsquo;ll
-find it useful, although it often replicates information already available in &lt;code&gt;pkgdown&lt;/code&gt; documentation !&lt;/p&gt;
-
-&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;
-
-&lt;p&gt;To build a website using &lt;code&gt;pkgdown&lt;/code&gt;, all you need to have is an &lt;strong&gt;R&lt;/strong&gt; package
-&lt;strong&gt;hosted on Git Hub&lt;/strong&gt;, with a file structure &amp;ldquo;tweaked&amp;rdquo; with some functionality
-provided by &lt;strong&gt;devtools&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Assuming you are using RStudio, and that you didn&amp;rsquo;t already do this, open the
-project corresponding to your package and (as a minimum) run:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;require(devtools)
-use_readme_rmd()
-use_news_md()
-use_vignette(&amp;quot;test&amp;quot;)  #substitute with the name of your package
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Since to use &lt;code&gt;pkgdown&lt;/code&gt; your package must be on Git Hub, you may also want:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;use_github_links()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;, which will populate automatically some fields in the &lt;strong&gt;DESCRIPTION&lt;/strong&gt; file successively
-used to build the home page of your website.&lt;/p&gt;
-
-&lt;p&gt;Other possibly useful commands (depending on the status of your package) may be:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;use_travis()
-use_cran_badge()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;(see &lt;code&gt;devtools&lt;/code&gt; documentation for further info)&lt;/p&gt;
-
-&lt;p&gt;At this point, within your package file structure you should have a &lt;strong&gt;README.Rmd&lt;/strong&gt;
-file (which is used also to create the &amp;ldquo;README.md&amp;rdquo; file for Git Hub), and a
-&lt;strong&gt;NEWS.md&lt;/strong&gt; file. You should also have a _**man **_subfolder containing the
-&lt;em&gt;.Rd&lt;/em&gt; files documenting your functions (usually auto-generated from roxygen
-comments using &lt;code&gt;devtools::document()&lt;/code&gt;). Finally, you should have a &lt;strong&gt;my_package.Rmd&lt;/strong&gt;
-file in the _vignettes _subfolder (which is used for example by &lt;code&gt;devtools::build_vignette()&lt;/code&gt;
-to automatically create a vignette for the package).&lt;/p&gt;
-
-&lt;h2 id=&#34;getting-started-creating-a-bare-bones-website&#34;&gt;Getting Started: creating a bare-bones website&lt;/h2&gt;
-
-&lt;p&gt;To create a standard &lt;code&gt;pkgdown&lt;/code&gt; site, just run:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;devtools::install_githb(&amp;quot;hadley/pkgdown&amp;quot;)
-library(pkgdown)
-build_site()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;build_site()&lt;/code&gt; will do several things:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;create a &amp;ldquo;docs&amp;rdquo; subfolder&lt;/strong&gt; in your file structure, where it will place all
-the material needed for rendering the website;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;knit README.Rmd&lt;/strong&gt; to &amp;ldquo;docs/index.html&amp;rdquo;. This will be the home page of your
-website;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;knit NEWS.md&lt;/strong&gt; to &amp;ldquo;docs/news/index.html&amp;rdquo; (in this way, any time you update
-NEWS.md, the news section of the website can be automatically updated;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;knit all your &amp;ldquo;Rd&amp;rdquo; files&lt;/strong&gt; to &amp;ldquo;docs/reference/&amp;rdquo; as html files inheriting
-the name of the function (e.g., &amp;ldquo;docs/reference/myfun_1.html&amp;rdquo; &amp;ldquo;docs/reference/myfun_2.html&amp;rdquo;,
-etc.). A &amp;ldquo;docs/reference/index.html&amp;rdquo; page is also created: this is a simple
-html page linking to the html documentation pages for the different functions. &lt;em&gt;By default, all functions will be included and listed in alphabetical order&lt;/em&gt;.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;knit any Rmd files in your &amp;ldquo;vignettes&amp;rdquo; subfolder&lt;/strong&gt; to &amp;ldquo;docs/articles&amp;rdquo; as
-single html files;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Scrape your package for various other info&lt;/strong&gt; (e.g., Authors, Git Hub address,
-License, Citation, badges, etc.) to create additional material on the right-hand
-side bar of the home page;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Put everything together&lt;/strong&gt; by some magic to build a working website, and open
-a preview in RStudio Viewer or your browser.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;The resulting website will look more or less like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;/img/website_basic_pkgdown.png&#34; alt=&#34;&#34; /&gt;&lt;strong&gt;&amp;ldquo;Standard&amp;rdquo; website built by pkgdown::build_site()&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;, with your main vignette linked in &lt;strong&gt;Getting Started&lt;/strong&gt;, and all the other Rmds
-found in &lt;em&gt;vignettes&lt;/em&gt; (if any) linked-to in the &lt;strong&gt;Articles&lt;/strong&gt; drop down menu.&lt;/p&gt;
-
-&lt;p&gt;Considering that &lt;strong&gt;all is needed is to run&lt;/strong&gt; &lt;strong&gt;&lt;code&gt;build_site()&lt;/code&gt;&lt;/strong&gt; (in particular if
-the package is already using &lt;code&gt;devtools&lt;/code&gt; tweaks), I&amp;rsquo;d say that this is already a nice
-result ! However, spending some time in better configuring the structure of the
-site and tweaking some small things allows to achieve a much nicer result, as
-explained below.&lt;/p&gt;
-
-&lt;h2 id=&#34;customizing-appearence-and-structure-of-the-website-the-pkgdown-yaml-file&#34;&gt;Customizing appearence and structure of the website: the &lt;em&gt;pkgdown.yaml&lt;/em&gt; file&lt;/h2&gt;
-
-&lt;p&gt;Your pkgdown website can be further customized by &lt;strong&gt;creating and customizing a
-text file named _&lt;em&gt;pkgdown.yaml&lt;/em&gt; in the root folder of your project&lt;/strong&gt;. The file
-needs to have three main sections, which I will describe here using the current
-&lt;em&gt;.yaml&lt;/em&gt; file used in the MODIStsp Website as an example (the complete file can
-be found &lt;a href=&#34;https://github.com/ropensci/MODIStsp/blob/devel/_pkgdown.yaml&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;).&lt;/p&gt;
-
-&lt;h3 id=&#34;the-preamble-section&#34;&gt;&lt;em&gt;The Preamble Section&lt;/em&gt;&lt;/h3&gt;
-
-&lt;p&gt;This is quite straightforward: first of all, give a title to your website and
-provide its URL. Then, &lt;strong&gt;select a template to customize its appearance&lt;/strong&gt; from the
-ones available at &lt;a href=&#34;https://bootswatch.com/&#34; target=&#34;_blank&#34;&gt;bootswatch&lt;/a&gt;. Finally, add the
-GoogleAnalytics tracking code if you wish.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;title: MODIStsp  
-url: http://ropensci.github.io/MODIStsp  
-template:  
-  params:  
-    bootswatch: flatly  
-    ganalytics: UA-12345678-0
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;the-reference-section&#34;&gt;&lt;em&gt;The Reference Section&lt;/em&gt;&lt;/h3&gt;
-
-&lt;p&gt;Here, you can configure the page of the website **containing the index to the
-documentation of your functions **(&lt;em&gt;docs/reference/index.html&lt;/em&gt;). Instead than
-having a simple list in alphabetical order, you can &lt;strong&gt;define different groups
-and decide which functions to put in each group&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Each group is defined by a &lt;strong&gt;title&lt;/strong&gt;, a &lt;strong&gt;description&lt;/strong&gt; (use ~ for no description),
-and a &lt;strong&gt;contents section&lt;/strong&gt; containing an indented list of functions to be included
-in that group. Syntax and indentation rules &lt;strong&gt;must be strictly followed but are very
-simple.&lt;/strong&gt; Looking at the example below should suffice for understanding it. In this
-case I decided to use only two groups: one for exported functions, and one for
-everything else, but you can set-up as many groups as you need.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;reference:  
-  - title: Exported Functions  
-    desc: Functions exported by MODIStsp  
-    contents:  
-      - &#39;`MODIStsp`&#39;  
-      - &#39;`MODIStsp_extract`&#39;  
-      - &#39;`MODIStsp_addindex`&#39;  
-      - &#39;`install_MODIStsp_launcher`&#39;  
-  - title: Internals  
-    desc: Internal functions and helpers  
-    contents:  
-      - &#39;`MODIStsp_GUI`&#39;  
-      - &#39;`MODIStsp_process`&#39;  
-      - &#39;`MODIStsp_process_indexes`&#39;  
-      - &#39;`MODIStsp_process_QA_bits`&#39;  
-      - &#39;`MODIStsp_read_xml`&#39;  
-      - &#39;`lpdaac_getmod_dirs`&#39;  
-      - &#39;`lpdaac_getmod_dates`&#39;  
-      - &#39;`lpdaac_getmod_names`&#39;  
-      - &#39;`MODIStsp_check_files`&#39;  
-      - &#39;`MODIStsp_vrt_create`&#39;  
-      - &#39;`bbox_from_file`&#39;  
-      - &#39;`reproj_bbox`&#39;  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;the-navbar-section&#34;&gt;&lt;em&gt;The Navbar Section&lt;/em&gt;&lt;/h3&gt;
-
-&lt;p&gt;The last section of _&lt;em&gt;pkgdown.yaml&lt;/em&gt; is named &lt;strong&gt;navbar&lt;/strong&gt;, and is where most the
-customization occurs.&lt;/p&gt;
-
-&lt;p&gt;In the first line, you can choose if using a &lt;strong&gt;standard or inverse color scheme&lt;/strong&gt;
-for your boootstrap template. The only way to understand what this does is to try
-both and see which one you do prefer.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt; navbar:  
-   type: inverse  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Next, you can define what content will be accessible through &lt;strong&gt;buttons or menus
-on the left side&lt;/strong&gt; of the top-menu of the website.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Buttons&lt;/strong&gt; linking to a single page are described by:
-
-&lt;ol&gt;
-&lt;li&gt;a &lt;strong&gt;title text or an icon name&lt;/strong&gt; (chosen from &lt;a href=&#34;http://fontawesome.io/icons/&#34; target=&#34;_blank&#34;&gt;http://fontawesome.io/icons/&lt;/a&gt;)
-that will be shown on the button;&lt;/li&gt;
-&lt;li&gt;a &lt;strong&gt;hyperlink&lt;/strong&gt; to the page that will be accessed through the button (Note
-that the hyperlinks are built relative to the root of the &amp;ldquo;docs&amp;rdquo; folder created
-by &lt;code&gt;pkgdown&lt;/code&gt; - no need to specify full paths !).&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Dropdown menus&lt;/strong&gt; giving access to multiple pages are described by:
-
-&lt;ol&gt;
-&lt;li&gt;a &lt;strong&gt;title text or an icon name&lt;/strong&gt;;&lt;/li&gt;
-&lt;li&gt;a &amp;ldquo;menu:&amp;rdquo; line;&lt;/li&gt;
-&lt;li&gt;an indented &lt;strong&gt;list of the text entries&lt;/strong&gt; that will appear in the menu,
-&lt;em&gt;with the associated hyperlinks&lt;/em&gt;.&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;In the example below, you can see &lt;strong&gt;how the content should be indented and
-organized:&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;left:
-  - icon: fa-home
-    href: index.html
-  - text: &amp;quot;How To&amp;quot;
-    menu: 
-    - text: Installation
-      href: articles/installation.html
-    - text: Interactive Execution - the MODIStsp GUI
-      href: articles/interactive_execution.html
-    - text: Non-Interactive Execution from within R
-      href: articles/noninteractive_execution.html
-    - text: Standalone Execution and Scheduled Processing
-      href: articles/standalone_execution.html
-    - text: Outputs Format and Naming Conventions
-      href: articles/output.html
-    - text: Accessing and Analyzing Processed Data from R
-      href: articles/analyze.html
-    - text: &amp;quot;Examples of Use&amp;quot;
-      href: articles/examples.html
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In the case of MODIStsp website, I decided to not provide a link to the &amp;ldquo;full&amp;rdquo;
-vignette (which was linked from &amp;ldquo;Getting Started&amp;rdquo; in the &amp;ldquo;bare-bones&amp;rdquo; website).
-Instead, I &lt;strong&gt;divided the contents of that vignette in six shorter articles accessible
-from the &amp;ldquo;How To&amp;rdquo; dropdown menu&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;To do that, I just had to &lt;strong&gt;create six separate Rmd files within the vignettes folder&lt;/strong&gt;.
-All Rmds within that folder are automatically knitted by pkgdown when launching
-either &lt;strong&gt;&lt;code&gt;build_site()&lt;/code&gt;&lt;/strong&gt; or &lt;strong&gt;&lt;code&gt;build_articles()&lt;/code&gt;&lt;/strong&gt;, and are therefore available
-for linking from the menu.&lt;/p&gt;
-
-&lt;p&gt;Finally, in the last section of _&lt;em&gt;pkgdown.yaml&lt;/em&gt; you can specify what content should
-be accessible from the &lt;strong&gt;right-hand side of the top menu&lt;/strong&gt;. Syntax and indentation
-are identical to what described above.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;right: 
-  - text: &amp;quot;faq&amp;quot;
-    icon: fa-question-circle-o
-    href: articles/faq.html
-  - icon: fa-newspaper-o
-    text: &amp;quot;news&amp;quot;
-    href: news/index.html
-  - icon: fa-file-code-o 
-    text: &amp;quot;functions&amp;quot;
-    href: reference/index.html
-  - icon: fa-github fa-lg
-    text: &amp;quot;github&amp;quot;
-    href: https://github.com/ropensci/MODIStsp/
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In MODIStsp website, we are using the right side of the top menu bar to provide
-access to:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;a static page&lt;/strong&gt; containing a FAQ;&lt;/li&gt;
-&lt;li&gt;the &lt;strong&gt;auto-generated news page&lt;/strong&gt; (by linking to news/index.html);&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;the function documentation index page&lt;/strong&gt; (by linking to reference/index.html);&lt;/li&gt;
-&lt;li&gt;an icon linking to the MODIStsp repository on Git Hub.
-&lt;em&gt;(From the example, you can see that it is possible to associate the &amp;ldquo;buttons&amp;rdquo;
-with both an icon and a short title text. In that case, the icon and the text will
-be shown one after the other.)&lt;/em&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Once your .yaml file is complete, just** run &lt;code&gt;build_site()&lt;/code&gt; again **and check the
-results. Then iterate ad-libitum until you are satisfied by the resulting structure.&lt;/p&gt;
-
-&lt;h2 id=&#34;fine-tuning&#34;&gt;Fine tuning&lt;/h2&gt;
-
-&lt;p&gt;When you are satisfied with the structure of the website, you can start &lt;strong&gt;tweaking
-its contents&lt;/strong&gt; to achieve a better-looking final result. Here I&amp;rsquo;m just** sharing
-some tips and tricks** I learnt while building our website:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;If (like me) you wish to have &lt;strong&gt;a different &amp;ldquo;home page&amp;rdquo; in the website and in
-the main Git Hub page&lt;/strong&gt;, you can create a new &lt;em&gt;index.Rmd&lt;/em&gt; file in the root of the
-package. If &lt;em&gt;index.Rmd&lt;/em&gt; is found, it is used instead than _README.Rmd _to populate
-the home page;&lt;/li&gt;
-&lt;li&gt;Text in the &amp;ldquo;standard&amp;rdquo; output is &lt;strong&gt;a bit too &amp;ldquo;compressed&amp;rdquo;&lt;/strong&gt; for my taste. You
-can &lt;strong&gt;increase the spacing between the main sections&lt;/strong&gt; of an article by simply
-adding a &lt;br&gt; at the end of each main section;&lt;/li&gt;
-&lt;li&gt;Similarly, you can &lt;strong&gt;add line separators between section&lt;/strong&gt;s by simply adding
-a line of underscores under each section;&lt;/li&gt;
-&lt;li&gt;To reduce the &amp;ldquo;wall of text&amp;rdquo; effect, you can &lt;strong&gt;put any of the
-&lt;a href=&#34;http://fontawesome.io/icons/&#34; target=&#34;_blank&#34;&gt;http://fontawesome.io/icons/&lt;/a&gt; icons in an article&lt;/strong&gt; by inserting its &amp;ldquo;full html
-specification&amp;rdquo; in the text of the corresponding Rmd. (For example,&amp;ldquo;I want a github
-icon here: &lt;i&gt; class=&amp;ldquo;fa fa-github aria-hidden=&amp;ldquo;true&amp;rdquo;&amp;gt;&lt;/i&gt;&amp;rdquo; would render in the
-website with a &amp;ldquo;Git Hub octopus&amp;rdquo; icon at the end);&lt;/li&gt;
-&lt;li&gt;Of course, you can &lt;strong&gt;add any image/R plot by&lt;/strong&gt; linking/creating it in the &lt;em&gt;Rmds&lt;/em&gt;
-of the different articles or of the home page;&lt;/li&gt;
-&lt;li&gt;If you build the site using** **&lt;strong&gt;build_site(run_dont_run = TRUE)&lt;/strong&gt;, the examples
-with the &amp;ldquo;dont_run&amp;rdquo; specification in the roxygen comment will be run, and their
-results appear in the documentation page of each function. I find this really
-&lt;strong&gt;useful to illustrate the typical behaviour of functions;&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;To &lt;strong&gt;provide modifiers to the standard pkgdown.css and pkgdown.js files&lt;/strong&gt;,
-create a new folder named &amp;ldquo;&lt;em&gt;pkgdown&lt;/em&gt;&amp;rdquo; in your project root. As described in &lt;code&gt;pkgdown&lt;/code&gt;
-documentation, &amp;ldquo;&lt;em&gt;the content of files &amp;ldquo;extra.css and &amp;ldquo;extra.js&amp;rdquo; placed in this
-folder will be copied to docs/ and inserted into the &lt;HEAD&gt; after the default
-&lt;code&gt;pkgdown&lt;/code&gt; CSS and JSS&lt;/em&gt;&amp;rdquo;. I for example added the following lines in &lt;em&gt;extra.css&lt;/em&gt;
-to have &lt;strong&gt;some additional syntax highlighting&lt;/strong&gt; in the code snippets:&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code&gt;  {
-  .fl      {color: blue;}
-  .fu      {color: blue;} /* function */
-  .ch,.st  {color: orange;} /* string */
-  .kw      {color: black;} /* keyword */
-  .co      {color: green;} /* comment */
-  
-  .message { color: gray;   font-weight: bolder;}
-  .error   { color: red;  font-weight: bolder;}
-  .warning { color: purple; font-weight: bolder;
-  }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;, but if you are more fluent than me in _css _and _js _you can probably tweak
-appearance a lot more.&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;you &lt;strong&gt;don&amp;rsquo;t need to run the whole build_site() every time&lt;/strong&gt; you wish to adjust
-something and check the results. You can use &lt;strong&gt;build_reference()&lt;/strong&gt;, &lt;strong&gt;build_news()&lt;/strong&gt;,
-&lt;strong&gt;build_articles()&lt;/strong&gt; and &lt;strong&gt;build_home()&lt;/strong&gt; to update just some sections.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Below, you can see how the &lt;em&gt;.yaml&lt;/em&gt; file described before and the other small &amp;ldquo;tweaks&amp;rdquo; &lt;strong&gt;improved the appearance&lt;/strong&gt; of MODIStsp homepage :&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;/img/MODIStsp_Website_end.png&#34; alt=&#34;&#34; /&gt;&lt;strong&gt;Final Home Page of the MODIStsp website&lt;/strong&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;deploying-the-website-to-git-hub-and-the-web&#34;&gt;Deploying the website to Git Hub and the web&lt;/h2&gt;
-
-&lt;p&gt;Finally, it&amp;rsquo;s time to &lt;strong&gt;deploy the website&lt;/strong&gt;. To do that:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Commit and push&lt;/strong&gt; your changes to the remote;&lt;/li&gt;
-&lt;li&gt;Login on Git Hub, &lt;strong&gt;navigate to your repo and select &amp;ldquo;Settings&amp;rdquo;&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;Scroll down to find the &lt;strong&gt;&amp;ldquo;Git Hub pages&amp;rdquo; subsection&lt;/strong&gt; and, under &amp;ldquo;Source&amp;rdquo;, select &amp;ldquo;**master branch/docs folder&amp;rdquo; **(from this, you can see that &lt;em&gt;it is fundamental that your website material is pushed to the master branch&lt;/em&gt;)&lt;/li&gt;
-&lt;li&gt;click on the link of your website and&amp;hellip; &lt;strong&gt;congratulations: you just published your new pkgdown website !&lt;/strong&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;em&gt;(PS: if you find any errors in this guide, or you think additional clarification is needed, please leave a comment to this post !)&lt;/em&gt;&lt;/p&gt;
 </description>
       </item>
     

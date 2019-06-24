@@ -15,7 +15,8 @@ header:
 
 
 
-<p>##The problem</p>
+<div id="the-problem" class="section level2">
+<h2>The problem</h2>
 <p>I am in the process of migrating my (rather ugly) <a href="https://www.blogger.com/blogger.g?blogID=4683863749820351779#allposts">small blog</a> from
 “Bloggers” to blogdown and, as several others, I choose to use the <a href="https://github.com/gcushen/hugo-academic">hugo-academic theme</a> due to its good looks,
 simplicity, and “focus” towards researchers.</p>
@@ -31,8 +32,11 @@ found (well, there appears to be a <code>python</code> one, but we are speaking 
 decided to try and develop some script to automatically create the required <code>md</code>
 files starting from a <code>BibTex</code> list of my publications. Here are the results of
 that effort.</p>
-<p>##A possible solution</p>
-<p>###Preparing the <code>BibTex</code> file</p>
+</div>
+<div id="a-possible-solution" class="section level2">
+<h2>A possible solution</h2>
+<div id="preparing-the-bibtex-file" class="section level3">
+<h3>Preparing the <code>BibTex</code> file</h3>
 <p>To automatically create the publications <code>md</code> files, all you need is a (properly formatted)
 <code>BibTex</code> file. Since I did not have one ready, I created mine by exporting my
 publications list from <a href="https://www.scopus.com/authid/detail.uri?authorId=23003461400">Scopus</a>, but you
@@ -41,7 +45,9 @@ could use any valid BibTeX file.</p>
 with UTF-8 encoding</strong>. If you are not sure, you can open it in RStudio (or any decent
 text editor), and then re-save it with a forced encoding (in RStudio, you can use
 <code>File--&gt;Save with Encoding</code>)</p>
-<p>###Creating an import script</p>
+</div>
+<div id="creating-an-import-script" class="section level3">
+<h3>Creating an import script</h3>
 <p>Now, you need a script that reads the <code>BibTex</code> entries and use the data to populate
 one different <code>md</code> file for each publication. Below you can find my attempt at this.</p>
 <pre class="r"><code>bibtex_2academic &lt;- function(bibfile,
@@ -172,7 +178,9 @@ one different <code>md</code> file for each publication. Below you can find my a
 <p>Nothing fancy, here: I just use the <a href="https://cran.r-project.org/web/packages/RefManageR/index.html"><code>RefManageR</code></a>
 package to read the BibTeX file, and then cycle over publications to create
 files properly formatted for <code>hugo-academic</code> use.</p>
-<p>###Running the script</p>
+</div>
+<div id="running-the-script" class="section level3">
+<h3>Running the script</h3>
 <p>All is left is to run the script:</p>
 <pre class="r"><code>my_bibfile &lt;- &quot;/path/to/mybibtex.bib&quot;
 out_fold   &lt;- &quot;/path/to/myoutfolder&quot;
@@ -224,7 +232,10 @@ of your <code>hugo-academic</code> site will be auto-populated, and should look 
 like this:</p>
 <p><img src="/img/publications/publications.png" /></p>
 <p>You can have a look at the final results on my (under construction) website <a href="https://lbusett.netlify.com/publication/">here</a>. I think it’s quite nice!</p>
-<p>##Final Notes</p>
+</div>
+</div>
+<div id="final-notes" class="section level2">
+<h2>Final Notes</h2>
 <ul>
 <li><p>My importing script is quite “quick and dirty”. It <strong>does not attempt to deal
 with special characters, and even substitutes accented letters with “bare”
@@ -237,3 +248,4 @@ formatting in some of the files. Usual suspects would be unproperly recognized <
 fields. You will have to look into each file and remove any offending areas.
 (It happened to me a lot before properly saving to UTF-8)</p></li>
 </ul>
+</div>
