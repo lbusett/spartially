@@ -11,6 +11,32 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>MODIStsp v. 1.4.0 is out !</title>
+      <link>/post/modistsp-v-1-4-0-is-out/</link>
+      <pubDate>Sun, 10 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/modistsp-v-1-4-0-is-out/</guid>
+      <description>&lt;p&gt;A new version of &lt;a href=&#34;http://ropensci.github.io/MODIStsp/&#34;&gt;MODIStsp&lt;/a&gt; (1.4.0) is on &lt;a href=&#34;https://cran.r-project.org/web/packages/MODIStsp/index.html&#34;&gt;CRAN&lt;/a&gt; as of today !&lt;/p&gt;
+&lt;p&gt;This version:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Switches to use of GDAL3/PROJ6 WKTs for projection representation, using sf::gdal_utils to perform gdalwarp/gdaltranslate instead of gdalUtils on external GDAL;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Switches to use of &lt;code&gt;sf&lt;/code&gt; for all internal work on vector data;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Removes sp, rgdal, rgeos, pacman, gdalUtils dependencies;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Adds support for products MCD19A1 and MCD19A2 products.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      </item>
+    
+    <item>
+      <title>sen2r: An R toolbox for automatically downloading and preprocessing Sentinel-2 satellite data</title>
+      <link>/publication/2020-01-01_sen2r/</link>
+      <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/2020-01-01_sen2r/</guid>
+      <description></description>
+      </item>
+    
+    <item>
       <title>MODIStsp v. 1.3.9 is out !</title>
       <link>/post/modistsp-v-1-3-9-is-out/</link>
       <pubDate>Mon, 24 Jun 2019 00:00:00 +0000</pubDate>
@@ -44,6 +70,15 @@ products MOD21A1D.006, MOD21A1N.006 and MOD21A2.006&lt;/strong&gt;&lt;/p&gt;
 many bugs !&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;As usual, please report any problems in our &lt;a href=&#34;https://github.com/ropensci/MODIStsp/issues&#34;&gt;issues&lt;/a&gt; GitHub page.&lt;/strong&gt;&lt;/p&gt;
 </description>
+      </item>
+    
+    <item>
+      <title>A new spatial modeling and interpolation approach for high-resolution temperature maps combining reanalysis data and ground measurements</title>
+      <link>/publication/2019-01-01-ag_met_viggiano/</link>
+      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/2019-01-01-ag_met_viggiano/</guid>
+      <description></description>
       </item>
     
     <item>
@@ -785,72 +820,6 @@ original sf points object over the extent of the chunk/extended chunk. The
       
       <guid>/publication/2018-01-01_assessment_of_water_/</guid>
       <description></description>
-      </item>
-    
-    <item>
-      <title>Early season weed mapping in rice crops using multi-spectral UAV data</title>
-      <link>/publication/2018-01-01_early_season_weed_ma/</link>
-      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/publication/2018-01-01_early_season_weed_ma/</guid>
-      <description></description>
-      </item>
-    
-    <item>
-      <title>Spatial rice yield estimation based on MODIS and Sentinel-1 SAR data and ORYZA crop growth model</title>
-      <link>/publication/2018-01-01_spatial_rice_yield_e/</link>
-      <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/publication/2018-01-01_spatial_rice_yield_e/</guid>
-      <description></description>
-      </item>
-    
-    <item>
-      <title>MODIStsp 1.3.3 is out - Speeding things up and squashing some bugs !</title>
-      <link>/post/modistsp-1-3-3-is-out-speeding-things-up-and-squashing-some-bugs/</link>
-      <pubDate>Wed, 16 Aug 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/post/modistsp-1-3-3-is-out-speeding-things-up-and-squashing-some-bugs/</guid>
-      <description>
-
-&lt;p&gt;A new version of &lt;a href=&#34;http://ropensci.github.io/MODIStsp/&#34; target=&#34;_blank&#34;&gt;MODIStsp&lt;/a&gt; (1.3.3) is on &lt;a href=&#34;https://cran.r-project.org/web/packages/MODIStsp/index.html&#34; target=&#34;_blank&#34;&gt;CRAN&lt;/a&gt; as of today !
-Below, you can find a short description of the main improvements.&lt;/p&gt;
-
-&lt;h2 id=&#34;processing-speed-improvements&#34;&gt;Processing speed improvements&lt;/h2&gt;
-
-&lt;p&gt;Processing of MODIS layers after download (i.e., scale and offset calibration,
-computation of Spectral Indexes and Quality Indicators) &lt;strong&gt;is now much faster&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;/img/boxplots.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;As you can see in the figure, &lt;strong&gt;processing time was almost halved&lt;/strong&gt; on my (not so fast)
-laptop. This was achieved by &lt;strong&gt;modifying all computation functions so to use
-&lt;code&gt;raster::calc()&lt;/code&gt; and &lt;code&gt;raster::overlay()&lt;/code&gt;&lt;/strong&gt; (more on this in a later post).&lt;/p&gt;
-
-&lt;p&gt;Although speed is also limited by download speed and compression options, this
-will allow to &lt;strong&gt;save quite some time when working on large areas and with many
-MODIS layers&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;test-mode&#34;&gt;Test mode&lt;/h2&gt;
-
-&lt;p&gt;&lt;code&gt;MODIStsp 1.3.3&lt;/code&gt; also introduces a &lt;strong&gt;test mode&lt;/strong&gt;. Although it was mainly developed
-to facilitate &lt;a href=&#34;https://en.wikipedia.org/wiki/Unit_testing&#34; target=&#34;_blank&#34;&gt;unit testing&lt;/a&gt;, it is
-also available to the user. Running:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;MODIStsp(test = X)  # with X equal to a number between 0 and 6
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;will run &lt;code&gt;MODIStsp&lt;/code&gt; expoiting different sets of processing parameters (available
-as JSON files in the Test_files subfolder of &lt;code&gt;MODIStsp&lt;/code&gt; installation). We hope this
-will help us in more easily pinpoint and solve eventual problems signalled by users.&lt;/p&gt;
-
-&lt;h3 id=&#34;bug-fixes&#34;&gt;Bug fixes&lt;/h3&gt;
-
-&lt;p&gt;Several bugs discovered after v1.3.2 release were fixed. We thank &lt;code&gt;MODIStsp&lt;/code&gt; users
-&lt;a href=&#34;https://github.com/ropensci/MODIStsp/issues?q=is%3Aissue+is%3Aclosed&#34; target=&#34;_blank&#34;&gt;for their feedback&lt;/a&gt;
-and help in improving the package ! You can find a list of the main fixes in our
-&lt;a href=&#34;http://ropensci.github.io/MODIStsp/news/index.html&#34; target=&#34;_blank&#34;&gt;NEWS&lt;/a&gt; page.&lt;/p&gt;
-</description>
       </item>
     
   </channel>

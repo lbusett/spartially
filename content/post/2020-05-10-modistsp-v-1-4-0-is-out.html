@@ -1,0 +1,30 @@
+---
+title: MODIStsp v. 1.4.0 is out ! 
+author: Lorenzo Busetto
+date: '2020-05-10'
+slug: modistsp-v-1-4-0-is-out
+categories:
+  - MODIStsp
+  - R
+  - preprocessing
+  - time series
+  - Vegetation Indexes
+  - MODIS
+tags:
+  - MODIStsp
+  - R
+header:
+  caption: ''
+  image: ''
+---
+
+
+
+<p>A new version of <a href="http://ropensci.github.io/MODIStsp/">MODIStsp</a> (1.4.0) is on <a href="https://cran.r-project.org/web/packages/MODIStsp/index.html">CRAN</a> as of today !</p>
+<p>This version:</p>
+<ul>
+<li><p>Switches to use of GDAL3/PROJ6 WKTs for projection representation, using sf::gdal_utils to perform gdalwarp/gdaltranslate instead of gdalUtils on external GDAL;</p></li>
+<li><p>Switches to use of <code>sf</code> for all internal work on vector data;</p></li>
+<li><p>Removes sp, rgdal, rgeos, pacman, gdalUtils dependencies;</p></li>
+<li><p>Adds support for products MCD19A1 and MCD19A2 products.</p></li>
+</ul>

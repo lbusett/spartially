@@ -5,6 +5,24 @@
     
     <url>
     
+      <loc>/post/modistsp-v-1-4-0-is-out/</loc>
+      <lastmod>2020-05-10T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/publication/2020-01-01_sen2r/</loc>
+      <lastmod>2020-01-01T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>/post/modistsp-v-1-3-9-is-out/</loc>
       <lastmod>2019-06-24T00:00:00+00:00</lastmod>
     </url>
@@ -16,6 +34,15 @@
     
       <loc>/post/modistsp-v-1-3-8-is-out/</loc>
       <lastmod>2019-03-07T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>/publication/2019-01-01-ag_met_viggiano/</loc>
+      <lastmod>2019-01-01T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -683,7 +710,7 @@
     <url>
     
       <loc>/publication_types/2/</loc>
-      <lastmod>2018-01-01T00:00:00+00:00</lastmod>
+      <lastmod>2020-01-01T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -773,7 +800,7 @@
     <url>
     
       <loc>/categories/modis/</loc>
-      <lastmod>2019-06-24T00:00:00+00:00</lastmod>
+      <lastmod>2020-05-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -783,7 +810,7 @@
     <url>
     
       <loc>/tags/modistsp/</loc>
-      <lastmod>2019-06-24T00:00:00+00:00</lastmod>
+      <lastmod>2020-05-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -793,7 +820,7 @@
     <url>
     
       <loc>/categories/modistsp/</loc>
-      <lastmod>2019-06-24T00:00:00+00:00</lastmod>
+      <lastmod>2020-05-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -823,7 +850,7 @@
     <url>
     
       <loc>/categories/preprocessing/</loc>
-      <lastmod>2019-06-24T00:00:00+00:00</lastmod>
+      <lastmod>2020-05-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -853,7 +880,7 @@
     <url>
     
       <loc>/tags/r/</loc>
-      <lastmod>2019-06-24T00:00:00+00:00</lastmod>
+      <lastmod>2020-05-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -863,7 +890,7 @@
     <url>
     
       <loc>/categories/r/</loc>
-      <lastmod>2019-06-24T00:00:00+00:00</lastmod>
+      <lastmod>2020-05-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -953,7 +980,7 @@
     <url>
     
       <loc>/categories/time-series/</loc>
-      <lastmod>2019-06-24T00:00:00+00:00</lastmod>
+      <lastmod>2020-05-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -963,7 +990,7 @@
     <url>
     
       <loc>/categories/vegetation-indexes/</loc>
-      <lastmod>2019-06-24T00:00:00+00:00</lastmod>
+      <lastmod>2020-05-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     

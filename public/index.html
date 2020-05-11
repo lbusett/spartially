@@ -464,6 +464,114 @@ applications</strong>.</p>
 
   <span class="article-date">
     
+    <time datetime="2020-05-10 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      May 10, 2020
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Lorenzo Busetto">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    1 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/modistsp-v-1-4-0-is-out/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="/categories/modistsp">MODIStsp</a
+    >, 
+    
+    <a href="/categories/r">R</a
+    >, 
+    
+    <a href="/categories/preprocessing">preprocessing</a
+    >, 
+    
+    <a href="/categories/time-series">time series</a
+    >, 
+    
+    <a href="/categories/vegetation-indexes">Vegetation Indexes</a
+    >, 
+    
+    <a href="/categories/modis">MODIS</a
+    >
+    
+  </span>
+  
+  
+
+  
+
+</div>
+
+
+  
+  
+  <h3 class="article-title" itemprop="headline">
+    <a href="/post/modistsp-v-1-4-0-is-out/" itemprop="url">MODIStsp v. 1.4.0 is out !</a>
+  </h3>
+  <div class="article-style" itemprop="articleBody">
+    
+    <p>A new version of <a href="http://ropensci.github.io/MODIStsp/">MODIStsp</a> (1.4.0) is on <a href="https://cran.r-project.org/web/packages/MODIStsp/index.html">CRAN</a> as of today !</p>
+<p>This version:</p>
+<ul>
+<li><p>Switches to use of GDAL3/PROJ6 WKTs for projection representation, using sf::gdal_utils to perform gdalwarp/gdaltranslate instead of gdalUtils on external GDAL;</p></li>
+<li><p>Switches to use of <code>sf</code> for all internal work on vector data;</p></li>
+<li><p>Removes sp, rgdal, rgeos, pacman, gdalUtils dependencies;</p></li>
+<li><p>Adds support for products MCD19A1 and MCD19A2 products.</p></li>
+</ul>
+
+    
+  </div>
+  <p class="read-more" itemprop="mainEntityOfPage">
+    <a href="/post/modistsp-v-1-4-0-is-out/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
+
+      
+
+        
+
+        
+        
+
+        
+        
+          
+      
+          
+      
+
+      
+      
+        
+        
+
+<div class="card-simple" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
     <time datetime="2019-06-24 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
       Jun 24, 2019
     </time>
@@ -634,8 +742,8 @@ applications</strong>.</p>
   <div class="article-style" itemprop="articleBody">
     
     A new version of MODIStsp (1.3.8) is on CRAN as of today !
-The new version fixes a nasty issue introduced by changes in gdal_buildvrt behaviour in GDAL &gt; 2.3, (https://trac.osgeo.org/gdal/ticket/3221#comment:5) which caused problems in proper application of scales and offset on MODIS layers - see https://github.com/ropensci/MODIStsp/issues/163
-If you are experiencing problems with MODIStsp and you have GDAL &gt; 2.3 on your system, you are strongly encouraged to update the package!
+The new version fixes a nasty issue introduced by changes in gdal_buildvrt behaviour in GDAL &gt; 2.3,(https://trac.osgeo.org/gdal/ticket/3221#comment:5) which caused problems in proper application of scales and offset on MODIS layers - see https://github.com/ropensci/MODIStsp/issues/163
+If you are experiencing problems with MODIStsp and you have GDAL &gt; 2.3 on your system, youare strongly encouraged to update the package!
     
   </div>
   <p class="read-more" itemprop="mainEntityOfPage">
@@ -728,104 +836,11 @@ If you are experiencing problems with MODIStsp and you have GDAL &gt; 2.3 on you
     
     We are sorry to report that we recently discovered a nasty bug (or rather, a stupid mistake…) in the MODIStsp package.
 The bug led to improper computation of custom spectral indices in the case that their formula included addition or subtraction operations on reflectance values (e.g., something like \(\frac{(\rho_{NIR}+0.1)}{\rho_{Red}}\), with \(\rho\) indicating a reflectance).
-What is affected  Values of the following Additional Spectral Indices selectable using the MODIStsp GUI:
+What is affectedValues of the following Additional Spectral Indices selectable using the MODIStsp GUI:
     
   </div>
   <p class="read-more" itemprop="mainEntityOfPage">
     <a href="/post/modistsp-bug/" class="btn btn-primary btn-outline">
-      CONTINUE READING
-    </a>
-  </p>
-</div>
-
-      
-
-      
-
-        
-
-        
-        
-
-        
-        
-          
-      
-          
-      
-
-      
-      
-        
-        
-
-<div class="card-simple" itemscope itemprop="blogPost" itemtype="http://schema.org/BlogPosting">
-  
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    
-    <time datetime="2018-08-08 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
-      Aug 8, 2018
-    </time>
-  </span>
-  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Lorenzo Busetto">
-  </span>
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    1 min read
-  </span>
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <a href="/post/modistsp-approved-on-ropensci/#disqus_thread"></a>
-  
-
-  
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fa fa-folder"></i>
-    
-    <a href="/categories/modistsp">MODIStsp</a
-    >, 
-    
-    <a href="/categories/r">R</a
-    >, 
-    
-    <a href="/categories/ropensci">ropensci</a
-    >
-    
-  </span>
-  
-  
-
-  
-
-</div>
-
-
-  
-  
-  <h3 class="article-title" itemprop="headline">
-    <a href="/post/modistsp-approved-on-ropensci/" itemprop="url">MODIStsp approved on rOpenSci!</a>
-  </h3>
-  <div class="article-style" itemprop="articleBody">
-    
-    We are happy to report that our MODIStsp package for automatic preprocessing of MODIS time series has been recently approved for being included in the rOpenSci ecosystem of R packages for reproducible science!
-We wish to thank reviewers Leah Wasser and Jeffrey Hanson for providing really valuable insights during the onboarding review process. We think their contribution really helped in improving the package!
-Please also note that MODIStsp website was also migrated, and is now available at http://ropensci.
-    
-  </div>
-  <p class="read-more" itemprop="mainEntityOfPage">
-    <a href="/post/modistsp-approved-on-ropensci/" class="btn btn-primary btn-outline">
       CONTINUE READING
     </a>
   </p>
@@ -1060,6 +1075,68 @@ Please also note that MODIStsp website was also migrated, and is now available a
         <div class="pub-list-item" style="margin-bottom: 1rem" itemscope itemtype="http://schema.org/CreativeWork">
   <i class="fa fa-file-text-o pub-icon" aria-hidden="true"></i>
   <span itemprop="author">
+    L. Ranghetti, M. Boschetti, F. Nutini, L. Busetto</span>.
+  <a href="/publication/2020-01-01_sen2r/" itemprop="name">sen2r: An R toolbox for automatically downloading and preprocessing Sentinel-2 satellite data</a>.
+  Computers &amp; Geosciences, (139), 104473, <a href="https://doi.org/10.1016/j.cageo.2020.104473" target="_blank">https://doi.org/10.1016/j.cageo.2020.104473</a>,
+  2020.
+  <p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</p>
+</div>
+
+      
+    
+      
+        <div class="pub-list-item" style="margin-bottom: 1rem" itemscope itemtype="http://schema.org/CreativeWork">
+  <i class="fa fa-file-text-o pub-icon" aria-hidden="true"></i>
+  <span itemprop="author">
+    M. Viggiano, L. Busetto, D. Cimini, F. Di Paola, E. Geraldi, L. Ranghetti, E. Ricciardelli, F. Romano</span>.
+  <a href="/publication/2019-01-01-ag_met_viggiano/" itemprop="name">A new spatial modeling and interpolation approach for high-resolution temperature maps combining reanalysis data and ground measurements</a>.
+  Agricultural and Forest Meteorology, (276), 107590, <a href="https://doi.org/10.1016/j.agrformet.2019.05.021" target="_blank">https://doi.org/10.1016/j.agrformet.2019.05.021</a>,
+  2019.
+  <p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</p>
+</div>
+
+      
+    
+      
+        <div class="pub-list-item" style="margin-bottom: 1rem" itemscope itemtype="http://schema.org/CreativeWork">
+  <i class="fa fa-file-text-o pub-icon" aria-hidden="true"></i>
+  <span itemprop="author">
     M. Campos-Taberner, F.J. Garcia-Haro, L. Busetto, L. Ranghetti, B. Martinez, M.A. Gilabert, G. Gustau-Vall, F. Camacho, M. Boschetti</span>.
   <a href="/publication/2018-01-01_a-critical_comparison/" itemprop="name">A Critical Comparison of Remote Sensing Leaf Area Index Estimates over Rice-Cultivated Areas: From Sentinel-2 and Landsat-7/8 to MODIS, GEOV1 and EUMETSAT Polar System</a>.
   Remote Sensing, (10), 5, <a href="https://doi.org/10.3390/rs10020293" target="_blank">https://doi.org/10.3390/rs10020293</a>,
@@ -1125,68 +1202,6 @@ Please also note that MODIStsp website was also migrated, and is now available a
     L. Busetto, S.J. Zwart, M. Boschetti</span>.
   <a href="/publication/2018-01-01_analysing_spatial_temp/" itemprop="name">Analysing spatial–temporal changes in rice cultivation practices in the Senegal River Valley using MODIS time-series and the PhenoRice algorithm</a>.
   International Journal of Applied Earth Observation and Geoinformation, (75), <em>pp. 15-28</em>, <a href="https://doi.org/10.1016/j.jag.2018.09.016" target="_blank">https://doi.org/10.1016/j.jag.2018.09.016</a>,
-  2018.
-  <p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</p>
-</div>
-
-      
-    
-      
-        <div class="pub-list-item" style="margin-bottom: 1rem" itemscope itemtype="http://schema.org/CreativeWork">
-  <i class="fa fa-file-text-o pub-icon" aria-hidden="true"></i>
-  <span itemprop="author">
-    Luigi Ranghetti, Elisa Cardarelli, Mirco Boschetti, Lorenzo Busetto, Mauro Fasola</span>.
-  <a href="/publication/2018-01-01_assessment_of_water_/" itemprop="name">Assessment of Water Management Changes in the Italian Rice Paddies from 2000 to 2016 Using Satellite Data: A Contribution to Agro-Ecological Studies</a>.
-  Remote Sensing, (10), 3, <a href="https://doi.org/10.3390/rs10030416" target="_blank">https://doi.org/10.3390/rs10030416</a>,
-  2018.
-  <p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</p>
-</div>
-
-      
-    
-      
-        <div class="pub-list-item" style="margin-bottom: 1rem" itemscope itemtype="http://schema.org/CreativeWork">
-  <i class="fa fa-file-text-o pub-icon" aria-hidden="true"></i>
-  <span itemprop="author">
-    D. Stroppiana, P. Villa, G. Sona, G. Ronchetti, G. Candiani, M. Pepe, L. Busetto, M. Migliazzi, M. Boschetti</span>.
-  <a href="/publication/2018-01-01_early_season_weed_ma/" itemprop="name">Early season weed mapping in rice crops using multi-spectral UAV data</a>.
-  International Journal of Remote Sensing, <em>pp. 1-21</em>, <a href="https://doi.org/10.1080/01431161.2018.1441569" target="_blank">https://doi.org/10.1080/01431161.2018.1441569</a>,
   2018.
   <p>
 
@@ -1352,21 +1367,21 @@ Please also note that MODIStsp website was also migrated, and is now available a
           
           
           
-          <a href="/tags/modis" style="font-size:1.225rem">MODIS</a>
+          <a href="/tags/modis" style="font-size:1.2159059216009842rem">MODIS</a>
         
           
           
           
           
           
-          <a href="/tags/modistsp" style="font-size:1.8986090628064913rem">MODIStsp</a>
+          <a href="/tags/modistsp" style="font-size:1.967595536119427rem">MODIStsp</a>
         
           
           
           
           
           
-          <a href="/tags/r" style="font-size:2.4604285031336204rem">R</a>
+          <a href="/tags/r" style="font-size:2.463623686403937rem">R</a>
         
           
           
@@ -1380,7 +1395,7 @@ Please also note that MODIStsp website was also migrated, and is now available a
           
           
           
-          <a href="/tags/remote-sensing" style="font-size:1.225rem">Remote Sensing</a>
+          <a href="/tags/remote-sensing" style="font-size:1.2159059216009842rem">Remote Sensing</a>
         
           
           
@@ -1401,14 +1416,14 @@ Please also note that MODIStsp website was also migrated, and is now available a
           
           
           
-          <a href="/tags/pkgdown" style="font-size:1.225rem">pkgdown</a>
+          <a href="/tags/pkgdown" style="font-size:1.2159059216009842rem">pkgdown</a>
         
           
           
           
           
           
-          <a href="/tags/r-package" style="font-size:1.225rem">r-package</a>
+          <a href="/tags/r-package" style="font-size:1.2159059216009842rem">r-package</a>
         
           
           

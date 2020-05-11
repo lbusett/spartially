@@ -11,6 +11,23 @@
     <atom:link href="/post/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>MODIStsp v. 1.4.0 is out !</title>
+      <link>/post/modistsp-v-1-4-0-is-out/</link>
+      <pubDate>Sun, 10 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/modistsp-v-1-4-0-is-out/</guid>
+      <description>&lt;p&gt;A new version of &lt;a href=&#34;http://ropensci.github.io/MODIStsp/&#34;&gt;MODIStsp&lt;/a&gt; (1.4.0) is on &lt;a href=&#34;https://cran.r-project.org/web/packages/MODIStsp/index.html&#34;&gt;CRAN&lt;/a&gt; as of today !&lt;/p&gt;
+&lt;p&gt;This version:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Switches to use of GDAL3/PROJ6 WKTs for projection representation, using sf::gdal_utils to perform gdalwarp/gdaltranslate instead of gdalUtils on external GDAL;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Switches to use of &lt;code&gt;sf&lt;/code&gt; for all internal work on vector data;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Removes sp, rgdal, rgeos, pacman, gdalUtils dependencies;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Adds support for products MCD19A1 and MCD19A2 products.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
       <title>MODIStsp v. 1.3.9 is out !</title>
       <link>/post/modistsp-v-1-3-9-is-out/</link>
       <pubDate>Mon, 24 Jun 2019 00:00:00 +0000</pubDate>
@@ -1256,133 +1273,6 @@ GitHub page.&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;&amp;ldquo;MODIStsp&amp;rdquo; is a R package allowing automatic download and preprocessing of MODIS
 Land Products time series - you can find additional information &lt;a href=&#34;https://spartially.000webhostapp.com/2016/09/modistsp-a-new-r-package-for-modis-land-products-preprocessing&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>MODIStsp: a new &#34;R&#34; package for MODIS Land Products preprocessing</title>
-      <link>/post/modistsp-a-new-r-package-for-modis-land-products-preprocessing/</link>
-      <pubDate>Fri, 16 Sep 2016 00:00:00 +0000</pubDate>
-      
-      <guid>/post/modistsp-a-new-r-package-for-modis-land-products-preprocessing/</guid>
-      <description>
-
-&lt;p&gt;In this post, we are introducing &lt;strong&gt;&lt;a href=&#34;http://github.com/ropensci/MODIStsp&#34; target=&#34;_blank&#34;&gt;MODIStsp&lt;/a&gt;&lt;/strong&gt;
-a new &amp;ldquo;R&amp;rdquo; package allowing to automatize the creation of time series of rasters
-derived from Land Products data derived from MODIS satellite data (; &lt;a href=&#34;http://www.sciencedirect.com/science/article/pii/S0098300416303107&#34; target=&#34;_blank&#34;&gt;www.sciencedirect.com/science/article/pii/S0098300416303107&lt;/a&gt;).&lt;/p&gt;
-
-&lt;p&gt;Development of &lt;code&gt;MODIStsp&lt;/code&gt; started from modifications of the &lt;em&gt;ModisDownload&lt;/em&gt; &amp;ldquo;R&amp;rdquo;
-script by Thomas Hengl (&lt;a href=&#34;http://spatial-analyst.net/wiki/index.php?title=Download_and_resampling_of_MODIS_images&#34; target=&#34;_blank&#34;&gt;spatial-analyst.net/wiki/index.php?title=Download_and_resampling_of_MODIS_images&lt;/a&gt;), and successive
-adaptations by Babak Naimi (&lt;a href=&#34;http://r-gis.net/?q=ModisDownload&#34; target=&#34;_blank&#34;&gt;r-gis.net/?q=ModisDownload&lt;/a&gt;).
-Their functionalities were gradually incremented with the aim of:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Developing a &lt;strong&gt;standalone application&lt;/strong&gt; allowing to perform several preprocessing steps (e.g., download, mosaicking, reprojection and resize) on all available MODIS land products by exploiting a &lt;strong&gt;powerful and user-friendly GUI front-end&lt;/strong&gt;;&lt;/li&gt;
-&lt;li&gt;Allowing the &lt;strong&gt;creation of time series of both MODIS original layers and additional Quality Indicators&lt;/strong&gt; (e.g., data acquisition quality, cloud/snow presence, algorithm used for data production, etc. ) extracted from the aggregated bit-field QA layers&lt;/li&gt;
-&lt;li&gt;Allowing the &lt;strong&gt;automatic calculation and creation of time series of several additional Spectral Indexes&lt;/strong&gt; starting form MODIS surface reflectance products&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&#34;installation-and-usage&#34;&gt;Installation and usage&lt;/h2&gt;
-
-&lt;p&gt;Detailed installation instructions and notes on use of the package, can be found
-in the main github page of the package (&lt;a href=&#34;https://github.com/ropensci/MODIStsp&#34; target=&#34;_blank&#34;&gt;github.com/ropensci/MODIStsp&lt;/a&gt;)
-and in the package&amp;rsquo;s &lt;a href=&#34;https://github.com/ropensci/MODIStsp/blob/devel/inst/doc/MODIStsp.pdf&#34; target=&#34;_blank&#34;&gt;vignette&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;basic-interactive-usage&#34;&gt;Basic interactive usage&lt;/h2&gt;
-
-&lt;p&gt;After installing and loading the package, launching the &lt;code&gt;MODIStsp&lt;/code&gt; function without
-additional parameters opens a user-friendly GUI for the selection of processing
-options required for the creation of the desired MODIS time series (e.g., start
-and end dates, geographic extent, type of product and parameters of interest, etc.).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://spartially.000webhostapp.com/wp-content/uploads/2016/09/snapshot2.png&#34; alt=&#34;The main GUI of MODIStsp&#34; /&gt;&lt;em&gt;The main GUI of MODIStsp&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;After selecting the product, the user can select the MODIS original, QI and SI
-layers to be processed by pressing the &lt;strong&gt;Select Layers&lt;/strong&gt; button, which opens a
-separate layers&amp;rsquo; selection panel. Although some of the most common SIs available
-for computation by default users can add custom ones without modifying &lt;em&gt;&lt;strong&gt;MODIStsp&lt;/strong&gt;&lt;/em&gt;
-source code by clicking on the &lt;em&gt;Add Custom Index&lt;/em&gt; button, which allows specifying
-the formula of the additional desired SI using a simple GUI interface.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://spartially.000webhostapp.com/wp-content/uploads/2016/09/snapshot3.png&#34; alt=&#34;Example of the GUI for selection of the layers to be processed for product M*D13Q1&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Upon clicking the &amp;ldquo;Start&amp;rdquo; button in the main GUI, required MODIS HDF files are
-automatically downloaded from NASA  servers and resized, reprojected, resampled
-and processed according to  user&amp;rsquo;s choices.&lt;/p&gt;
-
-&lt;h3 id=&#34;non-interactive-execution-and-scheduled-processing&#34;&gt;Non-interactive execution and scheduled processing&lt;/h3&gt;
-
-&lt;p&gt;Non-interactive execution exploiting a previously created Options File is also
-possible, as well as stand-alone execution outside an &amp;ldquo;R&amp;rdquo; environment. This allows
-to use scheduled execution of MODIStsp to automatically update time series related
-to a MODIS product and extent whenever a new image is available. &lt;strong&gt;For additional details see the main &lt;a href=&#34;http://github.com/ropensci/MODIStsp&#34; target=&#34;_blank&#34;&gt;github&lt;/a&gt; page !&lt;/strong&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;output-format&#34;&gt;Output format&lt;/h3&gt;
-
-&lt;p&gt;For each desired output layer, outputs are saved as &lt;strong&gt;single-band rasters&lt;/strong&gt;
-corresponding to each acquisition date available for the selected MODIS product
-within the specified time period.&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;R&lt;/code&gt; &lt;em&gt;RasterStack&lt;/em&gt; objects with temporal information as well as Virtual  raster
-files (GDAL vrt and/or ENVI META files) facilitating access to the entire time
-series can be also created.&lt;/p&gt;
-
-&lt;h3 id=&#34;accessing-and-analyzing-the-processed-time-series-from-r&#34;&gt;Accessing and analyzing the processed time series from R&lt;/h3&gt;
-
-&lt;p&gt;Preprocessed MODIS data can be retrieved within R scripts either by accessing the
-single-date raster files, or by loading the saved &lt;em&gt;RasterStack&lt;/em&gt; objects. This second
-option allows accessing the complete data stack and analyzing it using the
-functionalities for raster/raster time series analysis, extraction and plotting
-provided for example by the &lt;code&gt;raster&lt;/code&gt; or &lt;code&gt;rasterVis&lt;/code&gt; packages.&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;MODIStsp&lt;/strong&gt;&lt;/em&gt; provides however also an efficient function (&lt;code&gt;MODIStsp_extract()&lt;/code&gt;)
-for extracting time series data at specific locations. The function takes as input
-a &lt;code&gt;rasterStack&lt;/code&gt; object with temporal information created by &lt;em&gt;&lt;strong&gt;MODIStsp&lt;/strong&gt;&lt;/em&gt;, the
-starting and ending dates for the extraction and a standard R &lt;code&gt;Sp*&lt;/code&gt; object (or an
-ESRI shapefile name) specifying the locations (points, lines or polygons) of interest,
-and provides as output a R &lt;em&gt;xts&lt;/em&gt; object or &lt;em&gt;data.frame&lt;/em&gt; containing time series for
-those locations. As an example the following code:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;#Set the input paths to raster and shape file
-infile &amp;lt;- &#39;in_path/MOD13Q1_MYD13Q1_NDVI_49_2000_353_2015_RData.RData&#39;
-shp_name &amp;lt;- &#39;path_to_file/rois.shp&#39;
-#Set the start/end dates for extraction
-start_date &amp;lt;- as.Date(&amp;quot;2010-01-01&amp;quot;)
-end_date &amp;lt;- as.Date(&amp;quot;2014-12-31&amp;quot;)
-#Load the RasterStack
-inrts &amp;lt;- get(load(infile))
-
-# Compute average and St.dev
-dataavg &amp;lt;- MODIStsp_extract(inrts, shp_name, start_date, end_date, FUN = &#39;mean&#39;, na.rm = T)
-datasd &amp;lt;- MODIStsp_extract(inrts, shp_name, start_date, end_date, FUN = &#39;sd&#39;, na.rm = T)
-# Plot average time series for the polygons
-plot.xts(dataavg)
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;, loads a &lt;code&gt;RasterStack&lt;/code&gt; object containing 8-days 250 m resolution time series for
-the 2000-2015 period and extracts time series of average and standard deviation
-values over the different polygons of a user&amp;rsquo;s selected shapefile on the 2010-2014
-period. The function exploits rasterization of the input &lt;code&gt;Sp*&lt;/code&gt; object and fast
-summarization based on the use of _data.table _objects to greatly increase the
-speed of data extraction with respect to standard R functions.&lt;/p&gt;
-
-&lt;h3 id=&#34;authors&#34;&gt;Authors&lt;/h3&gt;
-
-&lt;p&gt;The package is developed and maintained by Lorenzo Busetto and Luigi Ranghetti (Institute for
-Remote Sensing of Environment - National Research Council of Italy).&lt;/p&gt;
-
-&lt;h3 id=&#34;problems-and-issues&#34;&gt;Problems and issues&lt;/h3&gt;
-
-&lt;p&gt;Any problems/issues can be reported at: &lt;a href=&#34;https://github.com/ropensci/MODIStsp/issues&#34; target=&#34;_blank&#34;&gt;github.com/ropensci/MODIStsp/issues&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;publication-and-citation&#34;&gt;Publication and citation&lt;/h3&gt;
-
-&lt;p&gt;A paper on MODIStsp was recently published in the &amp;ldquo;Computers &amp;amp; Geosciences&amp;rdquo; journal &lt;a href=&#34;http://www.sciencedirect.com/science/article/pii/S0098300416303107&#34; target=&#34;_blank&#34;&gt;www.sciencedirect.com/science/article/pii/S0098300416303107&lt;/a&gt;.To cite MODIStsp please use:&lt;/p&gt;
-
-&lt;p&gt;L. Busetto, L. Ranghetti (2016) MODIStsp: An R package for automatic preprocessing of MODIS
-Land Products time series, Computers &amp;amp; Geosciences, Volume 97, Pages
-40-48, ISSN 0098-3004, &lt;a href=&#34;http://dx.doi.org/10.1016/j.cageo.2016.08.020&#34; target=&#34;_blank&#34;&gt;http://dx.doi.org/10.1016/j.cageo.2016.08.020&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>
     

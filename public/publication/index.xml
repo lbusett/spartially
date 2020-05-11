@@ -11,6 +11,24 @@
     <atom:link href="/publication/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>sen2r: An R toolbox for automatically downloading and preprocessing Sentinel-2 satellite data</title>
+      <link>/publication/2020-01-01_sen2r/</link>
+      <pubDate>Wed, 01 Jan 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/2020-01-01_sen2r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>A new spatial modeling and interpolation approach for high-resolution temperature maps combining reanalysis data and ground measurements</title>
+      <link>/publication/2019-01-01-ag_met_viggiano/</link>
+      <pubDate>Tue, 01 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/publication/2019-01-01-ag_met_viggiano/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>A Critical Comparison of Remote Sensing Leaf Area Index Estimates over Rice-Cultivated Areas: From Sentinel-2 and Landsat-7/8 to MODIS, GEOV1 and EUMETSAT Polar System</title>
       <link>/publication/2018-01-01_a-critical_comparison/</link>
       <pubDate>Mon, 01 Jan 2018 00:00:00 +0000</pubDate>
@@ -124,24 +142,6 @@
       <pubDate>Fri, 01 Jan 2016 00:00:00 +0000</pubDate>
       
       <guid>/publication/2016-01-01_modistsp_an_r_packag/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Multitemporal monitoring of plant area index in the valencia rice district with PocketLAI</title>
-      <link>/publication/2016-01-01_multitemporal_monito/</link>
-      <pubDate>Fri, 01 Jan 2016 00:00:00 +0000</pubDate>
-      
-      <guid>/publication/2016-01-01_multitemporal_monito/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Testing estimation of water surface in Italian rice district from MODIS satellite data</title>
-      <link>/publication/2016-01-01_testing_estimation_o/</link>
-      <pubDate>Fri, 01 Jan 2016 00:00:00 +0000</pubDate>
-      
-      <guid>/publication/2016-01-01_testing_estimation_o/</guid>
       <description></description>
     </item>
     

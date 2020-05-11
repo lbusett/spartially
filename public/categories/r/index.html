@@ -93,7 +93,7 @@
   <meta property="og:description" content="Researcher">
   <meta property="og:locale" content="en-us">
   
-  <meta property="og:updated_time" content="2019-06-24T00:00:00&#43;00:00">
+  <meta property="og:updated_time" content="2020-05-10T00:00:00&#43;00:00">
   
 
   
@@ -242,6 +242,13 @@
   
   
   <div>
+    <h2><a href="/post/modistsp-v-1-4-0-is-out/">MODIStsp v. 1.4.0 is out !</a></h2>
+    <div class="article-style">
+      
+    </div>
+  </div>
+  
+  <div>
     <h2><a href="/post/modistsp-v-1-3-9-is-out/">MODIStsp v. 1.3.9 is out !</a></h2>
     <div class="article-style">
       
@@ -253,8 +260,10 @@
     <div class="article-style">
       
       A new version of MODIStsp (1.3.8) is on CRAN as of today !
-The new version fixes a nasty issue introduced by changes in gdal_buildvrt behaviour in GDAL &gt; 2.3, (<a href="https://trac.osgeo.org/gdal/ticket/3221#comment:5" target="_blank">https://trac.osgeo.org/gdal/ticket/3221#comment:5</a>) which caused problems in proper application of scales and offset on MODIS layers - see <a href="https://github.com/ropensci/MODIStsp/issues/163" target="_blank">https://github.com/ropensci/MODIStsp/issues/163</a>
-If you are experiencing problems with MODIStsp and you have GDAL &gt; 2.3 on your system, you are strongly encouraged to update the package!
+The new version fixes a nasty issue introduced by changes in gdal_buildvrt behaviour in GDAL &gt; 2.3,
+(<a href="https://trac.osgeo.org/gdal/ticket/3221#comment:5" target="_blank">https://trac.osgeo.org/gdal/ticket/3221#comment:5</a>) which caused problems in proper application of scales and offset on MODIS layers - see <a href="https://github.com/ropensci/MODIStsp/issues/163" target="_blank">https://github.com/ropensci/MODIStsp/issues/163</a>
+If you are experiencing problems with MODIStsp and you have GDAL &gt; 2.3 on your system, you
+are strongly encouraged to update the package!
       
     </div>
   </div>
@@ -263,9 +272,12 @@ If you are experiencing problems with MODIStsp and you have GDAL &gt; 2.3 on you
     <h2><a href="/post/modistsp-bug/">Bug discovered in MODIStsp!</a></h2>
     <div class="article-style">
       
-      We are sorry to report that we recently discovered a nasty bug (or rather, a stupid mistake…) in the MODIStsp package.
+      <p>We are sorry to report that we recently discovered a nasty bug (or rather, a stupid mistake…) in the MODIStsp package.
 The bug led to improper computation of custom spectral indices in the case that their formula included addition or subtraction operations on reflectance values (e.g., something like (\frac{(\rho<em>{NIR}+0.1)}{\rho</em>{Red}}), with (\rho) indicating a reflectance).
-What is affected  Values of the following Additional Spectral Indices selectable using the MODIStsp GUI:
+What is affected</p>
+
+<p>Values of the following Additional Spectral Indices selectable using the MODIStsp GUI:</p>
+
       
     </div>
   </div>
@@ -274,9 +286,13 @@ What is affected  Values of the following Additional Spectral Indices selectable
     <h2><a href="/post/modistsp-approved-on-ropensci/">MODIStsp approved on rOpenSci!</a></h2>
     <div class="article-style">
       
-      We are happy to report that our MODIStsp package for automatic preprocessing of MODIS time series has been recently approved for being included in the rOpenSci ecosystem of R packages for reproducible science!
-We wish to thank reviewers Leah Wasser and Jeffrey Hanson for providing really valuable insights during the onboarding review process. We think their contribution really helped in improving the package!
-Please also note that MODIStsp website was also migrated, and is now available at <a href="http://ropensci" target="_blank">http://ropensci</a>.
+      We are happy to report that our MODIStsp package for
+automatic preprocessing of MODIS time series has been recently approved for being included in the rOpenSci ecosystem of R packages for reproducible science!
+We wish to thank reviewers Leah Wasser and Jeffrey Hanson for providing really valuable insights during
+the onboarding review process. We think their
+contribution really helped in improving the package!
+Please also note that MODIStsp website was also migrated, and is now available
+at <a href="http://ropensci" target="_blank">http://ropensci</a>.
       
     </div>
   </div>
@@ -286,7 +302,11 @@ Please also note that MODIStsp website was also migrated, and is now available a
     <div class="article-style">
       
       We are happy to report that a new version of MODIStsp (1.3.4) is on CRAN as of today !
-The new version introduces a strongly improved GUI (thanks mainly to @lwasser comments in her review for MODIStsp onboarding on ropensci). The new GUI facilitates the selection of layers to be processed, and allows interactive selection of the processing spatial extent over a map (thanks to @timsalabim and @timelyportfolio for implementing some changes on mapview to allow this!
+The new version introduces a strongly improved GUI (thanks mainly to @lwasser
+comments in her review for MODIStsp onboarding on ropensci). The new GUI facilitates
+the selection of layers to be processed, and allows interactive selection of
+the processing spatial extent over a map (thanks to @timsalabim and @timelyportfolio
+for implementing some changes on mapview to allow this!
       
     </div>
   </div>
@@ -304,9 +324,15 @@ The new version introduces a strongly improved GUI (thanks mainly to @lwasser co
     <h2><a href="/post/automatically-importing-publications-from-bibtex-to-a-hugo-academic-blog/">Automatically importing publications from bibtex to a hugo-academic blog</a></h2>
     <div class="article-style">
       
-      The problem I am in the process of migrating my (rather ugly) small blog from “Bloggers” to blogdown and, as several others, I choose to use the hugo-academic theme due to its good looks, simplicity, and “focus” towards researchers.
-One nice feature of hugo-academic is that it includes out-of-the-box a “Publications” section, allowing researchers to easily create a list of their publication as a section of the website.
-Unfortunately, in order to populate that list, users have to manually create one different .
+      The problem
+I am in the process of migrating my (rather ugly) small blog from
+“Bloggers” to blogdown and, as several others, I choose to use the hugo-academic theme due to its good looks,
+simplicity, and “focus” towards researchers.
+One nice feature of hugo-academic is that it includes out-of-the-box a “Publications”
+section, allowing researchers to easily create a list of their publication as a
+section of the website.
+Unfortunately, in order to populate that list, users have to manually create one
+different .
       
     </div>
   </div>
@@ -315,8 +341,15 @@ Unfortunately, in order to populate that list, users have to manually create one
     <h2><a href="/post/speeding-up-spatial-analyses-by-integrating-sf-and-data-table-a-test-case/">Speeding up spatial analyses by integrating `sf` and `data.table`: a test case</a></h2>
     <div class="article-style">
       
-      The problem Last week, I replied to this interesting question posted by @Tim_K over stackoverflow. He was seeking efficient solutions to identify all points falling within a maximum distance of xx meters with respect to each single point in a spatial points dataset.
-If you have a look at the thread, you will see that a simple solution based on creating a “buffered” polygon dataset beforehand and then intersecting it with the original points is quite fast for “reasonably sized” datasets, thanks to sf spatial indexing capabilities which reduce the number of the required comparisons to be done (See <a href="http://r-spatial" target="_blank">http://r-spatial</a>.
+      The problem
+Last week, I replied to this interesting question posted by @Tim_K over stackoverflow. He was seeking
+efficient solutions to identify all points falling within a maximum distance of
+xx meters with respect to each single point in a spatial points dataset.
+If you have a look at the thread, you will see that a simple solution based on
+creating a “buffered” polygon dataset beforehand and then intersecting it with
+the original points is quite fast for “reasonably sized” datasets, thanks to sf
+spatial indexing capabilities which reduce the number of the required comparisons
+to be done (See <a href="http://r-spatial" target="_blank">http://r-spatial</a>.
       
     </div>
   </div>
@@ -328,17 +361,6 @@ If you have a look at the thread, you will see that a simple solution based on c
       A new version of MODIStsp (1.3.3) is on CRAN as of today ! Below, you can find a short description of the main improvements.
 Processing speed improvements Processing of MODIS layers after download (i.e., scale and offset calibration, computation of Spectral Indexes and Quality Indicators) is now much faster.
 As you can see in the figure, processing time was almost halved on my (not so fast) laptop. This was achieved by modifying all computation functions so to use raster::calc() and raster::overlay() (more on this in a later post).
-      
-    </div>
-  </div>
-  
-  <div>
-    <h2><a href="/post/building-a-website-with-pkgdown-a-short-guide/">Building a website with `pkgdown`: a short guide</a></h2>
-    <div class="article-style">
-      
-      As promised in my last post, here is a short guide with some tips and tricks for building a documentation website for an R package using pkgdown.
-In the end, this guide ended up way longer than I was expecting, but I hope you&rsquo;ll find it useful, although it often replicates information already available in pkgdown documentation !
-Prerequisites To build a website using pkgdown, all you need to have is an R package hosted on Git Hub, with a file structure &ldquo;tweaked&rdquo; with some functionality provided by devtools.
       
     </div>
   </div>
